@@ -1,3 +1,17 @@
+async function getCoordenates(address){
+    try {
+        const req = await fetch(`https://nominatim.openstreetmap.org/search?q=${address}&format=json`);
+        console.log(req)
+        const response = await req.json();
+
+        console.log(response);
+        const coords = [response[0].lat, response[0].lon];
+        console.log(coords);
+        return coords;
+    } catch (error) {
+        console.error("Error fetching coordinates: ", error);
+    }
+}
 
 $(document).ready(function () {
             // Mapa
@@ -36,6 +50,16 @@ $(document).ready(function () {
                 zoom: 7
             }).addTo(map);
 
-        
+
+            getCoordenates("ituiutaba").then((coords) => {
+                let marker = L.circleMarker([coords[0], coords[1]], {
+                    color: 'darkgreen',
+                    radius: 1,
+                    stroke: true,
+                    weight: 0.8,
+                    opacity: 1
+                }).addTo(map);
+            });
+            
         }
 );
