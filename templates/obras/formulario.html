@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cadastrar Obra</title>
+</head>
+<body>
+    <h1>Cadastrar Obra</h1>
+
+    <form method="post">
+        {% csrf_token %}
+        <label>Nome:</label><input type="text" name="nome" required><br>
+        <label>Rua:</label><input type="text" name="rua" required><br>
+        <label>Número:</label><input type="text" name="numero" required><br>
+        <label>Bairro:</label><input type="text" name="bairro" required><br>
+        <label>Cidade:</label><input type="text" name="cidade" required><br>
+        <button type="submit">Salvar</button>
+    </form>
+
+    <br>
+    <a href="{% url 'listar_obras' %}">Ver obras cadastradas</a>
+</body>
+</html>
