@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Obras Cadastradas</title>
+</head>
+<body>
+    <h1>Lista de Obras</h1>
+
+    <a href="{% url 'cadastrar_obra' %}">Cadastrar nova obra</a>
+    <ul>
+        {% for obra in obras %}
+            <li><strong>{{ obra.nome }}</strong> - {{ obra.rua }}, {{ obra.numero }} - {{ obra.bairro }} / {{ obra.cidade }}</li>
+        {% empty %}
+            <li>Nenhuma obra cadastrada.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
