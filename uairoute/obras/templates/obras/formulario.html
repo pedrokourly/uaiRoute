@@ -1,22 +1,105 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
 <head>
+    <meta charset="UTF-8">
     <title>Cadastrar Obra</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #fafafa;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 40px;
+        }
+
+        .form-container {
+            background-color: #fff;
+            border-radius: 12px;
+            padding: 30px;
+            width: 300px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            border: 1px solid #eee;
+        }
+
+        .form-container h1 {
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: bold;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        a {
+            display: block;
+            margin-top: 20px;
+            text-align: center;
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
-    <h1>Cadastrar Obra</h1>
+    <div class="form-container">
+        <h1>Adicionar Obra</h1>
+        <form id="obraForm">
+            <label>Nome</label>
+            <input type="text" name="nome" required>
 
-    <form method="post">
-        {% csrf_token %}
-        <label>Nome:</label><input type="text" name="nome" required><br>
-        <label>Rua:</label><input type="text" name="rua" required><br>
-        <label>Número:</label><input type="text" name="numero" required><br>
-        <label>Bairro:</label><input type="text" name="bairro" required><br>
-        <label>Cidade:</label><input type="text" name="cidade" required><br>
-        <button type="submit">Salvar</button>
-    </form>
+            <label>Rua</label>
+            <input type="text" name="rua" required>
 
-    <br>
-    <a href="{% url 'listar_obras' %}">Ver obras cadastradas</a>
+            <label>Número</label>
+            <input type="text" name="numero" required>
+
+            <label>Bairro</label>
+            <input type="text" name="bairro" required>
+
+            <label>Cidade</label>
+            <input type="text" name="cidade" required>
+
+            <button type="button">Salvar</button>
+        </form>
+
+        <a href="index.html" onclick="obras_cadastradas()">Ver obras cadastradas</a>
+    </div>
+
+    <script>
+        function obras_cadastradas() {
+           
+            window.location.href = "index.html";
+        }
+    </script>
 </body>
 </html>
