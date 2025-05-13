@@ -1,25 +1,11 @@
-from django.shortcuts import render, redirect
+from rest_framework import generics
 from .models import Obra
+from .serializers import ObraSerializer
 
-def cadastrar_obra(request):
-    if request.method == "POST":
-        nome = request.POST.get("nome")
-        rua = request.POST.get("rua")
-        numero = request.POST.get("numero")
-        bairro = request.POST.get("bairro")
-        cidade = request.POST.get("cidade")
+class ObraListCreateView(generics.ListCreateAPIView):
+    queryset = Obra.objects.all()
+    serializer_class = ObraSerializer
 
-        Obra.objects.create(
-            nome=nome,
-            rua=rua,
-            numero=numero,
-            bairro=bairro,
-            cidade=cidade
-        )
-        return redirect('listar_obras')
-
-    return render(request, "obras/formulario.html")
-
-def listar_obras(request):
-    obras = Obra.objects.all()
-    return render(request, "obras/listagem.html", {"obras": obras})
+class ObraRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Obra.objects.all()
+    serializer_class = ObraSerializer
