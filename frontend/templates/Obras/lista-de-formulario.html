@@ -1,110 +1,84 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <title>Obras Cadastradas</title>
-    <style>
-        * {
-            box-sizing: border-box;
-        }
+{% extends "default.html" %}
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: #f9f9f9;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            padding-top: 40px;
-            height: 100vh;
-            margin: 0;
-        }
 
-        .container {
-            background-color: #fff;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
-            width: 100%;
-            max-width: 900px;
+{% block styles %}
+<style>
+    h1 {
+        font-size: 22px;
+        margin-bottom: 20px;
+        font-weight: 600;
+    }
 
-        
-        }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
 
-        h1 {
-            font-size: 22px;
-            margin-bottom: 20px;
-            font-weight: 600;
-        }
+    table th, table td {
+        padding: 12px 10px;
+        border-bottom: 1px solid #eee;
+        text-align: left;
+        vertical-align: middle;
+        font-size: 14px;
+    }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-        }
+    table th {
+        background-color: #f9f9f9;
+        font-weight: 600;
+    }
 
-        table th, table td {
-            padding: 12px 10px;
-            border-bottom: 1px solid #eee;
-            text-align: left;
-            vertical-align: middle;
-            font-size: 14px;
-        }
+    table tr:last-child td {
+        border-bottom: none;
+    }
 
-        table th {
-            background-color: #f9f9f9;
-            font-weight: 600;
-        }
+    .botao-acao {
+        padding: 6px 10px;
+        margin-left: 4px;
+        background-color: #f1f1f1;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 13px;
+        transition: background-color 0.2s;
+    }
 
-        table tr:last-child td {
-            border-bottom: none;
-        }
+    .botao-acao:hover {
+        background-color: #ddd;
+    }
 
-        .botao-acao {
-            padding: 6px 10px;
-            margin-left: 4px;
-            background-color: #f1f1f1;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 13px;
-            transition: background-color 0.2s;
-        }
+    a {
+        display: inline-block;
+        margin-top: 10px;
+        text-decoration: none;
+        color: #4CAF50;
+        font-size: 14px;
+    }
 
-        .botao-acao:hover {
-            background-color: #ddd;
-        }
+    a:hover {
+        text-decoration: underline;
+    }
 
-        a {
-            display: inline-block;
-            margin-top: 10px;
-            text-decoration: none;
-            color: #4CAF50;
-            font-size: 14px;
-        }
+    .botao-verde {
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 16px;
+        border-radius: 8px;
+        text-align: center;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        margin-top: 15px;
+    }
 
-        a:hover {
-            text-decoration: underline;
-        }
+    .botao-verde:hover {
+        background-color: #45a049;
+    }
 
-        .botao-verde {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 16px;
-            border-radius: 8px;
-            text-align: center;
-            border: none;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            margin-top: 15px;
-        }
+</style>
+{% endblock %}
 
-        .botao-verde:hover {
-            background-color: #45a049;
-        }
-
-    </style>
-</head>
-<body>
+{% block conteudo %}
 
 <div class="container">
     <h1>Obras Cadastradas</h1>
@@ -129,7 +103,9 @@
     <a class="botao-verde" href="#" style="background-color: #4CAF50;" onclick="alert('Função excluir ainda não implementada')">Excluir obra</a>
 
 </div>
+{% endblock %}
 
+{% block scripts %}
 <script>
     const tabelaObras = document.getElementById('tabelaObras');
 
@@ -159,6 +135,4 @@
 
     atualizarTabela();
 </script>
-
-</body>
-</html>
+{% endblock %}
