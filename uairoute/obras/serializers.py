@@ -4,4 +4,4 @@ from .models import Obra
 class ObraSerializer(serializers.ModelSerializer):
     class Meta:
         model = Obra
-        fields = '__all__'
+        fields = ['id', 'nome', 'rua', 'numero', 'bairro', 'cidade']

@@ -3,4 +3,4 @@ from .models import Obra
 
 @admin.register(Obra)
 class ObraAdmin(admin.ModelAdmin):
-    list_display = ['nome', 'rua', 'numero', 'bairro', 'cidade']
+    list_display = ['id','nome', 'rua', 'numero', 'bairro', 'cidade']

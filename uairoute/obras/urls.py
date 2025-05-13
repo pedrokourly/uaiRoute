@@ -1,7 +1,7 @@
 from django.urls import path
-from .views import listar_obras, cadastrar_obra
+from .views import ObraListCreateView, ObraRetrieveUpdateDestroyView
 
 urlpatterns = [
-    path('obras/', listar_obras, name='listar_obras'),
-    path('obras/cadastrar/', cadastrar_obra, name='cadastrar_obra'),
+    path('obras/', ObraListCreateView.as_view(), name='listar_obras'),
+    path('obras/<int:pk>/', ObraRetrieveUpdateDestroyView.as_view(), name='detalhar_obra'),
 ]

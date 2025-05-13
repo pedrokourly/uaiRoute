@@ -4,4 +4,5 @@ from .models import Funcionario
 class FuncionarioSerializer(serializers.ModelSerializer):
     class Meta:
         model = Funcionario
-        fields = '__all__'
+        fields = ['id', 'nome_completo', 'rua', 'numero', 'bairro', 'cidade']
+
