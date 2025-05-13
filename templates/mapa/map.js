@@ -1,3 +1,13 @@
+async function fetchObras(){
+    try {
+        const response = await fetch('http://127.0.0.1:8000/api/obras');
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error("Error fetching obras: ", error);
+    }
+}
+
 async function getCoordenates(address){
     try {
         const req = await fetch(`https://nominatim.openstreetmap.org/search?q=${address}&format=json`);
@@ -50,15 +60,21 @@ $(document).ready(function () {
                 zoom: 7
             }).addTo(map);
 
-
-            getCoordenates("ituiutaba").then((coords) => {
-                let marker = L.circleMarker([coords[0], coords[1]], {
-                    color: 'darkgreen',
-                    radius: 1,
-                    stroke: true,
-                    weight: 0.8,
-                    opacity: 1
-                }).addTo(map);
+            fetchObras().then((obras) => {
+                obras.forEach((obra) => {
+                    console.log(obra);
+                    const endereco = obra.cidade + " " + obra.bairro + " " + obra.rua + " " + obra.numero;
+                    console.log(endereco);
+                    getCoordenates(endereco).then((coords) => {
+                        let marker = L.circleMarker([coords[0], coords[1]], {
+                            color: 'blue',
+                            radius: 10,
+                            stroke: true,
+                            weight: 0.8,
+                            opacity: 1
+                        }).addTo(map);
+                    });
+                });
             });
             
         }

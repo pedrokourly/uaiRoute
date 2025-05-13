@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.http import JsonResponse
 from .models import Obra
 
 def cadastrar_obra(request):
@@ -21,5 +22,5 @@ def cadastrar_obra(request):
     return render(request, "obras/formulario.html")
 
 def listar_obras(request):
-    obras = Obra.objects.all()
-    return render(request, "obras/listagem.html", {"obras": obras})
+    obras = Obra.objects.all().values()
+    return JsonResponse(list(obras), safe=False)
