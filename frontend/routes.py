@@ -12,3 +12,7 @@ def obras():
 @app.route('/obras/cadastrar')
 def cadastrarObra():
     return render_template('obras/cadastrar.html')
+
+@app.route('/login')
+def formulario_login():
+    return render_template('login/formulario_login.html')
