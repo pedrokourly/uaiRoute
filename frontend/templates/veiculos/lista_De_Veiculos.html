@@ -1,0 +1,127 @@
+{% extends 'default.html' %}
+    
+    {%block style%}
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #f9f9f9;
+        }
+        .actions {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .actions button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .actions button:hover {
+            background-color: #45a049;
+        }
+    </style>
+    {%endblock%}
+
+    {%block conteudo%}
+    <div class="container">
+        <h1>Lista de Veículos</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Marca</th>
+                    <th>Modelo</th>
+                    <th>Ano</th>
+                    <th>Cor</th>
+                    <th>Placa</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody id="vehicle-list">
+            </tbody>
+        </table>
+        <div class="actions">
+            <button onclick="addVehicle()">Adicionar Veículo</button>
+        </div>
+    </div>
+    {%endblock%}
+
+    {%block script%}
+    <script>
+        const vehicles = [
+            { marca: 'Toyota', modelo: 'Corolla', ano: 2020, cor: 'Branco', placa: 'ABC1234' },
+            { marca: 'Ford', modelo: 'Fiesta', ano: 2019, cor: 'Preto', placa: 'XYZ5678' },
+        ];
+    
+        function renderVehicles() {
+            const vehicleList = document.getElementById('vehicle-list');
+            vehicleList.innerHTML = '';
+            vehicles.forEach(vehicle => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${vehicle.marca}</td>
+                    <td>${vehicle.modelo}</td>
+                    <td>${vehicle.ano}</td>
+                    <td>${vehicle.cor}</td>
+                    <td>${vehicle.placa}</td>
+                    <td>
+                        <button onclick="editVehicle('${vehicle.placa}')">Editar</button>
+                        <button onclick="deleteVehicle('${vehicle.placa}')">Excluir</button>
+                    </td>
+                `;
+                vehicleList.appendChild(row);
+            });
+        }
+        function addVehicle() {
+            const newVehicle = { marca: 'Nova Marca', modelo: 'Novo Modelo', ano: 2022, cor: 'Nova Cor', placa: 'NVA9876' };
+            vehicles.push(newVehicle);
+            renderVehicles();
+        }
+    
+        function editVehicle(placa) {
+            const vehicle = vehicles.find(v => v.placa === placa);
+            if (vehicle) {
+                console.log('Editando veículo:', vehicle);
+            }
+        }
+
+        function deleteVehicle(placa) {
+            const index = vehicles.findIndex(v => v.placa === placa);
+            if (index !== -1) {
+                vehicles.splice(index, 1);
+                renderVehicles();
+            }
+        }
+    
+        document.addEventListener('DOMContentLoaded', renderVehicles);
+    </script>
+    {%endblock%}
