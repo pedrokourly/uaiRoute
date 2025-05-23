@@ -1,0 +1,26 @@
+{% extends "default.html" %}
+
+{% block conteudo %}
+<h1>Cadastrar Nova Obra</h1>
+
+<form action="{{ url_for('cadastrarObra') }}" method="POST">
+    <label>Nome:</label><br />
+    <input type="text" name="nome" required><br><br>
+
+    <label>Rua:</label><br />
+    <input type="text" name="rua" required><br><br>
+
+    <label>Número:</label><br />
+    <input type="text" name="numero" required><br><br>
+
+    <label>Bairro:</label><br />
+    <input type="text" name="bairro" required><br><br>
+
+    <label>Cidade:</label><br />
+    <input type="text" name="cidade" required><br><br>
+
+    <button type="submit">Cadastrar</button>
+</form>
+
+<p><a href="{{ url_for('obras') }}">Voltar para lista de obras</a></p>
+{% endblock %}

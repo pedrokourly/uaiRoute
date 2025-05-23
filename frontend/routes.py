@@ -11,4 +11,4 @@ def obras():
 
 @app.route('/obras/cadastrar')
 def cadastrarObra():
-    return render_template('obras/cadastrar.html')
+    return render_template('obras/cadastrar-obras.html')
