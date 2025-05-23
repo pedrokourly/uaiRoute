@@ -1,81 +1,6 @@
 {% extends "default.html" %}
 
-
 {% block styles %}
-<style>
-    h1 {
-        font-size: 22px;
-        margin-bottom: 20px;
-        font-weight: 600;
-    }
-
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-bottom: 20px;
-    }
-
-    table th, table td {
-        padding: 12px 10px;
-        border-bottom: 1px solid #eee;
-        text-align: left;
-        vertical-align: middle;
-        font-size: 14px;
-    }
-
-    table th {
-        background-color: #f9f9f9;
-        font-weight: 600;
-    }
-
-    table tr:last-child td {
-        border-bottom: none;
-    }
-
-    .botao-acao {
-        padding: 6px 10px;
-        margin-left: 4px;
-        background-color: #f1f1f1;
-        border: 1px solid #ccc;
-        border-radius: 8px;
-        cursor: pointer;
-        font-size: 13px;
-        transition: background-color 0.2s;
-    }
-
-    .botao-acao:hover {
-        background-color: #ddd;
-    }
-
-    a {
-        display: inline-block;
-        margin-top: 10px;
-        text-decoration: none;
-        color: #4CAF50;
-        font-size: 14px;
-    }
-
-    a:hover {
-        text-decoration: underline;
-    }
-
-    .botao-verde {
-        background-color: #4CAF50;
-        color: white;
-        padding: 10px 16px;
-        border-radius: 8px;
-        text-align: center;
-        border: none;
-        cursor: pointer;
-        transition: background-color 0.3s;
-        margin-top: 15px;
-    }
-
-    .botao-verde:hover {
-        background-color: #45a049;
-    }
-
-</style>
 {% endblock %}
 
 {% block conteudo %}
@@ -98,11 +23,13 @@
         </tbody>
     </table>
 
-    <a class="botao-verde" href="cadastrar.html">Cadastrar nova obra</a>
-    <a class="botao-verde" href="#" style="background-color: #4CAF50;" onclick="alert('Função editar ainda não implementada')">Editar obra</a>
-    <a class="botao-verde" href="#" style="background-color: #4CAF50;" onclick="alert('Função excluir ainda não implementada')">Excluir obra</a>
-
+   <div class="mt-3">
+    <a href="{{ url_for('cadastrarObra') }}" class="btn btn-primary">Cadastrar nova obra</a>
+    <button class="btn btn-warning" onclick="alert('Função editar ainda não implementada')">Editar obra</button>
+    <button class="btn btn-danger" onclick="alert('Função excluir ainda não implementada')">Excluir obra</button>
 </div>
+</div>
+
 {% endblock %}
 
 {% block scripts %}
@@ -123,9 +50,9 @@
 
             tr.innerHTML = `
                 <td>${obra.nome}</td>
-                <td>${obra.rua} <button class="botao-acao" onclick="verNoMapa('${obra.rua}, ${obra.cidade}')">Ver</button></td>
-                <td>${obra.numero} <button class="botao-acao" onclick="verNoMapa('${obra.numero}, ${obra.cidade}')">Ver</button></td>
-                <td>${obra.bairro} <button class="botao-acao" onclick="verNoMapa('${obra.bairro}, ${obra.cidade}')">Ver</button></td>
+                <td>${obra.rua} <button onclick="verNoMapa('${obra.rua}, ${obra.cidade}')">Ver</button></td>
+                <td>${obra.numero} <button onclick="verNoMapa('${obra.numero}, ${obra.cidade}')">Ver</button></td>
+                <td>${obra.bairro} <button onclick="verNoMapa('${obra.bairro}, ${obra.cidade}')">Ver</button></td>
                 <td>${obra.cidade}</td>
             `;
 
