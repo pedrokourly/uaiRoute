@@ -1,26 +1,41 @@
 {% extends "default.html" %}
 
 {% block conteudo %}
-<h1>Cadastrar Nova Obra</h1>
+<div class="container">
+    <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb" class="mt-3">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{{ url_for('obras') }}">Obras</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Cadastro</li>
+        </ol>
+    </nav>
+    <h1>Cadastrar Nova Obra</h1>
+    <form action="{{ url_for('cadastrarObra') }}" method="POST">
+        <div class="mb-3">
+            <label class="form-label">Nome</label>
+            <input type="text" class="form-control" name="nome" required>
+        </div>
 
-<form action="{{ url_for('cadastrarObra') }}" method="POST">
-    <label>Nome:</label><br />
-    <input type="text" name="nome" required><br><br>
+        <div class="mb-3">
+            <label class="form-label">Rua</label>
+            <input type="text" class="form-control" name="rua" required>
+        </div>
 
-    <label>Rua:</label><br />
-    <input type="text" name="rua" required><br><br>
+        <div class="mb-3">
+            <label class="form-label">Número</label>
+            <input type="text" class="form-control" name="numero" required>
+        </div>
 
-    <label>Número:</label><br />
-    <input type="text" name="numero" required><br><br>
+        <div class="mb-3">
+            <label class="form-label">Bairro</label>
+            <input type="text" class="form-control" name="bairro" required>
+        </div>
 
-    <label>Bairro:</label><br />
-    <input type="text" name="bairro" required><br><br>
+        <div class="mb-3">
+            <label class="form-label">Cidade</label>
+            <input type="text" class="form-control" name="cidade" required>
+        </div>
 
-    <label>Cidade:</label><br />
-    <input type="text" name="cidade" required><br><br>
-
-    <button type="submit">Cadastrar</button>
-</form>
-
-<p><a href="{{ url_for('obras') }}">Voltar para lista de obras</a></p>
+        <button type="submit" class="btn btn-primary">Cadastrar</button>
+    </form>
+</div>
 {% endblock %}
