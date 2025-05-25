@@ -46,31 +46,31 @@
 {% block conteudo %}
 <div class="container">
     <div class="card-form mx-auto mt-4" style="max-width: 700px;">
-        <h1 class="mb-2 text-center">Cadastrar Obra</h1>
-        <p class="text-center text-muted mb-3">Preencha os dados abaixo para cadastrar uma nova obra no sistema.</p>
-        <div class="info-alert"><i class="bi bi-info-circle-fill me-2"></i>Os dados cadastrados serão utilizados para controle e visualização das obras.</div>
-        <form class="d-flex flex-column gap-3" action="{{ url_for('cadastrarObra') }}" method="POST">
+        <h1 class="mb-2 text-center">Editar Obra</h1>
+        <p class="text-center text-muted mb-3">Atualize os dados da obra abaixo. Certifique-se de que todas as informações estejam corretas.</p>
+        <div class="info-alert"><i class="bi bi-info-circle-fill me-2"></i>Os dados editados serão utilizados para controle e visualização das obras.</div>
+        <form class="d-flex flex-column gap-3" method="post">
             <div class="d-flex gap-3 responsive-form-columns">
                 <div class="flex-fill d-flex flex-column gap-3">
                     <div>
                         <label class="form-label">Nome:</label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="bi bi-building"></i></span>
-                            <input type="text" name="nome" class="form-control" placeholder="Ex: Obra Central" required title="Digite o nome da obra">
+                            <input type="text" name="nome" class="form-control" placeholder="Ex: Obra Central" required title="Digite o nome da obra" value="{{ obra.nome }}">
                         </div>
                     </div>
                     <div>
                         <label class="form-label">Rua:</label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="bi bi-signpost-2-fill"></i></span>
-                            <input type="text" name="rua" class="form-control" placeholder="Ex: Av. Brasil" required title="Informe a rua da obra">
+                            <input type="text" name="rua" class="form-control" placeholder="Ex: Av. Brasil" required title="Informe a rua da obra" value="{{ obra.rua }}">
                         </div>
                     </div>
                     <div>
                         <label class="form-label">Número:</label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="bi bi-hash"></i></span>
-                            <input type="text" name="numero" class="form-control" placeholder="Ex: 123" required title="Informe o número da obra">
+                            <input type="text" name="numero" class="form-control" placeholder="Ex: 123" required title="Informe o número da obra" value="{{ obra.numero }}">
                         </div>
                     </div>
                 </div>
@@ -79,20 +79,20 @@
                         <label class="form-label">Bairro:</label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="bi bi-geo-alt-fill"></i></span>
-                            <input type="text" name="bairro" class="form-control" placeholder="Ex: Centro" required title="Informe o bairro da obra">
+                            <input type="text" name="bairro" class="form-control" placeholder="Ex: Centro" required title="Informe o bairro da obra" value="{{ obra.bairro }}">
                         </div>
                     </div>
                     <div>
                         <label class="form-label">Cidade:</label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="bi bi-geo"></i></span>
-                            <input type="text" name="cidade" class="form-control" placeholder="Ex: Uberlândia" required title="Informe a cidade da obra">
+                            <input type="text" name="cidade" class="form-control" placeholder="Ex: Uberlândia" required title="Informe a cidade da obra" value="{{ obra.cidade }}">
                         </div>
                     </div>
                 </div>
             </div>
             <div class="d-flex gap-2 mb-2 justify-content-end">
-                <button type="submit" class="btn btn-primary px-4 py-2 fw-bold"><i class="bi bi-plus-circle me-1"></i> Cadastrar</button>
+                <button type="submit" class="btn btn-success px-4 py-2 fw-bold"><i class="bi bi-save me-1"></i> Salvar</button>
                 <a href="{{ url_for('obras') }}" class="btn btn-secondary px-4 py-2"><i class="bi bi-arrow-left"></i> Voltar</a>
             </div>
         </form>

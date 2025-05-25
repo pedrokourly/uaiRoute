@@ -1,0 +1,185 @@
+{% extends "default.html" %}
+
+{% block styles %}
+<style>
+    body {
+        background: linear-gradient(120deg, #e3f0ff 60%, #f8fafc 100%);
+    }
+    .veiculos-card {
+        background: #fff;
+        border-radius: 22px;
+        box-shadow: 0 4px 32px #0d6efd0d;
+        padding: 36px 32px 28px 32px;
+        margin-top: 40px;
+        margin-bottom: 32px;
+    }
+    .veiculos-header {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        margin-bottom: 18px;
+    }
+    .veiculos-header .material-symbols-outlined {
+        font-size: 2.5rem;
+        color: #0d6efd;
+    }
+    .veiculos-header-title {
+        font-size: 2rem;
+        font-weight: 800;
+        color: #0d6efd;
+        margin-bottom: 0;
+    }
+    .veiculos-header-sub {
+        color: #6c757d;
+        font-size: 1.1rem;
+        margin-top: 2px;
+    }
+    .veiculos-count-badge {
+        background: #0d6efd;
+        color: #fff;
+        font-size: 1rem;
+        border-radius: 12px;
+        padding: 2px 12px;
+        margin-left: 8px;
+        font-weight: 600;
+    }
+    .table-responsive {
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    .table {
+        border-radius: 14px;
+        overflow: hidden;
+        box-shadow: 0 2px 12px #0d6efd0a;
+        background: #f9fbff;
+        min-width: 700px;
+    }
+    .table th {
+        background: #e3f0ff !important;
+        color: #0d6efd;
+        font-weight: 700;
+        border: none;
+    }
+    .table td {
+        vertical-align: middle;
+        border-top: 1px solid #e3eafc;
+        background: #fff;
+    }
+    .table tr:hover td {
+        background: #f1f7ff;
+        transition: background 0.2s;
+    }
+    .icon-btn {
+        border: none;
+        background: none;
+        padding: 0.25rem 0.5rem;
+        cursor: pointer;
+        border-radius: 4px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        transition: background 0.15s;
+    }
+    .icon-btn.edit {
+        color: #fff;
+        background-color: #007bff;
+    }
+    .icon-btn.delete {
+        color: #fff;
+        background-color: #dc3545;
+        margin-left: 0.25rem;
+    }
+    .icon-btn .material-symbols-outlined {
+        font-size: 1.2em;
+        color: inherit;
+        line-height: 1;
+    }
+    .btn-cadastrar-veiculo {
+        font-size: 1.1rem;
+        font-weight: 600;
+        border-radius: 32px;
+        padding: 12px 28px;
+        box-shadow: 0 2px 12px #0d6efd22;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: linear-gradient(90deg, #0d6efd 80%, #4f8cff 100%);
+        border: none;
+        color: #fff;
+    }
+    .btn-cadastrar-veiculo .material-symbols-outlined {
+        font-size: 1.3em;
+        margin-right: 2px;
+    }
+    @media (max-width: 767.98px) {
+        .veiculos-card { padding: 16px 4px 8px 4px; }
+        .veiculos-header-title { font-size: 1.3rem; }
+        .table th, .table td { font-size: 0.95rem; }
+        .table { min-width: 600px; }
+    }
+</style>
+{% endblock %}
+
+{% block conteudo %}
+<div class="container">
+    <div class="veiculos-card">
+        <div class="veiculos-header">
+            <span class="material-symbols-outlined">local_shipping</span>
+            <div>
+                <h1 class="veiculos-header-title">Veículos Cadastrados
+                    <span class="veiculos-count-badge">{{ veiculos|length }}</span>
+                </h1>
+                <div class="veiculos-header-sub">Controle total sobre sua frota: disponibilidade, localização e mais.</div>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table class="table">
+                <tr class="table-primary">
+                    <th>Tipo</th>
+                    <th>Placa</th>
+                    <th>Capacidade</th>
+                    <th>Rua</th>
+                    <th>Número</th>
+                    <th>Bairro</th>
+                    <th>Cidade</th>
+                    <th>Disponível</th>
+                    <th class="text-center">Ações</th>
+                </tr>
+                {% for v in veiculos %}
+                <tr>
+                    <td>{{ v.tipo|capitalize }}</td>
+                    <td>{{ v.placa }}</td>
+                    <td>{{ v.capacidade }}</td>
+                    <td>{{ v.rua }}</td>
+                    <td>{{ v.numero }}</td>
+                    <td>{{ v.bairro }}</td>
+                    <td>{{ v.cidade }}</td>
+                    <td>{% if v.disponibilidade %}<span class="badge bg-success">Sim</span>{% else %}<span class="badge bg-danger">Não</span>{% endif %}</td>
+                    <td class="text-center">
+                        <div class="d-flex justify-content-center align-items-center gap-1">
+                            <a href="{{ url_for('editarVeiculo', id=v.id) }}" class="icon-btn edit" title="Editar">
+                                <span class="material-symbols-outlined">edit</span>
+                            </a>
+                            <form action="{{ url_for('excluirVeiculo', id=v.id) }}" method="post" style="display:inline;">
+                                <button type="submit" class="icon-btn delete" title="Deletar" onclick="return confirm('Tem certeza que deseja excluir este veículo?');">
+                                    <span class="material-symbols-outlined">delete_forever</span>
+                                </button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+        <div class="mt-4 text-end">
+            <a href="{{ url_for('cadastrarVeiculo') }}" class="btn btn-cadastrar-veiculo">
+                <span class="material-symbols-outlined">add_circle</span> Cadastrar novo veículo
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}
