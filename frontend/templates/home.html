@@ -1,0 +1,125 @@
+{% extends 'default.html' %}
+
+{% block styles %}
+<style>
+    .hero-section {
+        background: linear-gradient(120deg, #043988 60%, #fff 100%);
+        color: #fff;
+        padding: 64px 0 48px 0;
+        position: relative;
+        overflow: hidden;
+    }
+    .hero-section .hero-title {
+        font-size: 2.8rem;
+        font-weight: 800;
+        letter-spacing: -1px;
+        margin-bottom: 12px;
+    }
+    .hero-section .hero-subtitle {
+        font-size: 1.35rem;
+        font-weight: 400;
+        margin-bottom: 32px;
+        color: #e3eafc;
+    }
+    .hero-section .cta-btn {
+        font-size: 1.1rem;
+        font-weight: 600;
+        padding: 12px 32px;
+        border-radius: 32px;
+        box-shadow: 0 2px 16px #0d6efd33;
+    }
+    .features-section {
+        background: #fff;
+        margin-top: -40px;
+        border-radius: 24px;
+        box-shadow: 0 4px 32px #0d6efd0d;
+        padding: 40px 0 24px 0;
+        position: relative;
+        z-index: 2;
+    }
+    .feature-icon {
+        font-size: 2.5rem;
+        color: #0d6efd;
+        margin-bottom: 12px;
+    }
+    .feature-title {
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin-bottom: 6px;
+    }
+    .feature-desc {
+        color: #6c757d;
+        font-size: 1rem;
+    }
+    .map-bg {
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 60%;
+        height: 100%;
+        background: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=900&q=80') center/cover no-repeat;
+        opacity: 0.18;
+        z-index: 1;
+        pointer-events: none;
+    }
+    @media (max-width: 767.98px) {
+        .hero-section { padding: 36px 0 24px 0; }
+        .hero-section .hero-title { font-size: 2rem; }
+        .features-section { margin-top: -20px; padding: 24px 0 8px 0; }
+        .map-bg { display: none; }
+    }
+</style>
+{% endblock %}
+
+
+{% block conteudo %}
+<div class="hero-section position-relative">
+    <div class="container position-relative" style="z-index:2;">
+        <div class="row align-items-center">
+            <div class="col-lg-7 col-md-12">
+                <h1 class="hero-title">UaiRoute</h1>
+                <div class="hero-subtitle">A inteligência que conecta obras, pessoas e veículos para rotas perfeitas.</div>
+                <p class="mb-4" style="max-width: 520px; font-size:1.1rem;">
+                    O UaiRoute é o seu copiloto para gestão de obras e logística: visualize, cadastre e otimize rotas entre obras, funcionários e veículos em poucos cliques. Reduza custos, ganhe tempo e tenha controle total sobre sua operação.
+                </p>
+                <a href="{{ url_for('map') }}" class="btn btn-warning cta-btn shadow mb-5"><span class="material-symbols-outlined align-middle me-1">map</span> Explorar Mapa</a>
+            </div>
+        </div>
+    </div>
+    <div class="map-bg"></div>
+</div>
+<div class="features-section">
+    <div class="container">
+        <div class="row text-center g-4">
+            <div class="col-md-3 col-6">
+                <span class="material-symbols-outlined feature-icon">location_on</span>
+                <div class="feature-title">Gestão de Obras</div>
+                <div class="feature-desc">Cadastre, edite e visualize todas as obras em um só lugar.</div>
+            </div>
+            <div class="col-md-3 col-6">
+                <span class="material-symbols-outlined feature-icon">groups</span>
+                <div class="feature-title">Equipe Integrada</div>
+                <div class="feature-desc">Gerencie funcionários, cargos e contatos facilmente.</div>
+            </div>
+            <div class="col-md-3 col-6">
+                <span class="material-symbols-outlined feature-icon">local_shipping</span>
+                <div class="feature-title">Controle de Veículos</div>
+                <div class="feature-desc">Acompanhe veículos, disponibilidade e localização.</div>
+            </div>
+            <div class="col-md-3 col-6">
+                <span class="material-symbols-outlined feature-icon">route</span>
+                <div class="feature-title">Rotas Otimizadas</div>
+                <div class="feature-desc">Descubra o melhor caminho entre obras, economizando tempo e recursos.</div>
+            </div>
+        </div>
+        <div class="text-center mt-5">
+            <span class="text-muted">Pronto para revolucionar sua gestão de obras? <a href="{{ url_for('cadastrarObra') }}" class="fw-bold text-primary">Cadastre sua primeira obra agora!</a></span>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+{% block scripts %}
+
+{% endblock %}

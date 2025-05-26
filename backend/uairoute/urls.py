@@ -1,26 +1,12 @@
-"""
-URL configuration for uairoute project.
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/5.2/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
 from django.contrib import admin
 from django.urls import path, include
-from django.shortcuts import redirect
 
 urlpatterns = [
-    path('', lambda request: redirect('listar_obras')), 
     path('admin/', admin.site.urls),
-    path('api/', include('obras.urls')), 
-    path('api/', include('funcionarios.urls')),
+
+    # Incluir as URLs dos apps de Obras, Funcionários e Veículos
+    path('api/obras/', include('api.obras.urls')),  # API de Obras
+    path('api/funcionarios/', include('api.funcionarios.urls')),  # API de Funcionários
+    path('api/veiculos/', include('api.veiculos.urls')),  # API de Veículos
+    path('api/registros/', include('api.registros.urls')),
 ]
