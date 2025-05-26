@@ -1,0 +1,216 @@
+{% extends "default.html" %}
+
+{% block styles %}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+<link href="https://cdn.maptiler.com/maptiler-geocoding-control/v1.2.0/style.css" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet-responsive-popup@1.0.0/leaflet.responsive.popup.css" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet.fullscreen@latest/Control.FullScreen.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@drustack/leaflet.resetview/dist/L.Control.ResetView.min.css">
+<style>
+    body {
+        background: linear-gradient(120deg, #e3f0ff 60%, #f8fafc 100%);
+    }
+
+    .mapa-card {
+        background: #fff;
+        border-radius: 22px;
+        box-shadow: 0 4px 32px #0d6efd0d;
+        padding: 36px 32px 28px 32px;
+        margin-top: 40px;
+        margin-bottom: 32px;
+        max-width: 1100px;
+        margin-left: auto;
+        margin-right: auto;
+        position: relative;
+        overflow: visible;
+    }
+
+    .mapa-header {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        margin-bottom: 18px;
+    }
+
+    .mapa-header .material-symbols-outlined {
+        font-size: 2.5rem;
+        color: #0d6efd;
+        background: #e3f0ff;
+        border-radius: 50%;
+        padding: 10px;
+        box-shadow: 0 2px 8px #0d6efd22;
+    }
+
+    .mapa-title {
+        font-size: 2.1rem;
+        font-weight: 800;
+        color: #0d6efd;
+        margin-bottom: 0;
+        letter-spacing: -1px;
+    }
+
+    .mapa-desc {
+        color: #6c757d;
+        font-size: 1.1rem;
+        margin-top: 2px;
+        margin-bottom: 0;
+    }
+
+    #map {
+        width: 100%;
+        height: 600px;
+        border-radius: 16px;
+        box-shadow: 0 2px 16px #0d6efd22;
+        margin-top: 18px;
+        margin-bottom: 10px;
+        z-index: 2;
+        border: 2px solid #e3f0ff;
+        transition: box-shadow 0.2s;
+    }
+
+    #map:hover {
+        box-shadow: 0 6px 32px #0d6efd33;
+    }
+
+    .btn-cadastrar-obra {
+        font-size: 1.1rem;
+        font-weight: 600;
+        border-radius: 32px;
+        padding: 12px 28px;
+        box-shadow: 0 2px 12px #0d6efd22;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: linear-gradient(90deg, #0d6efd 80%, #4f8cff 100%);
+        border: none;
+        color: #fff;
+        margin-top: 10px;
+        transition: background 0.2s, box-shadow 0.2s;
+    }
+
+    .btn-cadastrar-obra:hover {
+        background: linear-gradient(90deg, #0b5ed7 80%, #3578e5 100%);
+        box-shadow: 0 4px 24px #0d6efd33;
+        color: #fff;
+        text-decoration: none;
+    }
+
+    .btn-cadastrar-obra .material-symbols-outlined {
+        font-size: 1.3em;
+        margin-right: 2px;
+    }
+
+    .obras-badge {
+        background: #0d6efd;
+        color: #fff;
+        font-size: 1rem;
+        border-radius: 12px;
+        padding: 2px 12px;
+        margin-left: 8px;
+        font-weight: 600;
+        vertical-align: middle;
+    }
+
+    @media (max-width: 991.98px) {
+        .mapa-card {
+            padding: 18px 8px 8px 8px;
+        }
+
+        .mapa-title {
+            font-size: 1.5rem;
+        }
+
+        #map {
+            height: 350px;
+        }
+    }
+
+    @media (max-width: 575.98px) {
+        .mapa-header {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 8px;
+        }
+
+        .mapa-title {
+            font-size: 1.1rem;
+        }
+
+        #map {
+            height: 220px;
+        }
+    }
+
+    /* Floating badge for obras count */
+    .obras-count-float {
+        position: absolute;
+        top: 18px;
+        right: 32px;
+        background: #0d6efd;
+        color: #fff;
+        font-size: 1.1rem;
+        border-radius: 18px;
+        padding: 6px 18px;
+        font-weight: 700;
+        box-shadow: 0 2px 8px #0d6efd22;
+        z-index: 10;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        letter-spacing: 0.5px;
+    }
+
+    .obras-count-float .material-symbols-outlined {
+        font-size: 1.3em;
+        margin-right: 2px;
+    }
+</style>
+{% endblock %}
+
+{% block conteudo %}
+<div class="container">
+    <div class="mapa-card position-relative">
+        <div class="mapa-header">
+            <span class="material-symbols-outlined">map</span>
+            <div>
+                <h1 class="mapa-title">Mapa das Obras</h1>
+                <div class="mapa-desc">Visualize todas as obras cadastradas no sistema em tempo real.<br>
+                    Clique nos alfinetes para detalhes e navegue facilmente pelo mapa.</div>
+            </div>
+        </div>
+        <div id="obras-count" class="obras-count-float" style="display:none;">
+            <span class="material-symbols-outlined">location_on</span>
+            <span id="obras-count-num"></span> obras
+        </div>
+        <div id="map"></div>
+        <div class="mt-4 text-end">
+            <a href="{{ url_for('cadastrarObra') }}" class="btn btn-cadastrar-obra">
+                <span class="material-symbols-outlined">add_circle</span> Cadastrar nova obra
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.maptiler.com/maptiler-geocoding-control/v1.2.0/leaflet.umd.js"></script>
+<script src="https://unpkg.com/leaflet-responsive-popup@1.0.0/leaflet.responsive.popup.js"></script>
+<script src="https://unpkg.com/leaflet.fullscreen@latest/Control.FullScreen.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@drustack/leaflet.resetview/dist/L.Control.ResetView.min.js"></script>
+<script src="{{ url_for('static', filename='scripts/map.js') }}"></script>
+<script>
+    // Atualiza o badge de quantidade de obras no mapa
+    $(document).ready(function () {
+        fetch('http://localhost:8000/api/obras')
+            .then(resp => resp.json())
+            .then(obras => {
+                $('#obras-count-num').text(obras.length);
+                $('#obras-count').fadeIn();
+            });
+    });
+</script>
+{% endblock %}

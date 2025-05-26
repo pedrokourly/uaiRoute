@@ -31,9 +31,11 @@ INSTALLED_APPS = [
     'api.funcionarios',  # Para o app de Funcionários
     'api.veiculos',  # Para o app de Veículos
     'api.registros',
+    'corsheaders',  # Para CORS
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',  # Para CORS
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -122,3 +124,10 @@ REST_FRAMEWORK = {
         'rest_framework.renderers.JSONRenderer',  # Responde apenas com JSON
     ],
 }
+
+
+# Configuração do CORS para permitir o frontend em localhost:5000
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5000",
+    "http://192.168.100.150:5000"
+]

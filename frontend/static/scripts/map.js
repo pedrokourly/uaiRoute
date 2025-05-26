@@ -1,6 +1,6 @@
 async function fetchObras(){
     try {
-        const response = await fetch('http://127.0.0.1:8000/api/obras');
+        const response = await fetch('http://localhost:8000/api/obras');
         const data = await response.json();
         return data;
     } catch (error) {
@@ -11,12 +11,10 @@ async function fetchObras(){
 async function getCoordenates(address){
     try {
         const req = await fetch(`https://nominatim.openstreetmap.org/search?q=${address}&format=json`);
-        console.log(req)
         const response = await req.json();
 
-        console.log(response);
+        
         const coords = [response[0].lat, response[0].lon];
-        console.log(coords);
         return coords;
     } catch (error) {
         console.error("Error fetching coordinates: ", error);
@@ -62,17 +60,21 @@ $(document).ready(function () {
 
             fetchObras().then((obras) => {
                 obras.forEach((obra) => {
-                    console.log(obra);
                     const endereco = obra.cidade + " " + obra.bairro + " " + obra.rua + " " + obra.numero;
-                    console.log(endereco);
+                    
                     getCoordenates(endereco).then((coords) => {
-                        let marker = L.circleMarker([coords[0], coords[1]], {
-                            color: 'blue',
-                            radius: 10,
-                            stroke: true,
-                            weight: 0.8,
-                            opacity: 1
-                        }).addTo(map);
+                        let marker = L.marker([coords[0], coords[1]]).addTo(map);
+                        // Adiciona popup com informações da obra
+                        let popupContent = `
+                            <div style="min-width:180px">
+                                <strong>${obra.nome || 'Obra sem nome'}</strong><br>
+                                <span style="color:#555;">
+                                    ${obra.rua}, ${obra.numero}<br>
+                                    ${obra.bairro} - ${obra.cidade}
+                                </span>
+                            </div>
+                        `;
+                        marker.bindPopup(popupContent);
                     });
                 });
             });
