@@ -14,21 +14,28 @@
             height: 600px;
             width: 100%;
         }
+        #route-info {
+            margin-top: 15px;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #333;
+        }
     </style>
 </head>
 
 <body>
     <h1>Problema do Caixeiro Viajante com Leaflet</h1>
     <p>Calculando a melhor rota entre Porto Alegre, Gramado e paradas intermediárias.</p>
-    <div id="map"></div>
+    <div id="route-info"></div> <div id="map"></div>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
         integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mapbox-polyline/1.2.0/polyline.min.js"
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mapbox-polyline/1.2.0/polyline.min.js" 
+     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <script>
-        const apiKey = '5b3ce3597851110001cf62489715e0567dc24edd98bd95aee36637a9';
+        const apiKey = '5b3ce3597851110001cf62489715e0567dc24edd98bd95aee36637a9'; // Sua chave de API da OpenRouteService
 
         const map = L.map('map').setView([-29.7, -51.2], 9);
 
@@ -51,14 +58,12 @@
                 [-50.8497, -29.3653]  // Canela
             ];
 
-            // Adiciona marcadores para os pontos iniciais, intermediários e finais
             addMarker([startPoint[1], startPoint[0]], 'Ponto de Partida', 'green');
             waypoints.forEach((point, index) => {
                 addMarker([point[1], point[0]], `Parada ${index + 1}`, 'orange');
             });
             addMarker([endPoint[1], endPoint[0]], 'Ponto Final', 'red');
 
-            // --- PRIMEIRA REQUISIÇÃO: Otimização para obter a ORDEM das paradas ---
             const optimizationRequestBody = {
                 jobs: waypoints.map((point, index) => ({
                     id: index + 1,
@@ -70,7 +75,6 @@
                     start: startPoint,
                     end: endPoint
                 }],
-                // Aqui não precisamos de 'points: true', pois só queremos a ordem
             };
 
             try {
@@ -96,41 +100,31 @@
                     console.log("Ordem otimizada das paradas:");
 
                     const orderedCoordinates = [];
-                    // Adiciona o ponto de partida
                     orderedCoordinates.push(startPoint);
 
-                    // Mapeia os 'steps' da rota otimizada para a ordem correta das coordenadas
                     optimizedRouteData.steps.forEach(step => {
-                        // Certifica-se de adicionar apenas os pontos 'job' e 'end' intermediários na ordem otimizada
-                        // O ponto 'start' já foi adicionado
                         if (step.type === 'job' || step.type === 'end') {
                             orderedCoordinates.push(step.location);
                         }
-                        const coords = [step.location[1], step.location[0]]; // Para log, Leaflet usa [lat, lng]
+                        const coords = [step.location[1], step.location[0]];
                         console.log(`- ${step.type}: ${step.name || `Ponto ${step.id || ''}`} em [${coords.join(', ')}]`);
                     });
 
-                    // Verifica se o ponto final já foi adicionado (se for 'end' do último step)
-                    // Caso contrário, adiciona-o explicitamente no final para garantir
                     const lastStepIsEnd = optimizedRouteData.steps[optimizedRouteData.steps.length - 1]?.type === 'end';
                     if (!lastStepIsEnd && !orderedCoordinates.some(coord => coord[0] === endPoint[0] && coord[1] === endPoint[1])) {
                          orderedCoordinates.push(endPoint);
                     }
                     
-                    // Remove duplicatas se startPoint ou endPoint aparecerem nos jobs
-                    // Uma forma simples é converter para string e usar Set, depois converter de volta
                     const uniqueOrderedCoordinates = Array.from(new Set(orderedCoordinates.map(JSON.stringify))).map(JSON.parse);
-
 
                     console.log("Coordenadas na ordem para a rota detalhada:", uniqueOrderedCoordinates);
 
-                    // --- SEGUNDA REQUISIÇÃO: Direções para obter a GEOMETRIA da rota ---
                     const directionsRequestBody = {
-                        coordinates: uniqueOrderedCoordinates, // Pontos na ordem otimizada
+                        coordinates: uniqueOrderedCoordinates,
                         profile: 'driving-car',
                         format: 'json',
-                        geometry: 'true', // Solicita a geometria
-                        instructions: 'false' // Não precisamos das instruções passo a passo para desenhar
+                        geometry: 'true',
+                        instructions: 'false'
                     };
 
                     const directionsResponse = await fetch('https://api.openrouteservice.org/v2/directions/driving-car/json', {
@@ -151,21 +145,41 @@
                     console.log("Resposta de Direções (com geometria):", directionsData);
 
                     if (directionsData.routes && directionsData.routes.length > 0) {
-                        const routeGeometry = directionsData.routes[0].geometry; // A geometria está aqui!
+                        const routeSummary = directionsData.routes[0].summary; // Extrai o resumo da rota
+                        const routeGeometry = directionsData.routes[0].geometry;
 
                         if (routeGeometry) {
-                            const decodedPath = polyline.decode(routeGeometry); // Decodifica a polyline
+                            const decodedPath = polyline.decode(routeGeometry);
                             console.log("Caminho decodificado:", decodedPath);
 
-                            // Desenha a Rota no Mapa
                             const routePolyline = L.polyline(decodedPath, {
                                 color: 'blue',
                                 weight: 5,
                                 opacity: 0.7
                             }).addTo(map);
 
-                            // Ajusta o Zoom do Mapa para a rota completa
                             map.fitBounds(routePolyline.getBounds());
+
+                            // --- EXIBIR DURAÇÃO E DISTÂNCIA AQUI ---
+                            if (routeSummary) {
+                                const durationSeconds = routeSummary.duration; // Duração em segundos
+                                const distanceMeters = routeSummary.distance; // Distância em metros
+
+                                const durationHours = Math.floor(durationSeconds / 3600);
+                                const durationMinutes = Math.floor((durationSeconds % 3600) / 60);
+
+                                const distanceKm = (distanceMeters / 1000).toFixed(2); // Distância em km
+
+                                const infoDiv = document.getElementById('route-info');
+                                infoDiv.innerHTML = `
+                                    <p>Duração Estimada: <strong>${durationHours}h ${durationMinutes}min</strong></p>
+                                    <p>Distância Estimada: <strong>${distanceKm} km</strong></p>
+                                `;
+                            } else {
+                                console.warn("Resumo da rota não encontrado.");
+                            }
+                            // --- FIM EXIBIR DURAÇÃO E DISTÂNCIA ---
+
                         } else {
                             console.warn("A geometria não foi encontrada na resposta das direções.");
                         }
