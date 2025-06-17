@@ -1,3 +1,4 @@
+import os
 from flask import render_template
 from uairoute import app
 
@@ -11,4 +12,5 @@ def home():
 
 @app.route('/mapa')
 def map():
-    return render_template('mapa.html')
+    server_ip = os.environ.get('SERVER_IP')
+    return render_template('mapa.html', server_ip=server_ip)

@@ -129,5 +129,5 @@ REST_FRAMEWORK = {
 # Configuração do CORS para permitir o frontend em localhost:5000
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5000",
-    "http://192.168.100.150:5000"
+    "http://192.168.54.20:5000"
 ]

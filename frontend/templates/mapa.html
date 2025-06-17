@@ -203,7 +203,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@drustack/leaflet.resetview/dist/L.Control.ResetView.min.js"></script>
 <script src="{{ url_for('static', filename='scripts/map.js') }}"></script>
 <script>
-    // Atualiza o badge de quantidade de obras no mapa
+    const SERVER_IP = "{{ server_ip }}";
     $(document).ready(function () {
         fetch('http://localhost:8000/api/obras')
             .then(resp => resp.json())
