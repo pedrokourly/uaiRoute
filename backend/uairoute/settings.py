@@ -13,7 +13,7 @@ SECRET_KEY = 'django-insecure-uy*m606ry@h-akvtkvahs7bh-dz@rai6q59_1zk2j3+@*zq0q+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['192.168.54.19']
 
 
 # Application definition
@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     'api.funcionarios',  # Para o app de Funcionários
     'api.veiculos',  # Para o app de Veículos
     'api.registros',
+    'api.alojamento',
 ]
 
 MIDDLEWARE = [
