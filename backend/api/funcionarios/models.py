@@ -4,10 +4,6 @@ from api.alojamento.models import Alojamento
 
 class Funcionario(models.Model):
     nome_completo = models.CharField("Nome completo", max_length=255)
-    rua = models.CharField("Rua", max_length=255)
-    numero = models.CharField("Número", max_length=10)
-    bairro = models.CharField("Bairro", max_length=100)
-    cidade = models.CharField("Cidade", max_length=100)
     cargo = models.CharField("Cargo", max_length=100)
     email = models.EmailField("E-mail", unique=True)
     senha = models.CharField("Senha (criptografada)", max_length=128)
