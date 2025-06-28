@@ -2,8 +2,12 @@ from flask import render_template, request, redirect, url_for
 from uairoute import app
 import requests
 
+# Importar os decoradores de autenticação
+from auth_routes import require_admin
+
 # Rotas para Funcionários
 @app.route('/funcionarios')
+@require_admin
 def funcionarios():
     try:
         response = requests.get('http://localhost:8000/api/funcionarios/')
@@ -16,6 +20,7 @@ def funcionarios():
         return render_template('Funcionarios/listar-funcionario.html', error="Erro ao conectar com o servidor.")
 
 @app.route('/funcionarios/cadastrar', methods=['GET', 'POST'])
+@require_admin
 def cadastrarFuncionario():
     # Buscar alojamentos disponíveis
     try:
@@ -57,6 +62,7 @@ def cadastrarFuncionario():
     return render_template('Funcionarios/cadastrar-funcionario.html', alojamentos=alojamentos)
 
 @app.route('/funcionarios/editar/<int:id>', methods=['GET', 'POST'])
+@require_admin
 def editarFuncionario(id):
     # Buscar alojamentos disponíveis
     try:
@@ -107,6 +113,7 @@ def editarFuncionario(id):
     return render_template('Funcionarios/editar-funcionario.html', funcionario=funcionario, alojamentos=alojamentos)
 
 @app.route('/funcionarios/excluir/<int:id>', methods=['POST'])
+@require_admin
 def excluirFuncionario(id):
     try:
         response = requests.delete(f'http://localhost:8000/api/funcionarios/{id}/')

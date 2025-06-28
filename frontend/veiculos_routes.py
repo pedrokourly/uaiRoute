@@ -2,8 +2,12 @@ from flask import render_template, request, redirect, url_for
 from uairoute import app
 import requests
 
+# Importar os decoradores de autenticação
+from auth_routes import require_admin
+
 # Rotas para Veículos
 @app.route('/veiculos')
+@require_admin
 def veiculos():
     response = requests.get('http://localhost:8000/api/veiculos/')
     if response.status_code == 200:
@@ -13,6 +17,7 @@ def veiculos():
         return render_template('Veiculos/listar-veiculos.html', error="Erro ao buscar veículos.")
 
 @app.route('/veiculos/cadastrar', methods=['GET', 'POST'])
+@require_admin
 def cadastrarVeiculo():
     if request.method == 'POST':
         veiculo = {
@@ -37,6 +42,7 @@ def cadastrarVeiculo():
     return render_template('Veiculos/cadastrar-veiculos.html')
 
 @app.route('/veiculos/editar/<int:id>', methods=['GET', 'POST'])
+@require_admin
 def editarVeiculo(id):
     if request.method == 'POST':
         veiculo = {
@@ -70,6 +76,7 @@ def editarVeiculo(id):
     return render_template('Veiculos/editar-veiculos.html', veiculo=veiculo)
 
 @app.route('/veiculos/excluir/<int:id>', methods=['POST'])
+@require_admin
 def excluirVeiculo(id):
     try:
         response = requests.delete(f'http://localhost:8000/api/veiculos/{id}/')

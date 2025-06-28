@@ -26,6 +26,7 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
+          {% if session.logged_in and session.funcionario.is_admin %}
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               Obras
@@ -62,12 +63,39 @@
               <li><a class="dropdown-item" href="/alojamentos/cadastrar">Cadastrar alojamento</a></li>
             </ul>
           </li>
-            <li class="nav-item d-flex align-items-center">
-              <a class="nav-link d-flex align-items-center gap-1 text-primary" href="/mapa" role="button" aria-expanded="false">
-                <span class="material-symbols-outlined" style="font-size: 22px; color: #0d6efd;">map</span>
-                Acessar o mapa
-              </a>
-            </li>
+          {% endif %}
+          
+          {% if session.logged_in %}
+          <li class="nav-item d-flex align-items-center">
+            <a class="nav-link d-flex align-items-center gap-1 text-primary" href="/mapa" role="button" aria-expanded="false">
+              <span class="material-symbols-outlined" style="font-size: 22px; color: #0d6efd;">map</span>
+              Acessar o mapa
+            </a>
+          </li>
+          {% endif %}
+        </ul>
+        
+        <ul class="navbar-nav ms-auto">
+          {% if session.logged_in %}
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <span class="material-symbols-outlined">account_circle</span>
+              {{ session.funcionario.nome_completo }}
+              {% if session.funcionario.is_admin %}
+                <span class="badge bg-success ms-1">Admin</span>
+              {% endif %}
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="/perfil">Meu Perfil</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="/logout">Sair</a></li>
+            </ul>
+          </li>
+          {% else %}
+          <li class="nav-item">
+            <a class="nav-link" href="/login">Login</a>
+          </li>
+          {% endif %}
         </ul>
       </div>
     </div>

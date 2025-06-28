@@ -2,8 +2,12 @@ from flask import render_template, request, redirect, url_for
 from uairoute import app
 import requests
 
+# Importar os decoradores de autenticação
+from auth_routes import require_admin
+
 # Rotas para Obras
 @app.route('/obras')
+@require_admin
 def obras():
     response = requests.get('http://localhost:8000/api/obras/')
     if response.status_code == 200:
@@ -13,6 +17,7 @@ def obras():
         return render_template('obras/listar-obras.html', error="Erro ao buscar obras.")
 
 @app.route('/obras/cadastrar', methods=['GET', 'POST'])
+@require_admin
 def cadastrarObra():
     if request.method == 'POST':
         obra = {
@@ -33,6 +38,7 @@ def cadastrarObra():
     return render_template('obras/cadastrar-obras.html')
 
 @app.route('/obras/editar/<int:id>', methods=['GET', 'POST'])
+@require_admin
 def editarObra(id):
     if request.method == 'POST':
         obra = {
@@ -62,6 +68,7 @@ def editarObra(id):
     return render_template('obras/editar-obras.html', obra=obra)
 
 @app.route('/obras/excluir/<int:id>', methods=['POST'])
+@require_admin
 def excluirObra(id):
     try:
         response = requests.delete(f'http://localhost:8000/api/obras/{id}/')

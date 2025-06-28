@@ -2,8 +2,12 @@ from flask import render_template, request, redirect, url_for
 from uairoute import app
 import requests
 
+# Importar os decoradores de autenticação
+from auth_routes import require_admin
+
 # Rotas para Alojamentos
 @app.route('/alojamentos')
+@require_admin
 def alojamentos():
     try:
         response = requests.get('http://localhost:8000/api/alojamento/')
@@ -17,6 +21,7 @@ def alojamentos():
         return render_template('Alojamentos/listar-alojamentos.html', error="Erro ao conectar com o servidor.")
 
 @app.route('/alojamentos/cadastrar', methods=['GET', 'POST'])
+@require_admin
 def cadastrarAlojamento():
     if request.method == 'POST':
         alojamento = {
@@ -39,6 +44,7 @@ def cadastrarAlojamento():
     return render_template('Alojamentos/cadastrar-alojamentos.html')
 
 @app.route('/alojamentos/editar/<int:id>', methods=['GET', 'POST'])
+@require_admin
 def editarAlojamento(id):
     if request.method == 'POST':
         alojamento = {
@@ -83,6 +89,7 @@ def editarAlojamento(id):
     return render_template('Alojamentos/editar-alojamentos.html', alojamento=alojamento)
 
 @app.route('/alojamentos/excluir/<int:id>', methods=['POST'])
+@require_admin
 def excluirAlojamento(id):
     try:
         response = requests.delete(f'http://localhost:8000/api/alojamento/{id}/')
