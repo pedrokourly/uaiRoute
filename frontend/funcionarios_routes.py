@@ -30,6 +30,7 @@ def cadastrarFuncionario():
             'email': request.form.get('email', ''),
             'cargo': request.form.get('cargo', ''),
             'senha': request.form.get('senha', ''),
+            'is_admin': 'is_admin' in request.form,
             'alojamento': request.form.get('alojamento') if request.form.get('alojamento') else None
         }
         try:
@@ -70,6 +71,7 @@ def editarFuncionario(id):
             'email': request.form.get('email', ''),
             'cargo': request.form.get('cargo', ''),
             'senha': request.form.get('senha', ''),
+            'is_admin': 'is_admin' in request.form,
             'alojamento': request.form.get('alojamento') if request.form.get('alojamento') else None
         }
         try:

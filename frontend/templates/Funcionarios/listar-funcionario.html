@@ -139,6 +139,7 @@
                     <th>Nome Completo</th>
                     <th>Cargo</th>
                     <th>Email</th>
+                    <th>Tipo</th>
                     <th>Alojamento</th>
                     <th>Endereço do Alojamento</th>
                     <th class="text-center">Ações</th>
@@ -148,6 +149,13 @@
                     <td><strong>{{ f.nome_completo }}</strong></td>
                     <td>{{ f.cargo }}</td>
                     <td>{{ f.email }}</td>
+                    <td>
+                        {% if f.is_admin %}
+                            <span class="badge bg-warning text-dark"><i class="bi bi-shield-check me-1"></i>Admin</span>
+                        {% else %}
+                            <span class="badge bg-info">Funcionário</span>
+                        {% endif %}
+                    </td>
                     <td>
                         {% if f.alojamento %}
                             <span class="badge bg-primary">Alocado</span>
