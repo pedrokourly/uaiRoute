@@ -140,9 +140,8 @@ $(document).ready(function () {
 
                 // Adicionar veículos (verde)
                 veiculos.forEach((veiculo) => {
-                    // Para veículos, vamos usar um endereço genérico ou última localização conhecida
-                    // Como não temos campo de localização específico, vamos usar a cidade como referência
-                    const endereco = "Ituiutaba, MG"; // Endereço padrão ou você pode usar outro campo se disponível
+                    // Para veículos, vamos usar o endereço do veículo se disponível
+                    const endereco = `${veiculo.cidade || 'Ituiutaba'}, ${veiculo.bairro || ''} ${veiculo.rua || ''} ${veiculo.numero || ''}`.trim();
                     
                     getCoordenates(endereco).then((coords) => {
                         if (coords) {
@@ -156,10 +155,12 @@ $(document).ready(function () {
                                     <div style="background: #28a745; color: white; padding: 8px; margin: -10px -10px 10px -10px; border-radius: 4px 4px 0 0;">
                                         <strong>🚗 VEÍCULO</strong>
                                     </div>
-                                    <strong>${veiculo.modelo || 'Modelo não informado'}</strong><br>
+                                    <strong>${veiculo.tipo.charAt(0).toUpperCase() + veiculo.tipo.slice(1)} - ${veiculo.placa}</strong><br>
                                     <span style="color:#555;">
-                                        Placa: ${veiculo.placa || 'N/A'}<br>
-                                        Marca: ${veiculo.marca || 'N/A'}
+                                        Capacidade: ${veiculo.capacidade} pessoas<br>
+                                        Localização: ${veiculo.rua}, ${veiculo.numero}<br>
+                                        ${veiculo.bairro} - ${veiculo.cidade}<br>
+                                        Status: ${veiculo.disponibilidade ? 'Disponível' : 'Indisponível'}
                                     </span>
                                 </div>
                             `;
