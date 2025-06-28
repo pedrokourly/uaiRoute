@@ -48,6 +48,13 @@
     <div class="card-form mx-auto mt-4" style="max-width: 700px;">
         <h1 class="mb-2 text-center">Cadastrar Veículo</h1>
         <p class="text-center text-muted mb-3">Preencha os dados abaixo para cadastrar um novo veículo no sistema.</p>
+        
+        {% if error %}
+            <div class="alert alert-danger" role="alert">
+                <i class="bi bi-exclamation-triangle-fill me-2"></i>{{ error }}
+            </div>
+        {% endif %}
+        
         <div class="info-alert"><i class="bi bi-info-circle-fill me-2"></i>Os dados cadastrados serão utilizados para controle e visualização dos veículos.</div>
         <form class="d-flex flex-column gap-3" method="post">
             <div class="d-flex gap-3 responsive-form-columns">
@@ -60,7 +67,7 @@
                                 <option value="">----------</option>
                                 <option value="carro">Carro</option>
                                 <option value="van">Van</option>
-                                <option value="caminhão">Caminhão</option>
+                                <option value="caminhao">Caminhão</option>
                                 <option value="moto">Moto</option>
                             </select>
                         </div>

@@ -101,6 +101,20 @@
         margin-right: 2px;
     }
 
+    .btn-cadastrar-obra:hover {
+        transform: translateY(-1px);
+    }
+
+    @media (max-width: 767.98px) {
+        .btn-cadastrar-obra {
+            flex: 1;
+            justify-content: center;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            padding: 10px 16px;
+        }
+    }
+
     .obras-badge {
         background: #0d6efd;
         color: #fff;
@@ -266,6 +280,19 @@
                     <div class="legend-color legend-alojamentos mx-auto mb-2">🏠</div>
                     <small class="text-muted">Alojamentos</small>
                 </div>
+            </div>
+        </div>
+        <div class="mt-4 text-end">
+            <div class="d-flex gap-2 justify-content-end flex-wrap">
+                <a href="{{ url_for('cadastrarObra') }}" class="btn btn-cadastrar-obra">
+                    <span class="material-symbols-outlined">add_circle</span> Nova Obra
+                </a>
+                <a href="{{ url_for('cadastrarVeiculo') }}" class="btn btn-cadastrar-obra" style="background: linear-gradient(90deg, #28a745 80%, #34ce57 100%);">
+                    <span class="material-symbols-outlined">add_circle</span> Novo Veículo
+                </a>
+                <a href="{{ url_for('cadastrarAlojamento') }}" class="btn btn-cadastrar-obra" style="background: linear-gradient(90deg, #007bff 80%, #4f8cff 100%);">
+                    <span class="material-symbols-outlined">add_circle</span> Novo Alojamento
+                </a>
             </div>
         </div>
     </div>

@@ -48,6 +48,13 @@
     <div class="card-form mx-auto mt-4" style="max-width: 700px;">
         <h1 class="mb-2 text-center">Editar Veículo</h1>
         <p class="text-center text-muted mb-3">Atualize os dados do veículo abaixo. Certifique-se de que todas as informações estejam corretas.</p>
+        
+        {% if error %}
+            <div class="alert alert-danger" role="alert">
+                <i class="bi bi-exclamation-triangle-fill me-2"></i>{{ error }}
+            </div>
+        {% endif %}
+        
         <div class="info-alert"><i class="bi bi-info-circle-fill me-2"></i>Os dados editados serão utilizados para controle e visualização dos veículos.</div>
         <form class="d-flex flex-column gap-3" method="post">
             <div class="d-flex gap-3 responsive-form-columns">
@@ -60,7 +67,7 @@
                                 <option value="">----------</option>
                                 <option value="carro" {% if veiculo.tipo == 'carro' %}selected{% endif %}>Carro</option>
                                 <option value="van" {% if veiculo.tipo == 'van' %}selected{% endif %}>Van</option>
-                                <option value="caminhão" {% if veiculo.tipo == 'caminhão' %}selected{% endif %}>Caminhão</option>
+                                <option value="caminhao" {% if veiculo.tipo == 'caminhao' %}selected{% endif %}>Caminhão</option>
                                 <option value="moto" {% if veiculo.tipo == 'moto' %}selected{% endif %}>Moto</option>
                             </select>
                         </div>
