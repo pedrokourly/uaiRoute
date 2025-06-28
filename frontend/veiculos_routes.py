@@ -30,6 +30,7 @@ def cadastrarVeiculo():
             'cidade': request.form.get('cidade', ''),
             'disponibilidade': 'disponibilidade' in request.form
         }
+        
         try:
             response = requests.post('http://localhost:8000/api/veiculos/', json=veiculo)
             if response.status_code in [200, 201]:

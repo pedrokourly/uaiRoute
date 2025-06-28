@@ -27,6 +27,7 @@ def cadastrarObra():
             'bairro': request.form['bairro'],
             'cidade': request.form['cidade']
         }
+        
         try:
             response = requests.post('http://localhost:8000/api/obras/', json=obra)
             if response.status_code in [200, 201]:

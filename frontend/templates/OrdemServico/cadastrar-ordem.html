@@ -1,0 +1,206 @@
+{% extends "default.html" %}
+
+{% block conteudo %}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2><span class="material-symbols-outlined me-2">add_task</span>Nova Ordem de Serviço</h2>
+        <a href="/ordens-servico" class="btn btn-secondary">
+            <span class="material-symbols-outlined me-1">arrow_back</span>Voltar
+        </a>
+    </div>
+
+    {% if error %}
+    <div class="alert alert-danger" role="alert">
+        {{ error }}
+    </div>
+    {% endif %}
+
+    <div class="row">
+        <div class="col-lg-8">
+            <form method="POST" class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Informações da Ordem</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="titulo" class="form-label">Título da Ordem *</label>
+                            <input type="text" class="form-control" id="titulo" name="titulo" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="veiculo_id" class="form-label">Veículo *</label>
+                            <select class="form-select" id="veiculo_id" name="veiculo_id" required>
+                                <option value="">Selecione um veículo</option>
+                                {% for veiculo in veiculos %}
+                                    {% if veiculo.disponibilidade %}
+                                    <option value="{{ veiculo.id }}">
+                                        {{ veiculo.tipo }} - {{ veiculo.placa }} (Cap: {{ veiculo.capacidade }})
+                                    </option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="descricao" class="form-label">Descrição</label>
+                        <textarea class="form-control" id="descricao" name="descricao" rows="3" 
+                                placeholder="Descreva o objetivo desta ordem de serviço"></textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="obra_destino_id" class="form-label">Obra de Destino *</label>
+                        <select class="form-select" id="obra_destino_id" name="obra_destino_id" required>
+                            <option value="">Selecione a obra de destino</option>
+                            {% for obra in obras %}
+                            <option value="{{ obra.id }}">
+                                {{ obra.nome }} - {{ obra.cidade }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Alojamentos (Paradas Intermediárias)</label>
+                        <div class="card bg-light">
+                            <div class="card-body">
+                                <p class="text-muted small mb-3">
+                                    Selecione os alojamentos na ordem que devem ser visitados. 
+                                    A rota será otimizada automaticamente.
+                                </p>
+                                
+                                <div id="alojamentos-container">
+                                    <div class="row align-items-center mb-2 alojamento-row">
+                                        <div class="col-1 text-center">
+                                            <span class="badge bg-primary">1</span>
+                                        </div>
+                                        <div class="col-9">
+                                            <select class="form-select" name="alojamentos">
+                                                <option value="">Selecione um alojamento</option>
+                                                {% for alojamento in alojamentos %}
+                                                <option value="{{ alojamento.id }}">
+                                                    {{ alojamento.nome }} - {{ alojamento.cidade }}
+                                                </option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                        <div class="col-2">
+                                            <button type="button" class="btn btn-sm btn-outline-danger remove-alojamento" 
+                                                    style="display: none;">
+                                                <span class="material-symbols-outlined" style="font-size: 16px;">remove</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <button type="button" id="add-alojamento" class="btn btn-sm btn-outline-primary">
+                                    <span class="material-symbols-outlined me-1">add</span>Adicionar Parada
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="observacoes" class="form-label">Observações</label>
+                        <textarea class="form-control" id="observacoes" name="observacoes" rows="3" 
+                                placeholder="Observações adicionais, instruções especiais, etc."></textarea>
+                    </div>
+                </div>
+
+                <div class="card-footer">
+                    <div class="d-flex justify-content-end gap-2">
+                        <a href="/ordens-servico" class="btn btn-secondary">Cancelar</a>
+                        <button type="submit" class="btn btn-primary">
+                            <span class="material-symbols-outlined me-1">save</span>Criar Ordem
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card">
+                <div class="card-header">
+                    <h6 class="mb-0">
+                        <span class="material-symbols-outlined me-1">info</span>Informações
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-info">
+                        <h6><span class="material-symbols-outlined me-1">route</span>Rota Automática</h6>
+                        <p class="mb-0 small">
+                            A rota será calculada automaticamente usando a API OpenRouteService, 
+                            otimizando a ordem das paradas para minimizar tempo e distância.
+                        </p>
+                    </div>
+
+                    <div class="alert alert-warning">
+                        <h6><span class="material-symbols-outlined me-1">schedule</span>Tempo de Cálculo</h6>
+                        <p class="mb-0 small">
+                            O cálculo da rota pode levar alguns segundos. Os dados de distância 
+                            e tempo estimado aparecerão após a criação.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    let alojamentoCount = 1;
+    const maxAlojamentos = 5;
+    
+    function updateRowNumbers() {
+        document.querySelectorAll('.alojamento-row').forEach((row, index) => {
+            const badge = row.querySelector('.badge');
+            badge.textContent = index + 1;
+            
+            const removeBtn = row.querySelector('.remove-alojamento');
+            if (index === 0) {
+                removeBtn.style.display = 'none';
+            } else {
+                removeBtn.style.display = 'block';
+            }
+        });
+    }
+
+    document.getElementById('add-alojamento').addEventListener('click', function() {
+        if (alojamentoCount >= maxAlojamentos) {
+            alert('Máximo de 5 alojamentos permitidos');
+            return;
+        }
+
+        alojamentoCount++;
+        const container = document.getElementById('alojamentos-container');
+        
+        const newRow = document.querySelector('.alojamento-row').cloneNode(true);
+        newRow.querySelector('select').value = '';
+        container.appendChild(newRow);
+        
+        updateRowNumbers();
+        
+        if (alojamentoCount >= maxAlojamentos) {
+            this.style.display = 'none';
+        }
+    });
+
+    document.addEventListener('click', function(e) {
+        if (e.target.closest('.remove-alojamento')) {
+            const row = e.target.closest('.alojamento-row');
+            row.remove();
+            alojamentoCount--;
+            updateRowNumbers();
+            
+            const addBtn = document.getElementById('add-alojamento');
+            if (alojamentoCount < maxAlojamentos) {
+                addBtn.style.display = 'block';
+            }
+        }
+    });
+
+    updateRowNumbers();
+});
+</script>
+{% endblock %}

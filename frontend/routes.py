@@ -6,6 +6,7 @@ import obras_routes
 import veiculos_routes
 import funcionarios_routes
 import alojamentos_routes
+import ordens_servico_routes
 import auth_routes
 
 # Importar os decoradores de autenticação

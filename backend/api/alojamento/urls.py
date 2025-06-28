@@ -1,7 +1,7 @@
 from django.urls import path
-from .views import AlojamentoListCreateView, AlojamentoRetrieveUpdateDestroyView
+from . import views
 
 urlpatterns = [
-    path('', AlojamentoListCreateView.as_view(), name='listar_alojamentos'),
-    path('<int:pk>/', AlojamentoRetrieveUpdateDestroyView.as_view(), name='detalhar_alojamento'),
+    path('', views.alojamento_list_create, name='listar_alojamentos'),
+    path('<int:pk>/', views.alojamento_detail, name='detalhar_alojamento'),
 ]

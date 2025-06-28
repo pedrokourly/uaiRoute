@@ -32,6 +32,7 @@ def cadastrarAlojamento():
             'bairro': request.form.get('bairro', '').strip(),
             'cidade': request.form.get('cidade', '').strip()
         }
+        
         try:
             response = requests.post('http://localhost:8000/api/alojamento/', json=alojamento)
             if response.status_code in [200, 201]:

@@ -1,10 +1,10 @@
 from django.urls import path
-from .views import VeiculoListCreateView, VeiculoRetrieveUpdateDestroyView
+from .views import veiculo_list_create, veiculo_detail
 
 urlpatterns = [
     # Para listar todos os veículos ou criar um novo
-    path('', VeiculoListCreateView.as_view(), name='listar_veiculos_api'),  # GET/POST
+    path('', veiculo_list_create, name='listar_veiculos_api'),  # GET/POST
 
     # Para recuperar, editar ou excluir um veículo específico
-    path('<int:pk>/', VeiculoRetrieveUpdateDestroyView.as_view(), name='detalhar_veiculo'),  # GET/PUT/DELETE
+    path('<int:pk>/', veiculo_detail, name='detalhar_veiculo'),  # GET/PUT/DELETE
 ]

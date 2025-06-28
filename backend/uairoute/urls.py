@@ -10,4 +10,5 @@ urlpatterns = [
     path('api/veiculos/', include('api.veiculos.urls')),  # API de Veículos
     path('api/registros/', include('api.registros.urls')),
     path('api/alojamento/', include('api.alojamento.urls')),
+    path('api/ordens-servico/', include('api.ordens_servico.urls')),  # API de Ordens de Serviço
 ]

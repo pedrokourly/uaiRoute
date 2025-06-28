@@ -10,6 +10,10 @@ class Alojamento(models.Model):
     numero = models.CharField(max_length=10, default='S/N')
     bairro = models.CharField(max_length=100, default='Desconhecido')
     cidade = models.CharField(max_length=100, default='Desconhecido')
+    
+    # Coordenadas geográficas
+    latitude = models.FloatField(null=True, blank=True, help_text="Latitude do alojamento")
+    longitude = models.FloatField(null=True, blank=True, help_text="Longitude do alojamento")
 
     def clean(self):
         # Validação para não permitir capacidade menor que funcionários já alocados

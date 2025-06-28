@@ -16,6 +16,10 @@ class Veiculo(models.Model):
     numero = models.CharField(max_length=10)
     bairro = models.CharField(max_length=100)
     cidade = models.CharField(max_length=100)
+    
+    # Coordenadas geográficas
+    latitude = models.FloatField(null=True, blank=True, help_text="Latitude do veículo")
+    longitude = models.FloatField(null=True, blank=True, help_text="Longitude do veículo")
 
     disponibilidade = models.BooleanField(default=True)
 

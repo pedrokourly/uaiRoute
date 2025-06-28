@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     'api.veiculos',  # Para o app de Veículos
     'api.registros',
     'api.alojamento',
+    'api.ordens_servico',  # Para o app de Ordens de Serviço
 ]
 
 MIDDLEWARE = [
