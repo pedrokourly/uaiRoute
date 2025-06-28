@@ -5,6 +5,7 @@ from uairoute import app
 import obras_routes
 import veiculos_routes
 import funcionarios_routes
+import alojamentos_routes
 
 @app.route('/')
 def home():

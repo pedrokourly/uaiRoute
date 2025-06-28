@@ -47,8 +47,15 @@
 <div class="container">
     <div class="card-form mx-auto mt-4" style="max-width: 700px;">
         <h1 class="mb-2 text-center">Editar Funcionário</h1>
-        <p class="text-center text-muted mb-3">Atualize os dados do funcionário abaixo. <br> Certifique-se de que todas as informações estejam corretas para garantir o acesso e a comunicação.</p>
-        <div class="info-alert"><i class="bi bi-info-circle-fill me-2"></i>Os dados editados serão utilizados para acesso ao sistema e comunicação interna. Revise antes de salvar!</div>
+        <p class="text-center text-muted mb-3">Atualize os dados do funcionário abaixo. <br> O funcionário pode ser realocado para um alojamento diferente se necessário.</p>
+        
+        {% if error %}
+            <div class="alert alert-danger" role="alert">
+                <i class="bi bi-exclamation-triangle-fill me-2"></i>{{ error }}
+            </div>
+        {% endif %}
+        
+        <div class="info-alert"><i class="bi bi-info-circle-fill me-2"></i>Os dados editados afetam o acesso ao sistema e a alocação do funcionário. Revise antes de salvar!</div>
         <form class="d-flex flex-column gap-3" method="post">
             <div class="d-flex gap-3 responsive-form-columns">
                 <div class="flex-fill d-flex flex-column gap-3">
@@ -84,32 +91,24 @@
                 </div>
                 <div class="flex-fill d-flex flex-column gap-3">
                     <div>
-                        <label class="form-label">Rua:</label>
-                        <div class="input-group">
-                            <span class="input-group-text"><i class="bi bi-signpost-2-fill"></i></span>
-                            <input type="text" name="rua" class="form-control" placeholder="Ex: Av. Brasil" required title="Informe a rua de residência" value="{{ funcionario.rua }}">
-                        </div>
-                    </div>
-                    <div>
-                        <label class="form-label">Número:</label>
-                        <div class="input-group">
-                            <span class="input-group-text"><i class="bi bi-hash"></i></span>
-                            <input type="text" name="numero" class="form-control" placeholder="Ex: 123" required title="Informe o número da residência" value="{{ funcionario.numero }}">
-                        </div>
-                    </div>
-                    <div>
-                        <label class="form-label">Bairro:</label>
-                        <div class="input-group">
-                            <span class="input-group-text"><i class="bi bi-geo-alt-fill"></i></span>
-                            <input type="text" name="bairro" class="form-control" placeholder="Ex: Centro" required title="Informe o bairro de residência" value="{{ funcionario.bairro }}">
-                        </div>
-                    </div>
-                    <div>
-                        <label class="form-label">Cidade:</label>
+                        <label class="form-label">Alojamento:</label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="bi bi-building"></i></span>
-                            <input type="text" name="cidade" class="form-control" placeholder="Ex: Belo Horizonte" required title="Informe a cidade de residência" value="{{ funcionario.cidade }}">
+                            <select name="alojamento" class="form-control">
+                                <option value="">Selecione um alojamento (opcional)</option>
+                                {% for alojamento in alojamentos %}
+                                    {% set vagas = alojamento.vagas_disponiveis if alojamento.vagas_disponiveis is defined else alojamento.capacidade_maxima %}
+                                    {% set is_current = funcionario.alojamento == alojamento.id %}
+                                    <option value="{{ alojamento.id }}" 
+                                            {% if funcionario.alojamento == alojamento.id %}selected{% endif %}
+                                            {% if vagas <= 0 and not is_current %}disabled{% endif %}>
+                                        {{ alojamento.nome }} - {{ alojamento.rua }}, {{ alojamento.numero }} 
+                                        ({{ vagas if not is_current else vagas + 1 }} {% if (vagas if not is_current else vagas + 1) == 1 %}vaga{% else %}vagas{% endif %} {% if vagas <= 0 and not is_current %}- LOTADO{% else %}disponíveis{% endif %})
+                                    </option>
+                                {% endfor %}
+                            </select>
                         </div>
+                        <small class="text-muted ms-1">O funcionário pode ser realocado para outro alojamento se necessário.</small>
                     </div>
                 </div>
             </div>

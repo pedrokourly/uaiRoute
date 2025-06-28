@@ -13,7 +13,7 @@ SECRET_KEY = 'django-insecure-uy*m606ry@h-akvtkvahs7bh-dz@rai6q59_1zk2j3+@*zq0q+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['192.168.100.150', 'localhost']
 
 
 # Application definition
@@ -27,15 +27,16 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     
     'rest_framework',  # Para o Django REST Framework
+    'corsheaders',  # Para permitir requisições do frontend
     'api.obras',  # Para o app de Obras
     'api.funcionarios',  # Para o app de Funcionários
     'api.veiculos',  # Para o app de Veículos
     'api.registros',
-    'corsheaders',  # Para CORS
+    'api.alojamento',
 ]
 
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',  # Para CORS
+    'corsheaders.middleware.CorsMiddleware',  # Deve ser o primeiro
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -126,8 +127,17 @@ REST_FRAMEWORK = {
 }
 
 
-# Configuração do CORS para permitir o frontend em localhost:5000
+# CORS configuration
 CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5000",  # Flask frontend
+    "http://127.0.0.1:5000",
+]
+
+CORS_ALLOW_ALL_ORIGINS = True  # Para desenvolvimento
+CORS_ALLOW_CREDENTIALS = True
+
+# CSRF exemption for API
+CSRF_TRUSTED_ORIGINS = [
     "http://localhost:5000",
-    "http://192.168.54.20:5000"
+    "http://127.0.0.1:5000",
 ]

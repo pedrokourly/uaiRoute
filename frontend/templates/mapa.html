@@ -165,6 +165,59 @@
         font-size: 1.3em;
         margin-right: 2px;
     }
+
+    /* Legenda do mapa */
+    .map-legend {
+        position: absolute;
+        bottom: 20px;
+        left: 20px;
+        background: rgba(255, 255, 255, 0.95);
+        padding: 15px;
+        border-radius: 12px;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+        z-index: 1000;
+        font-size: 0.9rem;
+        min-width: 200px;
+    }
+
+    .legend-title {
+        font-weight: 700;
+        margin-bottom: 10px;
+        color: #333;
+        font-size: 1rem;
+    }
+
+    .legend-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 6px;
+        gap: 8px;
+    }
+
+    .legend-color {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        border: 2px solid white;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+    }
+
+    .legend-obras { background-color: #dc3545; }
+    .legend-veiculos { background-color: #28a745; }
+    .legend-alojamentos { background-color: #007bff; }
+
+    @media (max-width: 767.98px) {
+        .map-legend {
+            position: relative;
+            margin-top: 15px;
+            left: 0;
+            bottom: auto;
+        }
+    }
 </style>
 {% endblock %}
 
@@ -174,20 +227,46 @@
         <div class="mapa-header">
             <span class="material-symbols-outlined">map</span>
             <div>
-                <h1 class="mapa-title">Mapa das Obras</h1>
-                <div class="mapa-desc">Visualize todas as obras cadastradas no sistema em tempo real.<br>
-                    Clique nos alfinetes para detalhes e navegue facilmente pelo mapa.</div>
+                <h1 class="mapa-title">Mapa Geral do Sistema</h1>
+                <div class="mapa-desc">Visualize todas as entidades cadastradas: obras, veículos e alojamentos.<br>
+                    Cada tipo tem uma cor diferente - clique nos marcadores para mais detalhes.</div>
             </div>
         </div>
-        <div id="obras-count" class="obras-count-float" style="display:none;">
+        <div id="entidades-count" class="obras-count-float" style="display:none;">
             <span class="material-symbols-outlined">location_on</span>
-            <span id="obras-count-num"></span> obras
+            <span id="obras-count-num"></span> entidades
         </div>
         <div id="map"></div>
-        <div class="mt-4 text-end">
-            <a href="{{ url_for('cadastrarObra') }}" class="btn btn-cadastrar-obra">
-                <span class="material-symbols-outlined">add_circle</span> Cadastrar nova obra
-            </a>
+        <div class="map-legend d-none d-md-block">
+            <div class="legend-title">Legenda</div>
+            <div class="legend-item">
+                <div class="legend-color legend-obras">🏗️</div>
+                <span>Obras</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color legend-veiculos">🚗</div>
+                <span>Veículos</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color legend-alojamentos">🏠</div>
+                <span>Alojamentos</span>
+            </div>
+        </div>
+        <div class="mt-4 d-md-none">
+            <div class="row text-center">
+                <div class="col-4">
+                    <div class="legend-color legend-obras mx-auto mb-2">🏗️</div>
+                    <small class="text-muted">Obras</small>
+                </div>
+                <div class="col-4">
+                    <div class="legend-color legend-veiculos mx-auto mb-2">🚗</div>
+                    <small class="text-muted">Veículos</small>
+                </div>
+                <div class="col-4">
+                    <div class="legend-color legend-alojamentos mx-auto mb-2">🏠</div>
+                    <small class="text-muted">Alojamentos</small>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -205,12 +284,15 @@
 <script>
     const SERVER_IP = "{{ server_ip }}";
     $(document).ready(function () {
-        fetch('http://localhost:8000/api/obras')
-            .then(resp => resp.json())
-            .then(obras => {
-                $('#obras-count-num').text(obras.length);
-                $('#obras-count').fadeIn();
-            });
+        Promise.all([
+            fetch('http://localhost:8000/api/obras').then(resp => resp.json()).catch(() => []),
+            fetch('http://localhost:8000/api/veiculos').then(resp => resp.json()).catch(() => []),
+            fetch('http://localhost:8000/api/alojamento').then(resp => resp.json()).catch(() => [])
+        ]).then(([obras, veiculos, alojamentos]) => {
+            const total = obras.length + veiculos.length + alojamentos.length;
+            $('#obras-count-num').text(total);
+            $('#entidades-count').fadeIn();
+        });
     });
 </script>
 {% endblock %}
