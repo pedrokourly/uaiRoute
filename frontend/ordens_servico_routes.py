@@ -1,9 +1,9 @@
-from flask import render_template, request, redirect, url_for, jsonify
+from flask import render_template, request, redirect, url_for, jsonify, session
 from uairoute import app
 import requests
 
 # Importar os decoradores de autenticação
-from auth_routes import require_admin
+from auth_routes import require_admin, require_login
 
 @app.route('/ordens-servico')
 @require_admin
@@ -74,9 +74,19 @@ def cadastrar_ordem_servico():
     return render_template('OrdemServico/cadastrar-ordem.html', 
                          veiculos=veiculos, obras=obras, alojamentos=alojamentos)
 
-@app.route('/ordens-servico/<int:id>/visualizar')
-@require_admin
+@app.route('/ordens-servico/visualizar/<int:id>')
+@require_login
 def visualizar_ordem_servico(id):
+    funcionario = session.get('funcionario')
+    if not funcionario:
+        return redirect(url_for('login'))
+    
+    # Se não for admin, verificar se tem acesso à ordem
+    if not funcionario.get('is_admin', False):
+        if not funcionario_pode_acessar_ordem(funcionario['id'], id):
+            return render_template('OrdemServico/visualizar-ordem.html', 
+                                 error="Você não tem acesso a esta ordem de serviço.")
+    
     try:
         # Buscar dados da ordem de serviço
         response = requests.get(f'http://localhost:8000/api/ordens-servico/{id}/')
@@ -91,9 +101,18 @@ def visualizar_ordem_servico(id):
                              error="Erro ao conectar com o servidor.")
 
 @app.route('/api/ordens-servico/<int:id>/rota')
-@require_admin
+@require_login
 def ordem_servico_rota_api(id):
     """Endpoint para fornecer dados da rota para o frontend"""
+    funcionario = session.get('funcionario')
+    if not funcionario:
+        return jsonify({'error': 'Acesso negado'}), 401
+    
+    # Se não for admin, verificar se tem acesso à ordem
+    if not funcionario.get('is_admin', False):
+        if not funcionario_pode_acessar_ordem(funcionario['id'], id):
+            return jsonify({'error': 'Acesso negado a esta ordem'}), 403
+    
     try:
         response = requests.get(f'http://localhost:8000/api/ordens-servico/{id}/rota/')
         if response.status_code == 200:
@@ -102,3 +121,162 @@ def ordem_servico_rota_api(id):
             return jsonify({'error': 'Dados da rota não encontrados'}), 404
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
+def funcionario_pode_acessar_ordem(funcionario_id, ordem_id):
+    """
+    Verifica se um funcionário pode acessar uma ordem de serviço específica.
+    Retorna True se for admin ou se a ordem inclui o alojamento do funcionário.
+    """
+    try:
+        # Buscar informações do funcionário
+        funcionario_response = requests.get(f'http://localhost:8000/api/funcionarios/{funcionario_id}/')
+        if funcionario_response.status_code != 200:
+            return False
+        
+        funcionario = funcionario_response.json()
+        
+        # Se for admin, pode acessar qualquer ordem
+        if funcionario.get('is_admin', False):
+            return True
+        
+        # Se não tem alojamento, não pode acessar nenhuma ordem
+        if not funcionario.get('alojamento'):
+            return False
+        
+        # Buscar a ordem de serviço
+        ordem_response = requests.get(f'http://localhost:8000/api/ordens-servico/{ordem_id}/')
+        if ordem_response.status_code != 200:
+            return False
+        
+        ordem = ordem_response.json()
+        alojamento_funcionario_id = funcionario['alojamento']
+        
+        # Verificar se o alojamento do funcionário está nas paradas da ordem
+        alojamentos_paradas = ordem.get('alojamentos_paradas', [])
+        for parada in alojamentos_paradas:
+            alojamento_parada = parada.get('alojamento', {})
+            if isinstance(alojamento_parada, dict) and alojamento_parada.get('id') == alojamento_funcionario_id:
+                return True
+            elif isinstance(alojamento_parada, int) and alojamento_parada == alojamento_funcionario_id:
+                return True
+        
+        return False
+        
+    except Exception as e:
+        print(f"Erro ao verificar acesso: {e}")
+        return False
+
+@app.route('/minhas-ordens')
+@require_login
+def minhas_ordens():
+    """
+    Página para funcionários visualizarem suas ordens de serviço
+    """
+    funcionario = session.get('funcionario')
+    
+    if not funcionario:
+        return redirect(url_for('login'))
+    
+    # Se for admin, redirecionar para a listagem completa
+    if funcionario.get('is_admin', False):
+        return redirect(url_for('ordens_servico'))
+    
+    try:
+        # Buscar ordens de serviço relacionadas ao alojamento do funcionário
+        response = requests.get(f'http://localhost:8000/api/ordens-servico/funcionario/{funcionario["id"]}/')
+        
+        if response.status_code == 200:
+            data = response.json()
+            funcionario_info = data.get('funcionario', {})
+            ordens = data.get('ordens', [])
+            return render_template('minhas-ordens.html', 
+                                 funcionario=funcionario_info,
+                                 ordens_servico=ordens)
+        else:
+            return render_template('minhas-ordens.html', 
+                                 ordens_servico=[], 
+                                 error="Erro ao buscar suas ordens de serviço.")
+    except Exception as e:
+        return render_template('minhas-ordens.html', 
+                             ordens_servico=[], 
+                             error=f"Erro ao conectar com o servidor: {str(e)}")
+
+@app.route('/minhas-ordens/visualizar/<int:id>')
+@require_login
+def visualizar_minha_ordem(id):
+    """
+    Visualização de ordem específica para funcionários não-admin
+    """
+    funcionario = session.get('funcionario')
+    
+    if not funcionario:
+        return redirect(url_for('login'))
+    
+    # Se for admin, redirecionar para a visualização completa
+    if funcionario.get('is_admin', False):
+        return redirect(url_for('visualizar_ordem_servico', id=id))
+    
+    try:
+        # Buscar dados da ordem de serviço
+        response = requests.get(f'http://localhost:8000/api/ordens-servico/{id}/')
+        
+        if response.status_code == 200:
+            ordem = response.json()
+            
+            # Verificar se o funcionário tem acesso a esta ordem
+            alojamento_funcionario_id = funcionario.get('alojamento')
+            if not alojamento_funcionario_id:
+                return render_template('minhas-ordens.html', 
+                                     ordens_servico=[], 
+                                     error="Você não está associado a nenhum alojamento.")
+            
+            # Verificar se o alojamento do funcionário está nas paradas da ordem
+            tem_acesso = False
+            alojamentos_paradas = ordem.get('alojamentos_paradas', [])
+            for parada in alojamentos_paradas:
+                alojamento_parada = parada.get('alojamento', {})
+                if isinstance(alojamento_parada, dict) and alojamento_parada.get('id') == alojamento_funcionario_id:
+                    tem_acesso = True
+                    break
+                elif isinstance(alojamento_parada, int) and alojamento_parada == alojamento_funcionario_id:
+                    tem_acesso = True
+                    break
+            
+            if not tem_acesso:
+                return render_template('minhas-ordens.html', 
+                                     ordens_servico=[], 
+                                     error="Você não tem acesso a esta ordem de serviço.")
+            
+            return render_template('OrdemServico/visualizar-ordem.html', ordem=ordem, funcionario=funcionario)
+        else:
+            return render_template('minhas-ordens.html', 
+                                 ordens_servico=[], 
+                                 error="Ordem de serviço não encontrada.")
+    except Exception as e:
+        return render_template('minhas-ordens.html', 
+                             ordens_servico=[], 
+                             error="Erro ao conectar com o servidor.")
+
+@app.route('/ordens-servico/excluir/<int:id>', methods=['POST'])
+@require_admin
+def excluir_ordem_servico(id):
+    """
+    Excluir uma ordem de serviço (apenas admins)
+    """
+    try:
+        # Fazer requisição DELETE para o backend
+        response = requests.delete(f'http://localhost:8000/api/ordens-servico/{id}/')
+        
+        if response.status_code == 204:
+            # Exclusão bem-sucedida
+            return redirect(url_for('ordens_servico'))
+        elif response.status_code == 404:
+            # Ordem não encontrada
+            return redirect(url_for('ordens_servico'))
+        else:
+            # Outro erro
+            return redirect(url_for('ordens_servico'))
+            
+    except Exception as e:
+        # Erro de conexão
+        return redirect(url_for('ordens_servico'))

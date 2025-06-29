@@ -237,6 +237,87 @@
 
 {% block conteudo %}
 <div class="container">
+    {% if funcionario and not funcionario.is_admin %}
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title d-flex align-items-center mb-3">
+                        <span class="material-symbols-outlined me-2 text-primary">assignment</span>
+                        Minhas Ordens de Serviço
+                    </h5>
+                    
+                    {% if error %}
+                    <div class="alert alert-warning">
+                        <span class="material-symbols-outlined me-2">warning</span>
+                        {{ error }}
+                    </div>
+                    {% endif %}
+                    
+                    {% if funcionario.alojamento %}
+                    <p class="text-muted mb-3">
+                        <strong>Alojamento:</strong> {{ funcionario.alojamento }}
+                    </p>
+                    {% endif %}
+                    
+                    {% if ordens_servico %}
+                    <div class="row">
+                        {% for ordem in ordens_servico %}
+                        <div class="col-md-6 col-lg-4 mb-3">
+                            <div class="card h-100 border-start border-primary border-3">
+                                <div class="card-body">
+                                    <h6 class="card-title d-flex align-items-center">
+                                        <span class="material-symbols-outlined me-2 text-primary">route</span>
+                                        {{ ordem.titulo }}
+                                    </h6>
+                                    <p class="card-text small text-muted mb-2">
+                                        <strong>Status:</strong> 
+                                        {% if ordem.status == 'pendente' %}
+                                            <span class="badge bg-warning text-dark">Pendente</span>
+                                        {% elif ordem.status == 'em_andamento' %}
+                                            <span class="badge bg-info">Em Andamento</span>
+                                        {% elif ordem.status == 'concluida' %}
+                                            <span class="badge bg-success">Concluída</span>
+                                        {% else %}
+                                            <span class="badge bg-danger">Cancelada</span>
+                                        {% endif %}
+                                    </p>
+                                    <p class="card-text small">
+                                        <strong>Veículo:</strong> {{ ordem.veiculo.tipo }} - {{ ordem.veiculo.placa }}<br>
+                                        <strong>Destino:</strong> {{ ordem.obra_destino.nome }}
+                                    </p>
+                                    <p class="card-text">
+                                        <small class="text-muted">
+                                            Criado em: {{ ordem.data_criacao[:10] }}
+                                        </small>
+                                    </p>
+                                    <a href="/ordens-servico/visualizar/{{ ordem.id }}" class="btn btn-sm btn-outline-primary d-flex">
+                                        <span class="material-symbols-outlined me-1" style="font-size: 16px;">visibility</span>
+                                        Ver Detalhes
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <div class="text-center py-4">
+                        <span class="material-symbols-outlined text-muted" style="font-size: 48px;">assignment_late</span>
+                        <p class="text-muted mt-2">
+                            {% if funcionario.alojamento %}
+                            Não há ordens de serviço programadas para o seu alojamento no momento.
+                            {% else %}
+                            Você não está associado a nenhum alojamento.
+                            {% endif %}
+                        </p>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    
     <div class="mapa-card position-relative">
         <div class="mapa-header">
             <span class="material-symbols-outlined">map</span>

@@ -75,12 +75,21 @@
           {% endif %}
           
           {% if session.logged_in %}
+          {% if not session.funcionario.is_admin %}
+          <li class="nav-item">
+            <a class="nav-link d-flex align-items-center gap-1" href="/minhas-ordens">
+              <span class="material-symbols-outlined" style="font-size: 22px;">assignment</span>
+              Minhas Ordens de Serviço
+            </a>
+          </li>
+          {% else %}
           <li class="nav-item d-flex align-items-center">
             <a class="nav-link d-flex align-items-center gap-1 text-primary" href="/mapa" role="button" aria-expanded="false">
               <span class="material-symbols-outlined" style="font-size: 22px; color: #0d6efd;">map</span>
               Acessar o mapa
             </a>
           </li>
+          {% endif %}
           {% endif %}
         </ul>
         

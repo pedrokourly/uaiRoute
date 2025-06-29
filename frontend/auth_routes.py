@@ -26,7 +26,7 @@ def login():
                     if data['funcionario']['is_admin']:
                         return redirect(url_for('home'))
                     else:
-                        return redirect(url_for('mapa'))
+                        return redirect(url_for('minhas_ordens'))
                 else:
                     return render_template('login.html', error='Email ou senha incorretos')
             else:

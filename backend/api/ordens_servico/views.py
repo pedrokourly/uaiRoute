@@ -63,6 +63,79 @@ def ordem_servico_rota(request, pk):
     except Exception as e:
         return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+@api_view(['GET'])
+def ordens_servico_por_alojamento(request, alojamento_id):
+    """
+    Retorna todas as ordens de serviço que incluem um alojamento específico como parada
+    """
+    try:
+        from .models import AlojamentoOrdemServico
+        
+        # Buscar todas as ordens de serviço que incluem este alojamento
+        paradas_alojamento = AlojamentoOrdemServico.objects.filter(
+            alojamento_id=alojamento_id
+        ).select_related('ordem_servico')
+        
+        ordens_ids = [parada.ordem_servico.id for parada in paradas_alojamento]
+        ordens = OrdemServico.objects.filter(id__in=ordens_ids).order_by('-data_criacao')
+        
+        serializer = OrdemServicoSerializer(ordens, many=True)
+        return Response(serializer.data)
+        
+    except Exception as e:
+        return Response(
+            {'error': f'Erro ao buscar ordens de serviço: {str(e)}'}, 
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR
+        )
+
+@api_view(['GET'])
+def ordens_servico_funcionario(request, funcionario_id):
+    """
+    Retorna todas as ordens de serviço relacionadas ao alojamento onde o funcionário está hospedado
+    """
+    try:
+        from api.funcionarios.models import Funcionario
+        
+        # Buscar o funcionário
+        funcionario = Funcionario.objects.get(pk=funcionario_id)
+        
+        if not funcionario.alojamento:
+            return Response({
+                'message': 'Funcionário não está associado a nenhum alojamento',
+                'ordens': []
+            })
+        
+        # Buscar ordens de serviço que incluem o alojamento do funcionário
+        from .models import AlojamentoOrdemServico
+        
+        paradas_alojamento = AlojamentoOrdemServico.objects.filter(
+            alojamento=funcionario.alojamento
+        ).select_related('ordem_servico')
+        
+        ordens_ids = [parada.ordem_servico.id for parada in paradas_alojamento]
+        ordens = OrdemServico.objects.filter(id__in=ordens_ids).order_by('-data_criacao')
+        
+        serializer = OrdemServicoSerializer(ordens, many=True)
+        return Response({
+            'funcionario': {
+                'id': funcionario.id,
+                'nome': funcionario.nome_completo,
+                'alojamento': funcionario.alojamento.nome if funcionario.alojamento else None
+            },
+            'ordens': serializer.data
+        })
+        
+    except Funcionario.DoesNotExist:
+        return Response(
+            {'error': 'Funcionário não encontrado'}, 
+            status=status.HTTP_404_NOT_FOUND
+        )
+    except Exception as e:
+        return Response(
+            {'error': f'Erro ao buscar ordens de serviço: {str(e)}'}, 
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR
+        )
+
 def calcular_rota_otimizada(ordem_servico):
     """Calcula a rota otimizada usando a API OpenRouteService"""
     api_key = '5b3ce3597851110001cf62489715e0567dc24edd98bd95aee36637a9'
