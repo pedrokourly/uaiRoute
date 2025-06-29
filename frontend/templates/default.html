@@ -96,7 +96,7 @@
         <ul class="navbar-nav ms-auto">
           {% if session.logged_in %}
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <a class="nav-link dropdown-toggle d-flex align-items-center gap-1" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               <span class="material-symbols-outlined">account_circle</span>
               {{ session.funcionario.nome_completo }}
               {% if session.funcionario.is_admin %}
