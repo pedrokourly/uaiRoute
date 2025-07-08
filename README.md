@@ -389,13 +389,6 @@ docker cp uairoute-backend:/app/db.sqlite3 ./backup_db.sqlite3
 
 Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
 
-## 🔄 Versioning
-
-- **v1.0.0** - Versão inicial com funcionalidades básicas
-- **v1.1.0** - Sistema de mapas e geocodificação
-- **v1.2.0** - Otimização de rotas
-- **v1.3.0** - Containerização com Docker
-
 ## 🐳 Docker Details
 
 ### Imagens Docker
