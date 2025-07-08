@@ -5,19 +5,45 @@ async function fetchObras(){
         return data;
     } catch (error) {
         console.error("Error fetching obras: ", error);
+        return [];
+    }
+}
+
+async function fetchVeiculos(){
+    try {
+        const response = await fetch('http://localhost:8000/api/veiculos');
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error("Error fetching veiculos: ", error);
+        return [];
+    }
+}
+
+async function fetchAlojamentos(){
+    try {
+        const response = await fetch('http://localhost:8000/api/alojamento');
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error("Error fetching alojamentos: ", error);
+        return [];
     }
 }
 
 async function getCoordenates(address){
     try {
-        const req = await fetch(`https://nominatim.openstreetmap.org/search?q=${address}&format=json`);
+        const req = await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(address)}&format=json&limit=1`);
         const response = await req.json();
 
-        
-        const coords = [response[0].lat, response[0].lon];
-        return coords;
+        if (response && response.length > 0) {
+            const coords = [parseFloat(response[0].lat), parseFloat(response[0].lon)];
+            return coords;
+        }
+        return null;
     } catch (error) {
         console.error("Error fetching coordinates: ", error);
+        return null;
     }
 }
 
@@ -58,23 +84,114 @@ $(document).ready(function () {
                 zoom: 7
             }).addTo(map);
 
-            fetchObras().then((obras) => {
+            // Definir ícones personalizados para diferentes entidades
+            const obrasIcon = L.divIcon({
+                className: 'custom-marker obras-marker',
+                html: '<div style="background-color: #dc3545; color: white; border-radius: 50%; width: 25px; height: 25px; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold; border: 2px solid white; box-shadow: 0 2px 4px rgba(0,0,0,0.3);">🏗️</div>',
+                iconSize: [25, 25],
+                iconAnchor: [12, 12]
+            });
+
+            const veiculosIcon = L.divIcon({
+                className: 'custom-marker veiculos-marker',
+                html: '<div style="background-color: #28a745; color: white; border-radius: 50%; width: 25px; height: 25px; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold; border: 2px solid white; box-shadow: 0 2px 4px rgba(0,0,0,0.3);">🚗</div>',
+                iconSize: [25, 25],
+                iconAnchor: [12, 12]
+            });
+
+            const alojamentosIcon = L.divIcon({
+                className: 'custom-marker alojamentos-marker',
+                html: '<div style="background-color: #007bff; color: white; border-radius: 50%; width: 25px; height: 25px; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold; border: 2px solid white; box-shadow: 0 2px 4px rgba(0,0,0,0.3);">🏠</div>',
+                iconSize: [25, 25],
+                iconAnchor: [12, 12]
+            });
+
+            // Carregar e exibir todas as entidades no mapa
+            Promise.all([fetchObras(), fetchVeiculos(), fetchAlojamentos()]).then(([obras, veiculos, alojamentos]) => {
+                let totalEntidades = obras.length + veiculos.length + alojamentos.length;
+                
+                // Atualizar contador no HTML
+                $('#obras-count-num').text(totalEntidades);
+                $('#obras-count').fadeIn();
+                
+                // Adicionar obras (vermelho)
                 obras.forEach((obra) => {
                     const endereco = obra.cidade + " " + obra.bairro + " " + obra.rua + " " + obra.numero;
                     
                     getCoordenates(endereco).then((coords) => {
-                        let marker = L.marker([coords[0], coords[1]]).addTo(map);
-                        // Adiciona popup com informações da obra
-                        let popupContent = `
-                            <div style="min-width:180px">
-                                <strong>${obra.nome || 'Obra sem nome'}</strong><br>
-                                <span style="color:#555;">
-                                    ${obra.rua}, ${obra.numero}<br>
-                                    ${obra.bairro} - ${obra.cidade}
-                                </span>
-                            </div>
-                        `;
-                        marker.bindPopup(popupContent);
+                        if (coords) {
+                            let marker = L.marker([coords[0], coords[1]], {icon: obrasIcon}).addTo(map);
+                            let popupContent = `
+                                <div style="min-width:200px">
+                                    <div style="background: #dc3545; color: white; padding: 8px; margin: -10px -10px 10px -10px; border-radius: 4px 4px 0 0;">
+                                        <strong>🏗️ OBRA</strong>
+                                    </div>
+                                    <strong>${obra.nome || 'Obra sem nome'}</strong><br>
+                                    <span style="color:#555;">
+                                        ${obra.rua}, ${obra.numero}<br>
+                                        ${obra.bairro} - ${obra.cidade}
+                                    </span>
+                                </div>
+                            `;
+                            marker.bindPopup(popupContent);
+                        }
+                    });
+                });
+
+                // Adicionar veículos (verde)
+                veiculos.forEach((veiculo) => {
+                    // Para veículos, vamos usar o endereço do veículo se disponível
+                    const endereco = `${veiculo.cidade || 'Ituiutaba'}, ${veiculo.bairro || ''} ${veiculo.rua || ''} ${veiculo.numero || ''}`.trim();
+                    
+                    getCoordenates(endereco).then((coords) => {
+                        if (coords) {
+                            // Adicionar um pequeno offset aleatório para evitar sobreposição
+                            const lat = parseFloat(coords[0]) + (Math.random() - 0.5) * 0.01;
+                            const lng = parseFloat(coords[1]) + (Math.random() - 0.5) * 0.01;
+                            
+                            let marker = L.marker([lat, lng], {icon: veiculosIcon}).addTo(map);
+                            let popupContent = `
+                                <div style="min-width:200px">
+                                    <div style="background: #28a745; color: white; padding: 8px; margin: -10px -10px 10px -10px; border-radius: 4px 4px 0 0;">
+                                        <strong>🚗 VEÍCULO</strong>
+                                    </div>
+                                    <strong>${veiculo.tipo.charAt(0).toUpperCase() + veiculo.tipo.slice(1)} - ${veiculo.placa}</strong><br>
+                                    <span style="color:#555;">
+                                        Capacidade: ${veiculo.capacidade} pessoas<br>
+                                        Localização: ${veiculo.rua}, ${veiculo.numero}<br>
+                                        ${veiculo.bairro} - ${veiculo.cidade}<br>
+                                        Status: ${veiculo.disponibilidade ? 'Disponível' : 'Indisponível'}
+                                    </span>
+                                </div>
+                            `;
+                            marker.bindPopup(popupContent);
+                        }
+                    });
+                });
+
+                // Adicionar alojamentos (azul)
+                alojamentos.forEach((alojamento) => {
+                    const endereco = alojamento.cidade + " " + alojamento.bairro + " " + alojamento.rua + " " + alojamento.numero;
+                    
+                    getCoordenates(endereco).then((coords) => {
+                        if (coords) {
+                            let marker = L.marker([coords[0], coords[1]], {icon: alojamentosIcon}).addTo(map);
+                            let popupContent = `
+                                <div style="min-width:200px">
+                                    <div style="background: #007bff; color: white; padding: 8px; margin: -10px -10px 10px -10px; border-radius: 4px 4px 0 0;">
+                                        <strong>🏠 ALOJAMENTO</strong>
+                                    </div>
+                                    <strong>${alojamento.nome || 'Alojamento sem nome'}</strong><br>
+                                    <span style="color:#555;">
+                                        ${alojamento.rua}, ${alojamento.numero}<br>
+                                        ${alojamento.bairro} - ${alojamento.cidade}<br>
+                                        Capacidade: ${alojamento.capacidade_maxima} pessoas<br>
+                                        Vagas disponíveis: ${alojamento.vagas_disponiveis || alojamento.capacidade_maxima}
+                                    </span>
+                                </div>
+                            `;
+                            marker.bindPopup(popupContent);
+                        }
                     });
                 });
             });

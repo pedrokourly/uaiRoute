@@ -47,8 +47,15 @@
 <div class="container">
     <div class="card-form mx-auto mt-4" style="max-width: 700px;">
         <h1 class="mb-2 text-center">Criar Funcionário</h1>
-        <p class="text-center text-muted mb-3">Preencha os dados abaixo para cadastrar um novo funcionário no sistema.<br>Todos os campos são importantes para garantir o acesso e a comunicação.</p>
-        <div class="info-alert"><i class="bi bi-info-circle-fill me-2"></i>Os dados cadastrados serão utilizados para acesso ao sistema e comunicação interna. Certifique-se de preencher corretamente!</div>
+        <p class="text-center text-muted mb-3">Preencha os dados abaixo para cadastrar um novo funcionário no sistema.<br>O funcionário pode ser alocado em um alojamento durante o cadastro ou posteriormente.</p>
+        
+        {% if error %}
+            <div class="alert alert-danger" role="alert">
+                <i class="bi bi-exclamation-triangle-fill me-2"></i>{{ error }}
+            </div>
+        {% endif %}
+        
+        <div class="info-alert"><i class="bi bi-info-circle-fill me-2"></i>Os dados cadastrados serão utilizados para acesso ao sistema. O alojamento determina onde o funcionário ficará hospedado!</div>
         <form class="d-flex flex-column gap-3" method="post">
             <div class="d-flex gap-3 responsive-form-columns">
                 <div class="flex-fill d-flex flex-column gap-3">
@@ -84,32 +91,31 @@
                 </div>
                 <div class="flex-fill d-flex flex-column gap-3">
                     <div>
-                        <label class="form-label">Rua:</label>
-                        <div class="input-group">
-                            <span class="input-group-text"><i class="bi bi-signpost-2-fill"></i></span>
-                            <input type="text" name="rua" class="form-control" placeholder="Ex: Av. Brasil" required title="Informe a rua de residência">
-                        </div>
-                    </div>
-                    <div>
-                        <label class="form-label">Número:</label>
-                        <div class="input-group">
-                            <span class="input-group-text"><i class="bi bi-hash"></i></span>
-                            <input type="text" name="numero" class="form-control" placeholder="Ex: 123" required title="Informe o número da residência">
-                        </div>
-                    </div>
-                    <div>
-                        <label class="form-label">Bairro:</label>
-                        <div class="input-group">
-                            <span class="input-group-text"><i class="bi bi-geo-alt-fill"></i></span>
-                            <input type="text" name="bairro" class="form-control" placeholder="Ex: Centro" required title="Informe o bairro de residência">
-                        </div>
-                    </div>
-                    <div>
-                        <label class="form-label">Cidade:</label>
+                        <label class="form-label">Alojamento:</label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="bi bi-building"></i></span>
-                            <input type="text" name="cidade" class="form-control" placeholder="Ex: Belo Horizonte" required title="Informe a cidade de residência">
+                            <select name="alojamento" class="form-control">
+                                <option value="">Selecione um alojamento (opcional)</option>
+                                {% for alojamento in alojamentos %}
+                                    {% set vagas = alojamento.vagas_disponiveis if alojamento.vagas_disponiveis is defined else alojamento.capacidade_maxima %}
+                                    <option value="{{ alojamento.id }}" {% if vagas <= 0 %}disabled{% endif %}>
+                                        {{ alojamento.nome }} - {{ alojamento.rua }}, {{ alojamento.numero }} 
+                                        ({{ vagas }} {% if vagas == 1 %}vaga{% else %}vagas{% endif %} {% if vagas <= 0 %}- LOTADO{% else %}disponíveis{% endif %})
+                                    </option>
+                                {% endfor %}
+                            </select>
                         </div>
+                        <small class="text-muted ms-1">O funcionário pode ser alocado em um alojamento posteriormente se necessário.</small>
+                    </div>
+                    <div>
+                        <label class="form-label">Permissões:</label>
+                        <div class="form-check mt-2">
+                            <input class="form-check-input" type="checkbox" name="is_admin" id="is_admin">
+                            <label class="form-check-label" for="is_admin">
+                                <i class="bi bi-shield-check me-1"></i>É administrador do sistema
+                            </label>
+                        </div>
+                        <small class="text-muted ms-1">Administradores têm acesso completo ao sistema e podem gerenciar outros usuários.</small>
                     </div>
                 </div>
             </div>

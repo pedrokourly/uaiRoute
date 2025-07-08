@@ -48,7 +48,7 @@
     <div class="card-form mx-auto mt-4" style="max-width: 700px;">
         <h1 class="mb-2 text-center">Cadastrar Obra</h1>
         <p class="text-center text-muted mb-3">Preencha os dados abaixo para cadastrar uma nova obra no sistema.</p>
-        <div class="info-alert"><i class="bi bi-info-circle-fill me-2"></i>Os dados cadastrados serão utilizados para controle e visualização das obras.</div>
+        <div class="info-alert"><i class="bi bi-info-circle-fill me-2"></i>Os dados cadastrados serão utilizados para controle e visualização das obras. As coordenadas serão obtidas automaticamente com base no endereço informado.</div>
         <form class="d-flex flex-column gap-3" action="{{ url_for('cadastrarObra') }}" method="POST">
             <div class="d-flex gap-3 responsive-form-columns">
                 <div class="flex-fill d-flex flex-column gap-3">
@@ -91,6 +91,7 @@
                     </div>
                 </div>
             </div>
+
             <div class="d-flex gap-2 mb-2 justify-content-end">
                 <button type="submit" class="btn btn-primary px-4 py-2 fw-bold"><i class="bi bi-plus-circle me-1"></i> Cadastrar</button>
                 <a href="{{ url_for('obras') }}" class="btn btn-secondary px-4 py-2"><i class="bi bi-arrow-left"></i> Voltar</a>

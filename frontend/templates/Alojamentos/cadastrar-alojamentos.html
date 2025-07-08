@@ -1,0 +1,123 @@
+{% extends "default.html" %}
+
+{% block styles %}
+<style>
+    .form-control {
+        border: 1px solid #ced4da !important;
+    }
+    .card-form {
+        box-shadow: 0 4px 24px rgba(0,0,0,0.08), 0 1.5px 4px rgba(0,0,0,0.04);
+        border-radius: 18px;
+        border: none;
+        padding: 32px 24px 24px 24px;
+        background: #fff;
+    }
+    .form-label {
+        font-weight: 500;
+    }
+    .input-group-text {
+        background: #f8f9fa;
+        border-right: 0;
+    }
+    .form-control:focus {
+        box-shadow: 0 0 0 2px #0d6efd33;
+    }
+    .info-alert {
+        background: #e7f1ff;
+        border-left: 4px solid #0d6efd;
+        color: #0d6efd;
+        border-radius: 8px;
+        padding: 12px 16px;
+        margin-bottom: 18px;
+        font-size: 1rem;
+    }
+    @media (max-width: 767.98px) {
+        .responsive-form-columns {
+            flex-direction: column !important;
+        }
+        .card-form {
+            padding: 18px 8px 8px 8px;
+        }
+    }
+</style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+{% endblock %}
+
+{% block conteudo %}
+<div class="container">
+    <div class="card-form mx-auto mt-4" style="max-width: 700px;">
+        <h1 class="mb-2 text-center">Cadastrar Alojamento</h1>
+        <p class="text-center text-muted mb-3">Preencha os dados abaixo para cadastrar um novo alojamento no sistema.</p>
+        <div class="info-alert"><i class="bi bi-info-circle-fill me-2"></i>Os dados cadastrados serão utilizados para controle e alocação de funcionários nos alojamentos. As coordenadas serão obtidas automaticamente com base no endereço informado.</div>
+        
+        {% if error %}
+            <div class="alert alert-danger">{{ error }}</div>
+        {% endif %}
+        
+        <form class="d-flex flex-column gap-3" method="post">
+            <div class="d-flex gap-3 responsive-form-columns">
+                <div class="flex-fill d-flex flex-column gap-3">
+                    <div>
+                        <label class="form-label">Nome do Alojamento:</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="bi bi-building"></i></span>
+                            <input type="text" name="nome" class="form-control" placeholder="Ex: Alojamento Central" required title="Digite o nome do alojamento">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="form-label">Capacidade Máxima:</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="bi bi-people"></i></span>
+                            <input type="number" name="capacidade_maxima" class="form-control" placeholder="Ex: 20" min="1" required title="Digite a capacidade máxima de pessoas">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="form-label">Rua:</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="bi bi-signpost-2-fill"></i></span>
+                            <input type="text" name="rua" class="form-control" placeholder="Ex: Av. Brasil" required title="Digite o nome da rua">
+                        </div>
+                    </div>
+                </div>
+                <div class="flex-fill d-flex flex-column gap-3">
+                    <div>
+                        <label class="form-label">Número:</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="bi bi-hash"></i></span>
+                            <input type="text" name="numero" class="form-control" placeholder="Ex: 123" required title="Digite o número do endereço">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="form-label">Bairro:</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="bi bi-geo-alt-fill"></i></span>
+                            <input type="text" name="bairro" class="form-control" placeholder="Ex: Centro" required title="Digite o nome do bairro">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="form-label">Cidade:</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="bi bi-building"></i></span>
+                            <input type="text" name="cidade" class="form-control" placeholder="Ex: Belo Horizonte" required title="Digite o nome da cidade">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="d-flex gap-2 mb-2 justify-content-end">
+                <button type="submit" class="btn btn-primary px-4 py-2 fw-bold"><i class="bi bi-plus-circle me-1"></i> Cadastrar</button>
+                <a href="{{ url_for('alojamentos') }}" class="btn btn-secondary px-4 py-2"><i class="bi bi-arrow-left"></i> Voltar</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[title]'));
+    tooltipTriggerList.forEach(function (el) {
+        new bootstrap.Tooltip(el);
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,209 @@
+{% extends "default.html" %}
+
+{% block styles %}
+<style>
+    body {
+        background: linear-gradient(120deg, #e3f0ff 60%, #f8fafc 100%);
+    }
+    .perfil-card {
+        background: #fff;
+        border-radius: 22px;
+        box-shadow: 0 4px 32px #0d6efd0d;
+        padding: 36px 32px 28px 32px;
+        margin-top: 40px;
+        margin-bottom: 32px;
+        max-width: 800px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .perfil-header {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        margin-bottom: 24px;
+    }
+    .perfil-header .material-symbols-outlined {
+        font-size: 2.5rem;
+        color: #0d6efd;
+        background: #e3f0ff;
+        border-radius: 50%;
+        padding: 10px;
+    }
+    .perfil-title {
+        font-size: 2rem;
+        font-weight: 800;
+        color: #0d6efd;
+        margin-bottom: 0;
+    }
+    .perfil-subtitle {
+        color: #6c757d;
+        font-size: 1.1rem;
+        margin-top: 2px;
+    }
+    .admin-badge {
+        background: linear-gradient(45deg, #ffd700, #ffed4e);
+        color: #333;
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        margin-left: 16px;
+    }
+    .form-control {
+        border: 1px solid #ced4da !important;
+        border-radius: 12px;
+        padding: 12px 16px;
+    }
+    .form-control:focus {
+        box-shadow: 0 0 0 2px #0d6efd33;
+        border-color: #0d6efd !important;
+    }
+    .input-group-text {
+        background: #f8f9fa;
+        border-right: 0;
+        border-radius: 12px 0 0 12px;
+    }
+    .input-group .form-control {
+        border-left: 0;
+        border-radius: 0 12px 12px 0;
+    }
+    .btn-salvar {
+        background: linear-gradient(90deg, #28a745 80%, #34ce57 100%);
+        border: none;
+        color: white;
+        padding: 12px 24px;
+        border-radius: 12px;
+        font-weight: 600;
+        transition: transform 0.2s ease;
+    }
+    .btn-salvar:hover {
+        transform: translateY(-1px);
+        color: white;
+    }
+    .info-alert {
+        background: #e7f1ff;
+        border-left: 4px solid #0d6efd;
+        color: #0d6efd;
+        border-radius: 8px;
+        padding: 16px;
+        margin-bottom: 24px;
+    }
+</style>
+{% endblock %}
+
+{% block conteudo %}
+<div class="container">
+    <div class="perfil-card">
+        <div class="perfil-header">
+            <span class="material-symbols-outlined">account_circle</span>
+            <div class="flex-grow-1">
+                <h1 class="perfil-title">
+                    Meu Perfil
+                    {% if funcionario.is_admin %}
+                        <span class="admin-badge">
+                            <i class="bi bi-shield-check"></i>Administrador
+                        </span>
+                    {% endif %}
+                </h1>
+                <div class="perfil-subtitle">Gerencie suas informações pessoais</div>
+            </div>
+        </div>
+        
+        {% if error %}
+            <div class="alert alert-danger" role="alert">
+                <i class="bi bi-exclamation-triangle-fill me-2"></i>{{ error }}
+            </div>
+        {% endif %}
+        
+        {% if success %}
+            <div class="alert alert-success" role="alert">
+                <i class="bi bi-check-circle-fill me-2"></i>{{ success }}
+            </div>
+        {% endif %}
+        
+        <div class="info-alert">
+            <i class="bi bi-info-circle-fill me-2"></i>
+            Você pode atualizar suas informações pessoais aqui. Alguns campos podem estar restritos dependendo do seu nível de acesso.
+        </div>
+        
+        <form method="POST" class="row g-3">
+            <div class="col-md-6">
+                <label class="form-label">Nome Completo:</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-person-fill"></i></span>
+                    <input type="text" name="nome_completo" class="form-control" 
+                           value="{{ funcionario.nome_completo }}" required>
+                </div>
+            </div>
+            
+            <div class="col-md-6">
+                <label class="form-label">Cargo:</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-briefcase-fill"></i></span>
+                    <input type="text" name="cargo" class="form-control" 
+                           value="{{ funcionario.cargo }}" required>
+                </div>
+            </div>
+            
+            <div class="col-md-6">
+                <label class="form-label">Email:</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-envelope-fill"></i></span>
+                    <input type="email" name="email" class="form-control" 
+                           value="{{ funcionario.email }}" required>
+                </div>
+            </div>
+            
+            <div class="col-md-6">
+                <label class="form-label">Nova Senha (opcional):</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-lock-fill"></i></span>
+                    <input type="password" name="senha" class="form-control" 
+                           placeholder="Deixe em branco para manter a atual">
+                </div>
+            </div>
+            
+            <div class="col-12">
+                <label class="form-label">Alojamento:</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-building"></i></span>
+                    <select name="alojamento" class="form-control">
+                        <option value="">Nenhum alojamento</option>
+                        {% for alojamento in alojamentos %}
+                            {% set vagas = alojamento.vagas_disponiveis if alojamento.vagas_disponiveis is defined else alojamento.capacidade_maxima %}
+                            {% set is_current = funcionario.alojamento == alojamento.id %}
+                            <option value="{{ alojamento.id }}" 
+                                    {% if is_current %}selected{% endif %}
+                                    {% if vagas <= 0 and not is_current %}disabled{% endif %}>
+                                {{ alojamento.nome }} - {{ alojamento.rua }}, {{ alojamento.numero }}
+                                ({{ vagas if not is_current else vagas + 1 }} vagas {% if vagas <= 0 and not is_current %}- LOTADO{% else %}disponíveis{% endif %})
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            
+            <div class="col-12 text-end">
+                <button type="submit" class="btn btn-salvar">
+                    <i class="bi bi-save me-2"></i>Salvar Alterações
+                </button>
+                {% if session.funcionario.is_admin %}
+                    <a href="{{ url_for('home') }}" class="btn btn-secondary ms-2">
+                        <i class="bi bi-house-fill me-2"></i>Voltar ao Painel
+                    </a>
+                {% else %}
+                    <a href="{{ url_for('mapa') }}" class="btn btn-secondary ms-2">
+                        <i class="bi bi-map me-2"></i>Voltar ao Mapa
+                    </a>
+                {% endif %}
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}

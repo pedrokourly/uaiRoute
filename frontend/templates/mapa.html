@@ -101,6 +101,20 @@
         margin-right: 2px;
     }
 
+    .btn-cadastrar-obra:hover {
+        transform: translateY(-1px);
+    }
+
+    @media (max-width: 767.98px) {
+        .btn-cadastrar-obra {
+            flex: 1;
+            justify-content: center;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            padding: 10px 16px;
+        }
+    }
+
     .obras-badge {
         background: #0d6efd;
         color: #fff;
@@ -165,29 +179,202 @@
         font-size: 1.3em;
         margin-right: 2px;
     }
+
+    /* Legenda do mapa */
+    .map-legend {
+        position: absolute;
+        bottom: 20px;
+        left: 20px;
+        background: rgba(255, 255, 255, 0.95);
+        padding: 15px;
+        border-radius: 12px;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+        z-index: 1000;
+        font-size: 0.9rem;
+        min-width: 200px;
+    }
+
+    .legend-title {
+        font-weight: 700;
+        margin-bottom: 10px;
+        color: #333;
+        font-size: 1rem;
+    }
+
+    .legend-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 6px;
+        gap: 8px;
+    }
+
+    .legend-color {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        border: 2px solid white;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+    }
+
+    .legend-obras { background-color: #dc3545; }
+    .legend-veiculos { background-color: #28a745; }
+    .legend-alojamentos { background-color: #007bff; }
+
+    @media (max-width: 767.98px) {
+        .map-legend {
+            position: relative;
+            margin-top: 15px;
+            left: 0;
+            bottom: auto;
+        }
+    }
 </style>
 {% endblock %}
 
 {% block conteudo %}
 <div class="container">
+    {% if funcionario and not funcionario.is_admin %}
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title d-flex align-items-center mb-3">
+                        <span class="material-symbols-outlined me-2 text-primary">assignment</span>
+                        Minhas Ordens de Serviço
+                    </h5>
+                    
+                    {% if error %}
+                    <div class="alert alert-warning">
+                        <span class="material-symbols-outlined me-2">warning</span>
+                        {{ error }}
+                    </div>
+                    {% endif %}
+                    
+                    {% if funcionario.alojamento %}
+                    <p class="text-muted mb-3">
+                        <strong>Alojamento:</strong> {{ funcionario.alojamento }}
+                    </p>
+                    {% endif %}
+                    
+                    {% if ordens_servico %}
+                    <div class="row">
+                        {% for ordem in ordens_servico %}
+                        <div class="col-md-6 col-lg-4 mb-3">
+                            <div class="card h-100 border-start border-primary border-3">
+                                <div class="card-body">
+                                    <h6 class="card-title d-flex align-items-center">
+                                        <span class="material-symbols-outlined me-2 text-primary">route</span>
+                                        {{ ordem.titulo }}
+                                    </h6>
+                                    <p class="card-text small text-muted mb-2">
+                                        <strong>Status:</strong> 
+                                        {% if ordem.status == 'pendente' %}
+                                            <span class="badge bg-warning text-dark">Pendente</span>
+                                        {% elif ordem.status == 'em_andamento' %}
+                                            <span class="badge bg-info">Em Andamento</span>
+                                        {% elif ordem.status == 'concluida' %}
+                                            <span class="badge bg-success">Concluída</span>
+                                        {% else %}
+                                            <span class="badge bg-danger">Cancelada</span>
+                                        {% endif %}
+                                    </p>
+                                    <p class="card-text small">
+                                        <strong>Veículo:</strong> {{ ordem.veiculo.tipo }} - {{ ordem.veiculo.placa }}<br>
+                                        <strong>Destino:</strong> {{ ordem.obra_destino.nome }}
+                                    </p>
+                                    <p class="card-text">
+                                        <small class="text-muted">
+                                            Criado em: {{ ordem.data_criacao[:10] }}
+                                        </small>
+                                    </p>
+                                    <a href="/ordens-servico/visualizar/{{ ordem.id }}" class="btn btn-sm btn-outline-primary d-flex">
+                                        <span class="material-symbols-outlined me-1" style="font-size: 16px;">visibility</span>
+                                        Ver Detalhes
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <div class="text-center py-4">
+                        <span class="material-symbols-outlined text-muted" style="font-size: 48px;">assignment_late</span>
+                        <p class="text-muted mt-2">
+                            {% if funcionario.alojamento %}
+                            Não há ordens de serviço programadas para o seu alojamento no momento.
+                            {% else %}
+                            Você não está associado a nenhum alojamento.
+                            {% endif %}
+                        </p>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    
     <div class="mapa-card position-relative">
         <div class="mapa-header">
             <span class="material-symbols-outlined">map</span>
             <div>
-                <h1 class="mapa-title">Mapa das Obras</h1>
-                <div class="mapa-desc">Visualize todas as obras cadastradas no sistema em tempo real.<br>
-                    Clique nos alfinetes para detalhes e navegue facilmente pelo mapa.</div>
+                <h1 class="mapa-title">Mapa Geral do Sistema</h1>
+                <div class="mapa-desc">Visualize todas as entidades cadastradas: obras, veículos e alojamentos.<br>
+                    Cada tipo tem uma cor diferente - clique nos marcadores para mais detalhes.</div>
             </div>
         </div>
-        <div id="obras-count" class="obras-count-float" style="display:none;">
+        <div id="entidades-count" class="obras-count-float" style="display:none;">
             <span class="material-symbols-outlined">location_on</span>
-            <span id="obras-count-num"></span> obras
+            <span id="obras-count-num"></span> entidades
         </div>
         <div id="map"></div>
+        <div class="map-legend d-none d-md-block">
+            <div class="legend-title">Legenda</div>
+            <div class="legend-item">
+                <div class="legend-color legend-obras">🏗️</div>
+                <span>Obras</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color legend-veiculos">🚗</div>
+                <span>Veículos</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color legend-alojamentos">🏠</div>
+                <span>Alojamentos</span>
+            </div>
+        </div>
+        <div class="mt-4 d-md-none">
+            <div class="row text-center">
+                <div class="col-4">
+                    <div class="legend-color legend-obras mx-auto mb-2">🏗️</div>
+                    <small class="text-muted">Obras</small>
+                </div>
+                <div class="col-4">
+                    <div class="legend-color legend-veiculos mx-auto mb-2">🚗</div>
+                    <small class="text-muted">Veículos</small>
+                </div>
+                <div class="col-4">
+                    <div class="legend-color legend-alojamentos mx-auto mb-2">🏠</div>
+                    <small class="text-muted">Alojamentos</small>
+                </div>
+            </div>
+        </div>
         <div class="mt-4 text-end">
-            <a href="{{ url_for('cadastrarObra') }}" class="btn btn-cadastrar-obra">
-                <span class="material-symbols-outlined">add_circle</span> Cadastrar nova obra
-            </a>
+            <div class="d-flex gap-2 justify-content-end flex-wrap">
+                <a href="{{ url_for('cadastrarObra') }}" class="btn btn-cadastrar-obra">
+                    <span class="material-symbols-outlined">add_circle</span> Nova Obra
+                </a>
+                <a href="{{ url_for('cadastrarVeiculo') }}" class="btn btn-cadastrar-obra" style="background: linear-gradient(90deg, #28a745 80%, #34ce57 100%);">
+                    <span class="material-symbols-outlined">add_circle</span> Novo Veículo
+                </a>
+                <a href="{{ url_for('cadastrarAlojamento') }}" class="btn btn-cadastrar-obra" style="background: linear-gradient(90deg, #007bff 80%, #4f8cff 100%);">
+                    <span class="material-symbols-outlined">add_circle</span> Novo Alojamento
+                </a>
+            </div>
         </div>
     </div>
 </div>
@@ -203,14 +390,17 @@
 <script src="https://cdn.jsdelivr.net/npm/@drustack/leaflet.resetview/dist/L.Control.ResetView.min.js"></script>
 <script src="{{ url_for('static', filename='scripts/map.js') }}"></script>
 <script>
-    // Atualiza o badge de quantidade de obras no mapa
+    const SERVER_IP = "{{ server_ip }}";
     $(document).ready(function () {
-        fetch('http://localhost:8000/api/obras')
-            .then(resp => resp.json())
-            .then(obras => {
-                $('#obras-count-num').text(obras.length);
-                $('#obras-count').fadeIn();
-            });
+        Promise.all([
+            fetch('http://localhost:8000/api/obras').then(resp => resp.json()).catch(() => []),
+            fetch('http://localhost:8000/api/veiculos').then(resp => resp.json()).catch(() => []),
+            fetch('http://localhost:8000/api/alojamento').then(resp => resp.json()).catch(() => [])
+        ]).then(([obras, veiculos, alojamentos]) => {
+            const total = obras.length + veiculos.length + alojamentos.length;
+            $('#obras-count-num').text(total);
+            $('#entidades-count').fadeIn();
+        });
     });
 </script>
 {% endblock %}

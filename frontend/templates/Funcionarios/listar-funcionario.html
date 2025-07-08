@@ -137,23 +137,39 @@
             <table class="table">
                 <tr class="table-primary">
                     <th>Nome Completo</th>
-                    <th>Rua</th>
-                    <th>Número</th>
-                    <th>Bairro</th>
-                    <th>Cidade</th>
                     <th>Cargo</th>
                     <th>Email</th>
+                    <th>Tipo</th>
+                    <th>Alojamento</th>
+                    <th>Endereço do Alojamento</th>
                     <th class="text-center">Ações</th>
                 </tr>
                 {% for f in funcionarios %}
                 <tr>
-                    <td>{{ f.nome_completo }}</td>
-                    <td>{{ f.rua }}</td>
-                    <td>{{ f.numero }}</td>
-                    <td>{{ f.bairro }}</td>
-                    <td>{{ f.cidade }}</td>
+                    <td><strong>{{ f.nome_completo }}</strong></td>
                     <td>{{ f.cargo }}</td>
                     <td>{{ f.email }}</td>
+                    <td>
+                        {% if f.is_admin %}
+                            <span class="badge bg-warning text-dark"><i class="bi bi-shield-check me-1"></i>Admin</span>
+                        {% else %}
+                            <span class="badge bg-info">Funcionário</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if f.alojamento %}
+                            <span class="badge bg-primary">Alocado</span>
+                        {% else %}
+                            <span class="badge bg-secondary">Sem alojamento</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if f.rua %}
+                            {{ f.rua }}, {{ f.numero }} - {{ f.bairro }}, {{ f.cidade }}
+                        {% else %}
+                            <span class="text-muted">-</span>
+                        {% endif %}
+                    </td>
                     <td class="text-center">
                         <div class="d-flex justify-content-center align-items-center gap-1">
                             <a href="{{ url_for('editarFuncionario', id=f.id) }}" class="icon-btn edit" title="Editar">
@@ -171,7 +187,7 @@
             </table>
         </div>
         <div class="mt-4 text-end">
-            <a href="{{ url_for('cadastrarFuncionario') }}" class="btn btn-cadastrar-funcionario">
+            <a href="{{ url_for('cadastrarFuncionario') }}" class="btn btn-cadastrar-funcionario d-flex">
                 <span class="material-symbols-outlined">person_add</span> Cadastrar novo funcionário
             </a>
         </div>
