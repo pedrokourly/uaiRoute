@@ -27,7 +27,7 @@ def ordens_servico_list(request):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-@api_view(['GET', 'PUT', 'DELETE'])
+@api_view(['GET', 'PUT', 'PATCH', 'DELETE'])
 def ordem_servico_detail(request, pk):
     try:
         ordem = OrdemServico.objects.get(pk=pk)
@@ -38,10 +38,19 @@ def ordem_servico_detail(request, pk):
         serializer = OrdemServicoSerializer(ordem)
         return Response(serializer.data)
     
-    elif request.method == 'PUT':
+    elif request.method in ['PUT', 'PATCH']:
         serializer = OrdemServicoSerializer(ordem, data=request.data, partial=True)
         if serializer.is_valid():
-            serializer.save()
+            ordem_servico = serializer.save()
+            
+            # Recalcular rota automaticamente se mudaram alojamentos ou destino
+            # Mas não para mudanças apenas de status
+            if 'alojamentos' in request.data or 'obra_destino_id' in request.data:
+                try:
+                    calcular_rota_otimizada(ordem_servico)
+                except Exception as e:
+                    print(f"Erro ao recalcular rota: {e}")
+            
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     

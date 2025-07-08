@@ -56,16 +56,25 @@
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2><span class="material-symbols-outlined me-2">route</span>Visualizar Rota - Ordem #{{ ordem.id if ordem else 'N/A' }}</h2>
         <div class="d-flex gap-2">
-            {% if session.funcionario.is_admin %}
-            <button class="btn btn-outline-danger d-flex" 
-                    data-bs-toggle="modal" 
-                    data-bs-target="#modalExcluirOrdem"
-                    title="Excluir Ordem">
-                <span class="material-symbols-outlined me-1">delete</span>
-                Excluir
-            </button>
+            {% if is_admin %}
+                {% if ordem and ordem.status != 'concluida' %}
+                <button class="btn btn-success d-flex" 
+                        data-bs-toggle="modal" 
+                        data-bs-target="#modalConcluirOrdem"
+                        title="Marcar como Concluída">
+                    <span class="material-symbols-outlined me-1">check_circle</span>
+                    Concluir
+                </button>
+                {% endif %}
+                <button class="btn btn-outline-danger d-flex" 
+                        data-bs-toggle="modal" 
+                        data-bs-target="#modalExcluirOrdem"
+                        title="Excluir Ordem">
+                    <span class="material-symbols-outlined me-1">delete</span>
+                    Excluir
+                </button>
             {% endif %}
-            <a href="/ordens-servico" class="btn btn-secondary d-flex">
+            <a href="{% if is_admin %}/ordens-servico{% else %}/minhas-ordens{% endif %}" class="btn btn-secondary d-flex">
                 <span class="material-symbols-outlined me-1">arrow_back</span>Voltar
             </a>
         </div>
@@ -343,8 +352,62 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
-<!-- Modal de confirmação para exclusão - apenas para admins -->
-{% if session.funcionario.is_admin %}
+{% if is_admin %}
+<!-- Modal de confirmação para concluir ordem -->
+{% if ordem and ordem.status != 'concluida' %}
+<div class="modal fade" id="modalConcluirOrdem" tabindex="-1" aria-labelledby="modalConcluirOrdemLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalConcluirOrdemLabel">
+                    <span class="material-symbols-outlined me-2 text-success">check_circle</span>
+                    Marcar como Concluída
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Tem certeza que deseja marcar esta ordem de serviço como <strong>concluída</strong>?</p>
+                <div class="card bg-light">
+                    <div class="card-body">
+                        <h6 class="card-title">{{ ordem.titulo }}</h6>
+                        <p class="card-text">
+                            <strong>ID:</strong> #{{ ordem.id }}<br>
+                            <strong>Status Atual:</strong> 
+                            {% if ordem.status == 'pendente' %}
+                                <span class="badge bg-warning">Pendente</span>
+                            {% elif ordem.status == 'em_andamento' %}
+                                <span class="badge bg-info">Em Andamento</span>
+                            {% elif ordem.status == 'cancelada' %}
+                                <span class="badge bg-danger">Cancelada</span>
+                            {% endif %}<br>
+                            <strong>Veículo:</strong> {{ ordem.veiculo.tipo }} - {{ ordem.veiculo.placa }}<br>
+                            <strong>Destino:</strong> {{ ordem.obra_destino.nome }}
+                        </p>
+                    </div>
+                </div>
+                <div class="alert alert-info mt-3">
+                    <span class="material-symbols-outlined me-2">info</span>
+                    <strong>Info:</strong> Após marcar como concluída, a ordem será movida para o histórico de ordens finalizadas.
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary d-flex" data-bs-dismiss="modal">
+                    <span class="material-symbols-outlined me-1">cancel</span>
+                    Cancelar
+                </button>
+                <form action="/ordens-servico/concluir/{{ ordem.id }}" method="POST" style="display: inline;">
+                    <button type="submit" class="btn btn-success d-flex">
+                        <span class="material-symbols-outlined me-1">check_circle</span>
+                        Marcar como Concluída
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<!-- Modal de confirmação para exclusão -->
 <div class="modal fade" id="modalExcluirOrdem" tabindex="-1" aria-labelledby="modalExcluirOrdemLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -392,7 +455,5 @@ document.addEventListener('DOMContentLoaded', function() {
     </div>
 </div>
 {% endif %}
-    </div>
-</div>
 
 {% endblock %}

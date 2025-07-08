@@ -2,6 +2,7 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.contrib.auth import authenticate
+from django.contrib.auth.hashers import check_password, make_password
 from .models import Funcionario
 
 @api_view(['POST'])
@@ -21,8 +22,8 @@ def login(request):
         # Busca funcionário pelo email
         funcionario = Funcionario.objects.get(email=email)
         
-        # Verifica a senha (por enquanto comparação simples, em produção usar hash)
-        if funcionario.senha == senha:
+        # Verifica a senha usando check_password para senhas criptografadas
+        if check_password(senha, funcionario.senha):
             # Login bem-sucedido
             return Response({
                 'success': True,
@@ -97,7 +98,7 @@ def atualizar_perfil(request):
         if 'cargo' in request.data:
             funcionario.cargo = request.data['cargo']
         if 'senha' in request.data and request.data['senha']:
-            funcionario.senha = request.data['senha']
+            funcionario.senha = make_password(request.data['senha'])
             
         # Apenas admin pode alterar is_admin e alojamento de outros
         # Por simplicidade, vamos permitir que o usuário altere seu próprio alojamento

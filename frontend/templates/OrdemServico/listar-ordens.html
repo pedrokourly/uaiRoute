@@ -83,18 +83,25 @@
                                        title="Visualizar Rota">
                                         <span class="material-symbols-outlined" style="font-size: 16px;">map</span>
                                     </a>
-                                    {% if session.funcionario.is_admin %}
-                                    <button class="btn btn-sm btn-outline-secondary d-flex" 
-                                            title="Editar">
-                                        <span class="material-symbols-outlined" style="font-size: 16px;">edit</span>
+                                    {% if ordem.status != 'concluida' %}
+                                    <button class="btn btn-sm btn-outline-success d-flex" 
+                                            title="Marcar como Concluída"
+                                            data-bs-toggle="modal" 
+                                            data-bs-target="#modalConcluir{{ ordem.id }}">
+                                        <span class="material-symbols-outlined" style="font-size: 16px;">check_circle</span>
                                     </button>
+                                    {% endif %}
+                                    <a href="/ordens-servico/editar/{{ ordem.id }}" 
+                                       class="btn btn-sm btn-outline-secondary d-flex" 
+                                       title="Editar">
+                                        <span class="material-symbols-outlined" style="font-size: 16px;">edit</span>
+                                    </a>
                                     <button class="btn btn-sm btn-outline-danger d-flex" 
                                             title="Excluir"
                                             data-bs-toggle="modal" 
                                             data-bs-target="#modalExcluir{{ ordem.id }}">
                                         <span class="material-symbols-outlined" style="font-size: 16px;">delete</span>
                                     </button>
-                                    {% endif %}
                                 </div>
                             </td>
                         </tr>
@@ -105,8 +112,63 @@
         </div>
     </div>
     
-    <!-- Modals de confirmação para exclusão - apenas para admins -->
-    {% if session.funcionario.is_admin %}
+    <!-- Modals de confirmação para concluir ordens -->
+    {% for ordem in ordens %}
+    {% if ordem.status != 'concluida' %}
+    <div class="modal fade" id="modalConcluir{{ ordem.id }}" tabindex="-1" aria-labelledby="modalConcluirLabel{{ ordem.id }}" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalConcluirLabel{{ ordem.id }}">
+                        <span class="material-symbols-outlined me-2 text-success">check_circle</span>
+                        Marcar como Concluída
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Tem certeza que deseja marcar a ordem de serviço como <strong>concluída</strong>?</p>
+                    <div class="card bg-light">
+                        <div class="card-body">
+                            <h6 class="card-title">{{ ordem.titulo }}</h6>
+                            <p class="card-text">
+                                <strong>ID:</strong> #{{ ordem.id }}<br>
+                                <strong>Status Atual:</strong> 
+                                {% if ordem.status == 'pendente' %}
+                                    <span class="badge bg-warning">Pendente</span>
+                                {% elif ordem.status == 'em_andamento' %}
+                                    <span class="badge bg-info">Em Andamento</span>
+                                {% elif ordem.status == 'cancelada' %}
+                                    <span class="badge bg-danger">Cancelada</span>
+                                {% endif %}<br>
+                                <strong>Veículo:</strong> {{ ordem.veiculo.tipo }} - {{ ordem.veiculo.placa }}<br>
+                                <strong>Destino:</strong> {{ ordem.obra_destino.nome }}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="alert alert-info mt-3">
+                        <span class="material-symbols-outlined me-2">info</span>
+                        <strong>Info:</strong> Após marcar como concluída, a ordem será movida para o histórico de ordens finalizadas.
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary d-flex" data-bs-dismiss="modal">
+                        <span class="material-symbols-outlined me-1">cancel</span>
+                        Cancelar
+                    </button>
+                    <form action="/ordens-servico/concluir/{{ ordem.id }}" method="POST" style="display: inline;">
+                        <button type="submit" class="btn btn-success d-flex">
+                            <span class="material-symbols-outlined me-1">check_circle</span>
+                            Marcar como Concluída
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    {% endfor %}
+    
+    <!-- Modals de confirmação para exclusão -->
     {% for ordem in ordens %}
     <div class="modal fade" id="modalExcluir{{ ordem.id }}" tabindex="-1" aria-labelledby="modalExcluirLabel{{ ordem.id }}" aria-hidden="true">
         <div class="modal-dialog">
@@ -151,7 +213,6 @@
         </div>
     </div>
     {% endfor %}
-    {% endif %}
     
     {% else %}
     <div class="card">

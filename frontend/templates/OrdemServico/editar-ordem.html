@@ -1,0 +1,295 @@
+{% extends "default.html" %}
+
+{% block conteudo %}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2><span class="material-symbols-outlined me-2">edit</span>Editar Ordem de Serviço #{{ ordem.id }}</h2>
+        <div class="d-flex gap-2">
+            <a href="/ordens-servico/visualizar/{{ ordem.id }}" class="btn btn-outline-primary d-flex">
+                <span class="material-symbols-outlined me-1">map</span>Visualizar Rota
+            </a>
+            <a href="/ordens-servico" class="btn btn-secondary d-flex">
+                <span class="material-symbols-outlined me-1">arrow_back</span>Voltar
+            </a>
+        </div>
+    </div>
+
+    {% if error %}
+    <div class="alert alert-danger" role="alert">
+        {{ error }}
+    </div>
+    {% endif %}
+
+    <div class="row">
+        <div class="col-lg-8">
+            <form method="POST" class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Informações da Ordem</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="titulo" class="form-label">Título da Ordem *</label>
+                            <input type="text" class="form-control" id="titulo" name="titulo" 
+                                   value="{{ ordem.titulo }}" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="veiculo_id" class="form-label">Veículo *</label>
+                            <select class="form-select" id="veiculo_id" name="veiculo_id" required>
+                                <option value="">Selecione um veículo</option>
+                                {% for veiculo in veiculos %}
+                                    {% if veiculo.disponibilidade or veiculo.id == ordem.veiculo.id %}
+                                    <option value="{{ veiculo.id }}" 
+                                            {% if veiculo.id == ordem.veiculo.id %}selected{% endif %}>
+                                        {{ veiculo.tipo }} - {{ veiculo.placa }} (Cap: {{ veiculo.capacidade }})
+                                        {% if not veiculo.disponibilidade and veiculo.id == ordem.veiculo.id %}
+                                            (Atual - Indisponível)
+                                        {% endif %}
+                                    </option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="status" class="form-label">Status *</label>
+                            <select class="form-select" id="status" name="status" required>
+                                <option value="pendente" {% if ordem.status == 'pendente' %}selected{% endif %}>Pendente</option>
+                                <option value="em_andamento" {% if ordem.status == 'em_andamento' %}selected{% endif %}>Em Andamento</option>
+                                <option value="concluida" {% if ordem.status == 'concluida' %}selected{% endif %}>Concluída</option>
+                                <option value="cancelada" {% if ordem.status == 'cancelada' %}selected{% endif %}>Cancelada</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Data de Criação</label>
+                            <input type="text" class="form-control" value="{{ ordem.data_criacao[:10] }}" readonly>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="descricao" class="form-label">Descrição</label>
+                        <textarea class="form-control" id="descricao" name="descricao" rows="3" 
+                                placeholder="Descreva o objetivo desta ordem de serviço">{{ ordem.descricao }}</textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="obra_destino_id" class="form-label">Obra de Destino *</label>
+                        <select class="form-select" id="obra_destino_id" name="obra_destino_id" required>
+                            <option value="">Selecione a obra de destino</option>
+                            {% for obra in obras %}
+                            <option value="{{ obra.id }}" 
+                                    {% if obra.id == ordem.obra_destino.id %}selected{% endif %}>
+                                {{ obra.nome }} - {{ obra.cidade }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Alojamentos (Paradas Intermediárias)</label>
+                        <div class="card bg-light">
+                            <div class="card-body">
+                                <p class="text-muted small mb-3">
+                                    Selecione os alojamentos na ordem que devem ser visitados. 
+                                    A rota será otimizada automaticamente.
+                                </p>
+                                
+                                <div id="alojamentos-container">
+                                    {% if ordem.alojamentos_paradas and ordem.alojamentos_paradas|length > 0 %}
+                                        {% for parada in ordem.alojamentos_paradas %}
+                                        <div class="row align-items-center mb-2 alojamento-row">
+                                            <div class="col-1 text-center">
+                                                <span class="badge bg-primary">{{ parada.ordem_parada }}</span>
+                                            </div>
+                                            <div class="col-9">
+                                                <select class="form-select" name="alojamentos">
+                                                    <option value="">Selecione um alojamento</option>
+                                                    {% for alojamento in alojamentos %}
+                                                    <option value="{{ alojamento.id }}" 
+                                                            {% if alojamento.id == parada.alojamento.id %}selected{% endif %}>
+                                                        {{ alojamento.nome }} - {{ alojamento.cidade }}
+                                                    </option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                            <div class="col-2">
+                                                <button type="button" class="btn btn-sm btn-outline-danger remove-alojamento d-flex">
+                                                    <span class="material-symbols-outlined" style="font-size: 16px;">remove</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        {% endfor %}
+                                    {% else %}
+                                        <div class="row align-items-center mb-2 alojamento-row">
+                                            <div class="col-1 text-center">
+                                                <span class="badge bg-primary">1</span>
+                                            </div>
+                                            <div class="col-9">
+                                                <select class="form-select" name="alojamentos">
+                                                    <option value="">Selecione um alojamento</option>
+                                                    {% for alojamento in alojamentos %}
+                                                    <option value="{{ alojamento.id }}">
+                                                        {{ alojamento.nome }} - {{ alojamento.cidade }}
+                                                    </option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                            <div class="col-2">
+                                                <button type="button" class="btn btn-sm btn-outline-danger remove-alojamento d-flex" 
+                                                        style="display: none;">
+                                                    <span class="material-symbols-outlined" style="font-size: 16px;">remove</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                </div>
+
+                                <button type="button" id="add-alojamento" class="btn btn-sm btn-outline-primary d-flex">
+                                    <span class="material-symbols-outlined me-1">add</span>Adicionar Parada
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="observacoes" class="form-label">Observações</label>
+                        <textarea class="form-control" id="observacoes" name="observacoes" rows="3" 
+                                placeholder="Observações adicionais, instruções especiais, etc.">{{ ordem.observacoes }}</textarea>
+                    </div>
+                </div>
+
+                <div class="card-footer">
+                    <div class="d-flex justify-content-end gap-2">
+                        <a href="/ordens-servico" class="btn btn-secondary">Cancelar</a>
+                        <button type="submit" class="btn btn-primary d-flex">
+                            <span class="material-symbols-outlined me-1">save</span>Salvar Alterações
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card">
+                <div class="card-header">
+                    <h6 class="mb-0">
+                        <span class="material-symbols-outlined me-1">info</span>Informações da Ordem
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <small class="text-muted">ID da Ordem</small>
+                        <div><strong>#{{ ordem.id }}</strong></div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <small class="text-muted">Status Atual</small>
+                        <div>
+                            {% if ordem.status == 'pendente' %}
+                                <span class="badge bg-warning">Pendente</span>
+                            {% elif ordem.status == 'em_andamento' %}
+                                <span class="badge bg-info">Em Andamento</span>
+                            {% elif ordem.status == 'concluida' %}
+                                <span class="badge bg-success">Concluída</span>
+                            {% else %}
+                                <span class="badge bg-danger">Cancelada</span>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    {% if ordem.distancia_total %}
+                    <div class="mb-3">
+                        <small class="text-muted">Distância Total</small>
+                        <div><strong>{{ ordem.distancia_total }} km</strong></div>
+                    </div>
+                    {% endif %}
+
+                    {% if ordem.tempo_estimado %}
+                    <div class="mb-3">
+                        <small class="text-muted">Tempo Estimado</small>
+                        <div><strong>{{ ordem.tempo_estimado }} min</strong></div>
+                    </div>
+                    {% endif %}
+
+                    <div class="alert alert-info">
+                        <h6><span class="material-symbols-outlined me-1">route</span>Rota Automática</h6>
+                        <p class="mb-0 small">
+                            Ao alterar alojamentos ou destino, a rota será recalculada automaticamente.
+                        </p>
+                    </div>
+
+                    <div class="alert alert-warning">
+                        <h6><span class="material-symbols-outlined me-1">schedule</span>Atenção</h6>
+                        <p class="mb-0 small">
+                            Alterar o status para "Concluída" ou "Cancelada" pode afetar a disponibilidade do veículo.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    let alojamentoCount = document.querySelectorAll('.alojamento-row').length;
+    const maxAlojamentos = 5;
+    
+    function updateRowNumbers() {
+        document.querySelectorAll('.alojamento-row').forEach((row, index) => {
+            const badge = row.querySelector('.badge');
+            badge.textContent = index + 1;
+            
+            const removeBtn = row.querySelector('.remove-alojamento');
+            if (index === 0 && alojamentoCount === 1) {
+                removeBtn.style.display = 'none';
+            } else {
+                removeBtn.style.display = 'block';
+            }
+        });
+    }
+
+    document.getElementById('add-alojamento').addEventListener('click', function() {
+        if (alojamentoCount >= maxAlojamentos) {
+            alert('Máximo de 5 alojamentos permitidos');
+            return;
+        }
+
+        alojamentoCount++;
+        const container = document.getElementById('alojamentos-container');
+        
+        const newRow = document.querySelector('.alojamento-row').cloneNode(true);
+        newRow.querySelector('select').value = '';
+        container.appendChild(newRow);
+        
+        updateRowNumbers();
+        
+        if (alojamentoCount >= maxAlojamentos) {
+            this.style.display = 'none';
+        }
+    });
+
+    document.addEventListener('click', function(e) {
+        if (e.target.closest('.remove-alojamento')) {
+            if (alojamentoCount <= 1) {
+                return; // Não permitir remover se há apenas um
+            }
+            
+            const row = e.target.closest('.alojamento-row');
+            row.remove();
+            alojamentoCount--;
+            updateRowNumbers();
+            
+            const addBtn = document.getElementById('add-alojamento');
+            if (alojamentoCount < maxAlojamentos) {
+                addBtn.style.display = 'block';
+            }
+        }
+    });
+
+    updateRowNumbers();
+});
+</script>
+{% endblock %}

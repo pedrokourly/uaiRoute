@@ -49,3 +49,26 @@ class OrdemServicoSerializer(serializers.ModelSerializer):
             )
         
         return ordem_servico
+    
+    def update(self, instance, validated_data):
+        alojamentos_data = validated_data.pop('alojamentos', None)
+        
+        # Atualizar os campos da ordem de serviço
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+        instance.save()
+        
+        # Se alojamentos foram fornecidos, atualizar os relacionamentos
+        if alojamentos_data is not None:
+            # Remover relacionamentos existentes
+            AlojamentoOrdemServico.objects.filter(ordem_servico=instance).delete()
+            
+            # Criar novos relacionamentos
+            for alojamento_data in alojamentos_data:
+                AlojamentoOrdemServico.objects.create(
+                    ordem_servico=instance,
+                    alojamento_id=alojamento_data['alojamento_id'],
+                    ordem_parada=alojamento_data['ordem_parada']
+                )
+        
+        return instance

@@ -85,20 +85,25 @@ def visualizar_ordem_servico(id):
     if not funcionario.get('is_admin', False):
         if not funcionario_pode_acessar_ordem(funcionario['id'], id):
             return render_template('OrdemServico/visualizar-ordem.html', 
-                                 error="Você não tem acesso a esta ordem de serviço.")
+                                 error="Você não tem acesso a esta ordem de serviço.",
+                                 is_admin=funcionario.get('is_admin', False))
     
     try:
         # Buscar dados da ordem de serviço
         response = requests.get(f'http://localhost:8000/api/ordens-servico/{id}/')
         if response.status_code == 200:
             ordem = response.json()
-            return render_template('OrdemServico/visualizar-ordem.html', ordem=ordem)
+            return render_template('OrdemServico/visualizar-ordem.html', 
+                                 ordem=ordem, 
+                                 is_admin=funcionario.get('is_admin', False))
         else:
             return render_template('OrdemServico/visualizar-ordem.html', 
-                                 error="Ordem de serviço não encontrada.")
+                                 error="Ordem de serviço não encontrada.",
+                                 is_admin=funcionario.get('is_admin', False))
     except Exception as e:
         return render_template('OrdemServico/visualizar-ordem.html', 
-                             error="Erro ao conectar com o servidor.")
+                             error="Erro ao conectar com o servidor.",
+                             is_admin=funcionario.get('is_admin', False))
 
 @app.route('/api/ordens-servico/<int:id>/rota')
 @require_login
@@ -247,7 +252,10 @@ def visualizar_minha_ordem(id):
                                      ordens_servico=[], 
                                      error="Você não tem acesso a esta ordem de serviço.")
             
-            return render_template('OrdemServico/visualizar-ordem.html', ordem=ordem, funcionario=funcionario)
+            return render_template('OrdemServico/visualizar-ordem.html', 
+                                 ordem=ordem, 
+                                 funcionario=funcionario,
+                                 is_admin=funcionario.get('is_admin', False))
         else:
             return render_template('minhas-ordens.html', 
                                  ordens_servico=[], 
@@ -280,3 +288,95 @@ def excluir_ordem_servico(id):
     except Exception as e:
         # Erro de conexão
         return redirect(url_for('ordens_servico'))
+
+@app.route('/ordens-servico/editar/<int:id>', methods=['GET', 'POST'])
+@require_admin
+def editar_ordem_servico(id):
+    try:
+        # Buscar a ordem de serviço específica
+        ordem_response = requests.get(f'http://localhost:8000/api/ordens-servico/{id}/')
+        if ordem_response.status_code != 200:
+            return render_template('OrdemServico/listar-ordens.html', 
+                                 error="Ordem de serviço não encontrada.")
+        
+        ordem = ordem_response.json()
+        
+        # Buscar dados necessários para o formulário
+        veiculos_response = requests.get('http://localhost:8000/api/veiculos/')
+        veiculos = veiculos_response.json() if veiculos_response.status_code == 200 else []
+        
+        obras_response = requests.get('http://localhost:8000/api/obras/')
+        obras = obras_response.json() if obras_response.status_code == 200 else []
+        
+        alojamentos_response = requests.get('http://localhost:8000/api/alojamento/')
+        alojamentos = alojamentos_response.json() if alojamentos_response.status_code == 200 else []
+        
+    except Exception as e:
+        return render_template('OrdemServico/listar-ordens.html', 
+                             error="Erro ao conectar com o servidor.")
+    
+    if request.method == 'POST':
+        # Processar alojamentos selecionados
+        alojamentos_selecionados = []
+        alojamento_ids = request.form.getlist('alojamentos')
+        
+        for i, alojamento_id in enumerate(alojamento_ids):
+            if alojamento_id:  # Se há um ID válido
+                alojamentos_selecionados.append({
+                    'alojamento_id': int(alojamento_id),
+                    'ordem_parada': i + 1
+                })
+
+        ordem_data = {
+            'titulo': request.form.get('titulo'),
+            'descricao': request.form.get('descricao', ''),
+            'status': request.form.get('status'),
+            'veiculo_id': int(request.form.get('veiculo_id')),
+            'obra_destino_id': int(request.form.get('obra_destino_id')),
+            'observacoes': request.form.get('observacoes', ''),
+            'alojamentos': alojamentos_selecionados
+        }
+        
+        try:
+            response = requests.put(f'http://localhost:8000/api/ordens-servico/{id}/', json=ordem_data)
+            if response.status_code in [200, 201]:
+                return redirect(url_for('ordens_servico'))
+            else:
+                error_data = response.json()
+                return render_template('OrdemServico/editar-ordem.html', 
+                                     ordem=ordem, veiculos=veiculos, obras=obras, alojamentos=alojamentos,
+                                     error=error_data.get('error', 'Erro ao atualizar ordem de serviço'))
+        except Exception as e:
+            return render_template('OrdemServico/editar-ordem.html', 
+                                 ordem=ordem, veiculos=veiculos, obras=obras, alojamentos=alojamentos,
+                                 error=f'Erro de conexão: {str(e)}')
+    
+    return render_template('OrdemServico/editar-ordem.html', 
+                         ordem=ordem, veiculos=veiculos, obras=obras, alojamentos=alojamentos)
+
+@app.route('/ordens-servico/concluir/<int:id>', methods=['POST'])
+@require_admin
+def concluir_ordem_servico(id):
+    """
+    Marcar uma ordem de serviço como concluída (apenas admins)
+    """
+    try:
+        # Fazer requisição PATCH para alterar apenas o status
+        response = requests.patch(
+            f'http://localhost:8000/api/ordens-servico/{id}/', 
+            json={'status': 'concluida'}
+        )
+        
+        if response.status_code in [200, 201]:
+            # Status alterado com sucesso
+            return redirect(url_for('visualizar_ordem_servico', id=id))
+        elif response.status_code == 404:
+            # Ordem não encontrada
+            return redirect(url_for('ordens_servico'))
+        else:
+            # Outro erro
+            return redirect(url_for('visualizar_ordem_servico', id=id))
+            
+    except Exception as e:
+        # Erro de conexão
+        return redirect(url_for('visualizar_ordem_servico', id=id))
