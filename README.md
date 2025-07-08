@@ -389,12 +389,6 @@ docker cp uairoute-backend:/app/db.sqlite3 ./backup_db.sqlite3
 
 Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
 
-## 📞 Contato
-
-- **Desenvolvedor**: Pedro
-- **Email**: [seu-email@example.com](mailto:seu-email@example.com)
-- **GitHub**: [https://github.com/seu-usuario](https://github.com/seu-usuario)
-
 ## 🔄 Versioning
 
 - **v1.0.0** - Versão inicial com funcionalidades básicas
