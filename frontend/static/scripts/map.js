@@ -1,6 +1,6 @@
 async function fetchObras(){
     try {
-        const response = await fetch('http://localhost:8000/api/obras');
+        const response = await fetch(`${window.API_BASE}/api/obras`);
         const data = await response.json();
         return data;
     } catch (error) {
@@ -11,7 +11,7 @@ async function fetchObras(){
 
 async function fetchVeiculos(){
     try {
-        const response = await fetch('http://localhost:8000/api/veiculos');
+        const response = await fetch(`${window.API_BASE}/api/veiculos`);
         const data = await response.json();
         return data;
     } catch (error) {
@@ -22,7 +22,7 @@ async function fetchVeiculos(){
 
 async function fetchAlojamentos(){
     try {
-        const response = await fetch('http://localhost:8000/api/alojamento');
+        const response = await fetch(`${window.API_BASE}/api/alojamento`);
         const data = await response.json();
         return data;
     } catch (error) {

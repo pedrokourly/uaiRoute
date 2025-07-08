@@ -391,11 +391,13 @@
 <script src="{{ url_for('static', filename='scripts/map.js') }}"></script>
 <script>
     const SERVER_IP = "{{ server_ip }}";
+    const API_BASE = "{{ config.BACKEND_URL }}";
+    window.API_BASE = API_BASE; // Disponibilizar para map.js
     $(document).ready(function () {
         Promise.all([
-            fetch('http://localhost:8000/api/obras').then(resp => resp.json()).catch(() => []),
-            fetch('http://localhost:8000/api/veiculos').then(resp => resp.json()).catch(() => []),
-            fetch('http://localhost:8000/api/alojamento').then(resp => resp.json()).catch(() => [])
+            fetch(`${API_BASE}/api/obras`).then(resp => resp.json()).catch(() => []),
+            fetch(`${API_BASE}/api/veiculos`).then(resp => resp.json()).catch(() => []),
+            fetch(`${API_BASE}/api/alojamento`).then(resp => resp.json()).catch(() => [])
         ]).then(([obras, veiculos, alojamentos]) => {
             const total = obras.length + veiculos.length + alojamentos.length;
             $('#obras-count-num').text(total);

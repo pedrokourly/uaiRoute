@@ -1,6 +1,7 @@
 from flask import render_template, request, redirect, url_for, session, flash
 from uairoute import app
 import requests
+from config import API_URLS, BACKEND_URL
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -10,7 +11,7 @@ def login():
         
         try:
             # Fazer requisição para o backend
-            response = requests.post('http://localhost:8000/api/funcionarios/login/', json={
+            response = requests.post(f'{BACKEND_URL}/api/funcionarios/login/', json={
                 'email': email,
                 'senha': senha
             })
@@ -53,7 +54,7 @@ def perfil():
     
     # Buscar alojamentos disponíveis
     try:
-        alojamentos_response = requests.get('http://localhost:8000/api/alojamento/')
+        alojamentos_response = requests.get(API_URLS['alojamentos'])
         alojamentos = alojamentos_response.json() if alojamentos_response.status_code == 200 else []
     except:
         alojamentos = []
@@ -73,7 +74,7 @@ def perfil():
             dados['senha'] = request.form.get('senha')
         
         try:
-            response = requests.put('http://localhost:8000/api/funcionarios/perfil/atualizar/', json=dados)
+            response = requests.put(f'{BACKEND_URL}/api/funcionarios/perfil/atualizar/', json=dados)
             
             if response.status_code == 200:
                 # Atualizar dados na sessão
@@ -83,7 +84,7 @@ def perfil():
                 session['funcionario']['alojamento'] = dados['alojamento']
                 
                 # Buscar dados atualizados do funcionário
-                perfil_response = requests.get(f'http://localhost:8000/api/funcionarios/perfil/?id={funcionario_id}')
+                perfil_response = requests.get(f'{BACKEND_URL}/api/funcionarios/perfil/?id={funcionario_id}')
                 if perfil_response.status_code == 200:
                     funcionario = perfil_response.json()
                 else:
@@ -108,7 +109,7 @@ def perfil():
     
     # GET: buscar dados atualizados do funcionário
     try:
-        response = requests.get(f'http://localhost:8000/api/funcionarios/perfil/?id={funcionario_id}')
+        response = requests.get(f'{BACKEND_URL}/api/funcionarios/perfil/?id={funcionario_id}')
         if response.status_code == 200:
             funcionario = response.json()
         else:

@@ -4,13 +4,15 @@ import requests
 
 # Importar os decoradores de autenticação
 from auth_routes import require_admin
+# Importar configurações centralizadas
+from config import API_URLS
 
 # Rotas para Funcionários
 @app.route('/funcionarios')
 @require_admin
 def funcionarios():
     try:
-        response = requests.get('http://localhost:8000/api/funcionarios/')
+        response = requests.get(API_URLS['funcionarios'])
         if response.status_code == 200:
             funcionarios = response.json()
             return render_template('Funcionarios/listar-funcionario.html', funcionarios=funcionarios)
@@ -24,7 +26,7 @@ def funcionarios():
 def cadastrarFuncionario():
     # Buscar alojamentos disponíveis
     try:
-        alojamentos_response = requests.get('http://localhost:8000/api/alojamento/')
+        alojamentos_response = requests.get(API_URLS['alojamentos'])
         alojamentos = alojamentos_response.json() if alojamentos_response.status_code == 200 else []
     except:
         alojamentos = []
@@ -39,7 +41,7 @@ def cadastrarFuncionario():
             'alojamento': request.form.get('alojamento') if request.form.get('alojamento') else None
         }
         try:
-            response = requests.post('http://localhost:8000/api/funcionarios/', json=funcionario)
+            response = requests.post(API_URLS['funcionarios'], json=funcionario)
             if response.status_code in [200, 201]:
                 return redirect(url_for('funcionarios'))
             else:
@@ -66,7 +68,7 @@ def cadastrarFuncionario():
 def editarFuncionario(id):
     # Buscar alojamentos disponíveis
     try:
-        alojamentos_response = requests.get('http://localhost:8000/api/alojamento/')
+        alojamentos_response = requests.get(API_URLS['alojamentos'])
         alojamentos = alojamentos_response.json() if alojamentos_response.status_code == 200 else []
     except:
         alojamentos = []
@@ -81,7 +83,7 @@ def editarFuncionario(id):
             'alojamento': request.form.get('alojamento') if request.form.get('alojamento') else None
         }
         try:
-            response = requests.put(f'http://localhost:8000/api/funcionarios/{id}/', json=funcionario)
+            response = requests.put(f'{API_URLS["funcionarios"]}{id}/', json=funcionario)
             if response.status_code in [200, 204]:
                 return redirect(url_for('funcionarios'))
             else:
@@ -103,7 +105,7 @@ def editarFuncionario(id):
             return render_template('Funcionarios/editar-funcionario.html', funcionario=funcionario, error=str(e), alojamentos=alojamentos)
     # GET: busca dados do funcionário
     try:
-        response = requests.get(f'http://localhost:8000/api/funcionarios/{id}/')
+        response = requests.get(f'{API_URLS["funcionarios"]}{id}/')
         if response.status_code == 200:
             funcionario = response.json()
         else:
@@ -116,7 +118,7 @@ def editarFuncionario(id):
 @require_admin
 def excluirFuncionario(id):
     try:
-        response = requests.delete(f'http://localhost:8000/api/funcionarios/{id}/')
+        response = requests.delete(f'{API_URLS["funcionarios"]}{id}/')
         if response.status_code in [200, 204]:
             return redirect(url_for('funcionarios'))
         else:

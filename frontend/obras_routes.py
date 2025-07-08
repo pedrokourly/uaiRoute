@@ -4,12 +4,14 @@ import requests
 
 # Importar os decoradores de autenticação
 from auth_routes import require_admin
+# Importar configurações centralizadas
+from config import API_URLS
 
 # Rotas para Obras
 @app.route('/obras')
 @require_admin
 def obras():
-    response = requests.get('http://localhost:8000/api/obras/')
+    response = requests.get(API_URLS['obras'])
     if response.status_code == 200:
         obras = response.json()
         return render_template('obras/listar-obras.html', obras=obras)
@@ -29,7 +31,7 @@ def cadastrarObra():
         }
         
         try:
-            response = requests.post('http://localhost:8000/api/obras/', json=obra)
+            response = requests.post(API_URLS['obras'], json=obra)
             if response.status_code in [200, 201]:
                 return redirect(url_for('obras'))
             else:
@@ -50,7 +52,7 @@ def editarObra(id):
             'cidade': request.form['cidade']
         }
         try:
-            response = requests.put(f'http://localhost:8000/api/obras/{id}/', json=obra)
+            response = requests.put(f'{API_URLS["obras"]}{id}/', json=obra)
             if response.status_code in [200, 204]:
                 return redirect(url_for('obras'))
             else:
@@ -59,7 +61,7 @@ def editarObra(id):
             return render_template('obras/editar-obras.html', obra=obra, error=str(e))
     # GET: busca dados da obra
     try:
-        response = requests.get(f'http://localhost:8000/api/obras/{id}/')
+        response = requests.get(f'{API_URLS["obras"]}{id}/')
         if response.status_code == 200:
             obra = response.json()
         else:
@@ -72,7 +74,7 @@ def editarObra(id):
 @require_admin
 def excluirObra(id):
     try:
-        response = requests.delete(f'http://localhost:8000/api/obras/{id}/')
+        response = requests.delete(f'{API_URLS["obras"]}{id}/')
         if response.status_code in [200, 204]:
             return redirect(url_for('obras'))
         else:

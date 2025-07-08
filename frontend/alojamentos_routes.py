@@ -4,13 +4,15 @@ import requests
 
 # Importar os decoradores de autenticação
 from auth_routes import require_admin
+# Importar configurações centralizadas
+from config import API_URLS
 
 # Rotas para Alojamentos
 @app.route('/alojamentos')
 @require_admin
 def alojamentos():
     try:
-        response = requests.get('http://localhost:8000/api/alojamento/')
+        response = requests.get(API_URLS['alojamentos'])
         print(response.status_code)
         if response.status_code == 200:
             alojamentos = response.json()
@@ -34,7 +36,7 @@ def cadastrarAlojamento():
         }
         
         try:
-            response = requests.post('http://localhost:8000/api/alojamento/', json=alojamento)
+            response = requests.post(API_URLS['alojamentos'], json=alojamento)
             if response.status_code in [200, 201]:
                 return redirect(url_for('alojamentos'))
             else:
@@ -57,7 +59,7 @@ def editarAlojamento(id):
             'cidade': request.form.get('cidade', '').strip()
         }
         try:
-            response = requests.put(f'http://localhost:8000/api/alojamento/{id}/', json=alojamento)
+            response = requests.put(f'{API_URLS["alojamentos"]}{id}/', json=alojamento)
             if response.status_code in [200, 204]:
                 return redirect(url_for('alojamentos'))
             else:
@@ -80,7 +82,7 @@ def editarAlojamento(id):
     
     # GET: busca dados do alojamento
     try:
-        response = requests.get(f'http://localhost:8000/api/alojamento/{id}/')
+        response = requests.get(f'{API_URLS["alojamentos"]}{id}/')
         if response.status_code == 200:
             alojamento = response.json()
         else:
@@ -93,7 +95,7 @@ def editarAlojamento(id):
 @require_admin
 def excluirAlojamento(id):
     try:
-        response = requests.delete(f'http://localhost:8000/api/alojamento/{id}/')
+        response = requests.delete(f'{API_URLS["alojamentos"]}{id}/')
         if response.status_code in [200, 204]:
             return redirect(url_for('alojamentos'))
         else:

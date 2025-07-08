@@ -22,3 +22,11 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'uairoute-secret-key-2025')
 
 # IP do servidor para templates
 SERVER_IP = os.environ.get('SERVER_IP', 'localhost')
+
+# Função para disponibilizar configurações nos templates
+def get_template_config():
+    return {
+        'BACKEND_URL': BACKEND_URL,
+        'SERVER_IP': SERVER_IP,
+        'DEBUG': DEBUG
+    }
