@@ -1,0 +1,500 @@
+Nome: da Rocha
+Capacidade Máxima: 31
+Rua: Condomínio Raquel Moura, Nº 92
+Bairro: Saudade - Cidade: Araújo de Campos
+--------------------------------------------------
+Nome: Martins - ME
+Capacidade Máxima: 71
+Rua: Largo Gustavo Henrique das Neves, Nº 7
+Bairro: Barreiro - Cidade: da Mota
+--------------------------------------------------
+Nome: Azevedo S.A.
+Capacidade Máxima: 13
+Rua: Rodovia Fernando da Paz, Nº 10
+Bairro: Vila Ipiranga - Cidade: Nascimento do Oeste
+--------------------------------------------------
+Nome: Cardoso Araújo - ME
+Capacidade Máxima: 70
+Rua: Largo de Fogaça, Nº 5
+Bairro: São Francisco Das Chagas - Cidade: da Conceição de Aragão
+--------------------------------------------------
+Nome: Castro
+Capacidade Máxima: 66
+Rua: Vereda Antônio Cunha, Nº 70
+Bairro: Lagoa - Cidade: Lima
+--------------------------------------------------
+Nome: Fogaça Ltda.
+Capacidade Máxima: 24
+Rua: Distrito de Pinto, Nº 721
+Bairro: Rio Branco - Cidade: Nogueira
+--------------------------------------------------
+Nome: Peixoto - ME
+Capacidade Máxima: 86
+Rua: Morro Nunes, Nº 42
+Bairro: Castelo - Cidade: Fernandes Paulista
+--------------------------------------------------
+Nome: Silveira Jesus Ltda.
+Capacidade Máxima: 57
+Rua: Feira Maria Eduarda Dias, Nº 37
+Bairro: Marieta 1ª Seção - Cidade: Rezende
+--------------------------------------------------
+Nome: da Paz da Mota S/A
+Capacidade Máxima: 68
+Rua: Setor Davi Fogaça, Nº 53
+Bairro: Ambrosina - Cidade: Mendes
+--------------------------------------------------
+Nome: Jesus
+Capacidade Máxima: 33
+Rua: Trecho Cavalcanti, Nº 387
+Bairro: Vila Vista Alegre - Cidade: Fernandes de Goiás
+--------------------------------------------------
+Nome: Caldeira
+Capacidade Máxima: 30
+Rua: Alameda de Sales, Nº 18
+Bairro: Conjunto Novo Dom Bosco - Cidade: Correia de Alves
+--------------------------------------------------
+Nome: Rodrigues
+Capacidade Máxima: 39
+Rua: Setor de Alves, Nº 60
+Bairro: São Bento - Cidade: Cardoso Grande
+--------------------------------------------------
+Nome: Farias
+Capacidade Máxima: 98
+Rua: Núcleo Costela, Nº 69
+Bairro: Nova Gameleira - Cidade: da Cunha
+--------------------------------------------------
+Nome: Rocha
+Capacidade Máxima: 20
+Rua: Quadra Ana Clara Sales, Nº 70
+Bairro: Santa Monica - Cidade: Vieira de Teixeira
+--------------------------------------------------
+Nome: Caldeira - EI
+Capacidade Máxima: 57
+Rua: Estação de Mendes, Nº 62
+Bairro: Manacas - Cidade: da Paz
+--------------------------------------------------
+Nome: da Mota
+Capacidade Máxima: 36
+Rua: Vale Viana, Nº 6
+Bairro: Vila Santo Antônio - Cidade: Santos de Porto
+--------------------------------------------------
+Nome: Porto - ME
+Capacidade Máxima: 47
+Rua: Núcleo da Paz, Nº 6
+Bairro: Pongelupe - Cidade: Barros Paulista
+--------------------------------------------------
+Nome: Cunha - ME
+Capacidade Máxima: 76
+Rua: Vila Gomes, Nº 792
+Bairro: Jaqueline - Cidade: Souza
+--------------------------------------------------
+Nome: Gomes
+Capacidade Máxima: 75
+Rua: Condomínio Aragão, Nº 228
+Bairro: São Lucas - Cidade: Cavalcanti
+--------------------------------------------------
+Nome: da Rosa
+Capacidade Máxima: 43
+Rua: Morro Freitas, Nº 131
+Bairro: Nova Floresta - Cidade: Monteiro
+--------------------------------------------------
+Nome: da Costa
+Capacidade Máxima: 70
+Rua: Fazenda de Silva, Nº 17
+Bairro: Vila Jardim Montanhes - Cidade: Cunha das Flores
+--------------------------------------------------
+Nome: Moreira
+Capacidade Máxima: 77
+Rua: Favela Nascimento, Nº 62
+Bairro: Tiradentes - Cidade: Ribeiro de Pires
+--------------------------------------------------
+Nome: Caldeira e Filhos
+Capacidade Máxima: 5
+Rua: Conjunto da Paz, Nº 176
+Bairro: Goiania - Cidade: Freitas
+--------------------------------------------------
+Nome: Lopes
+Capacidade Máxima: 81
+Rua: Praça Monteiro, Nº 356
+Bairro: Conjunto Minas Caixa - Cidade: Barros
+--------------------------------------------------
+Nome: Carvalho
+Capacidade Máxima: 44
+Rua: Jardim Samuel Farias, Nº 3
+Bairro: Vista Do Sol - Cidade: Souza
+--------------------------------------------------
+Nome: Moura
+Capacidade Máxima: 53
+Rua: Setor Caldeira, Nº 472
+Bairro: Anchieta - Cidade: Fogaça do Campo
+--------------------------------------------------
+Nome: Ferreira - EI
+Capacidade Máxima: 96
+Rua: Área Enzo Gabriel Teixeira, Nº 29
+Bairro: Pirineus - Cidade: Pinto da Serra
+--------------------------------------------------
+Nome: Nunes S.A.
+Capacidade Máxima: 17
+Rua: Largo Caio Viana, Nº 30
+Bairro: Vila Paquetá - Cidade: Monteiro do Campo
+--------------------------------------------------
+Nome: Alves Freitas e Filhos
+Capacidade Máxima: 70
+Rua: Aeroporto Costela, Nº 17
+Bairro: Califórnia - Cidade: Cavalcanti da Praia
+--------------------------------------------------
+Nome: Moraes
+Capacidade Máxima: 96
+Rua: Estação de Duarte, Nº 33
+Bairro: Vila Minaslandia - Cidade: Gomes da Mata
+--------------------------------------------------
+Nome: Peixoto
+Capacidade Máxima: 97
+Rua: Lago Ryan Costela, Nº 44
+Bairro: Xodo-Marize - Cidade: Fernandes de da Mata
+--------------------------------------------------
+Nome: Vieira
+Capacidade Máxima: 22
+Rua: Largo de Moreira, Nº 768
+Bairro: Vila Jardim Leblon - Cidade: Costela
+--------------------------------------------------
+Nome: Rocha Lima e Filhos
+Capacidade Máxima: 75
+Rua: Trecho Ana Lívia da Mata, Nº 391
+Bairro: Alto Barroca - Cidade: Costela
+--------------------------------------------------
+Nome: Costela Pinto Ltda.
+Capacidade Máxima: 90
+Rua: Setor Rodrigo Novaes, Nº 97
+Bairro: Cidade Nova - Cidade: Mendes Grande
+--------------------------------------------------
+Nome: Nogueira
+Capacidade Máxima: 12
+Rua: Vila de Monteiro, Nº 55
+Bairro: Aarão Reis - Cidade: Costa
+--------------------------------------------------
+Nome: Araújo
+Capacidade Máxima: 84
+Rua: Trevo Rafael Lima, Nº 9
+Bairro: Leonina - Cidade: da Cruz
+--------------------------------------------------
+Nome: Silveira
+Capacidade Máxima: 14
+Rua: Pátio Kevin Farias, Nº 830
+Bairro: Goiania - Cidade: Ribeiro de Nogueira
+--------------------------------------------------
+Nome: Barbosa Lima Ltda.
+Capacidade Máxima: 72
+Rua: Rodovia de Jesus, Nº 809
+Bairro: São Jorge 2ª Seção - Cidade: Barbosa
+--------------------------------------------------
+Nome: Rezende Rocha - ME
+Capacidade Máxima: 80
+Rua: Largo Duarte, Nº 1
+Bairro: Vila Engenho Nogueira - Cidade: Costa do Galho
+--------------------------------------------------
+Nome: Duarte Ltda.
+Capacidade Máxima: 7
+Rua: Viela da Paz, Nº 24
+Bairro: Cdi Jatoba - Cidade: Silva Grande
+--------------------------------------------------
+Nome: Aragão e Filhos
+Capacidade Máxima: 21
+Rua: Vila de Rocha, Nº 4
+Bairro: Jardim Do Vale - Cidade: Lopes
+--------------------------------------------------
+Nome: Lima Castro S.A.
+Capacidade Máxima: 51
+Rua: Rodovia de Ferreira, Nº 3
+Bairro: Vila Rica - Cidade: Correia
+--------------------------------------------------
+Nome: Alves S/A
+Capacidade Máxima: 96
+Rua: Loteamento de Oliveira, Nº 73
+Bairro: Vila Paquetá - Cidade: Nogueira de Jesus
+--------------------------------------------------
+Nome: Mendes Azevedo Ltda.
+Capacidade Máxima: 96
+Rua: Travessa Francisco Santos, Nº 92
+Bairro: São João Batista - Cidade: Mendes
+--------------------------------------------------
+Nome: Alves
+Capacidade Máxima: 20
+Rua: Rua Gustavo Novaes, Nº 3
+Bairro: Silveira - Cidade: Rezende de Goiás
+--------------------------------------------------
+Nome: Novaes S/A
+Capacidade Máxima: 28
+Rua: Colônia Davi Lucas Castro, Nº 142
+Bairro: Marieta 2ª Seção - Cidade: Campos da Mata
+--------------------------------------------------
+Nome: Rezende da Paz Ltda.
+Capacidade Máxima: 20
+Rua: Lagoa Silva, Nº 32
+Bairro: Boa Vista - Cidade: Monteiro
+--------------------------------------------------
+Nome: Teixeira
+Capacidade Máxima: 15
+Rua: Fazenda de Pinto, Nº 4
+Bairro: Santa Rita De Cássia - Cidade: Fernandes
+--------------------------------------------------
+Nome: Monteiro S.A.
+Capacidade Máxima: 10
+Rua: Alameda da Mota, Nº 16
+Bairro: Ipe - Cidade: Melo do Campo
+--------------------------------------------------
+Nome: Pires e Filhos
+Capacidade Máxima: 68
+Rua: Ladeira Campos, Nº 43
+Bairro: Cachoeirinha - Cidade: Caldeira
+--------------------------------------------------
+Nome: Freitas Souza S/A
+Capacidade Máxima: 42
+Rua: Sítio Marcela da Costa, Nº 29
+Bairro: Bandeirantes - Cidade: Pires do Oeste
+--------------------------------------------------
+Nome: Ramos
+Capacidade Máxima: 45
+Rua: Colônia de Peixoto, Nº 16
+Bairro: Tres Marias - Cidade: Moura
+--------------------------------------------------
+Nome: da Rocha Campos S.A.
+Capacidade Máxima: 9
+Rua: Quadra Azevedo, Nº 43
+Bairro: Vila São Gabriel Jacui - Cidade: Barros
+--------------------------------------------------
+Nome: da Cunha - ME
+Capacidade Máxima: 41
+Rua: Via de da Mota, Nº 57
+Bairro: Conjunto Providencia - Cidade: Cunha dos Dourados
+--------------------------------------------------
+Nome: Mendes Araújo - EI
+Capacidade Máxima: 63
+Rua: Trevo Diogo Rezende, Nº 70
+Bairro: Solimoes - Cidade: da Mata
+--------------------------------------------------
+Nome: da Luz
+Capacidade Máxima: 81
+Rua: Estrada Porto, Nº 50
+Bairro: Vila Nova Cachoeirinha 1ª Seção - Cidade: da Mota Grande
+--------------------------------------------------
+Nome: Sales
+Capacidade Máxima: 14
+Rua: Morro Amanda Nogueira, Nº 52
+Bairro: São Vicente - Cidade: Rezende de Minas
+--------------------------------------------------
+Nome: Nunes - EI
+Capacidade Máxima: 60
+Rua: Praia Azevedo, Nº 905
+Bairro: Cabana Do Pai Tomás - Cidade: Pinto de Peixoto
+--------------------------------------------------
+Nome: Ramos Pinto e Filhos
+Capacidade Máxima: 23
+Rua: Lago das Neves, Nº 4
+Bairro: Frei Leopoldo - Cidade: Farias
+--------------------------------------------------
+Nome: Correia - EI
+Capacidade Máxima: 68
+Rua: Vereda de da Rosa, Nº 94
+Bairro: Vera Cruz - Cidade: Moraes
+--------------------------------------------------
+Nome: Caldeira da Cruz - ME
+Capacidade Máxima: 56
+Rua: Colônia Souza, Nº 19
+Bairro: Luxemburgo - Cidade: Alves
+--------------------------------------------------
+Nome: Mendes
+Capacidade Máxima: 34
+Rua: Travessa Benjamin Moreira, Nº 9
+Bairro: Prado - Cidade: Rodrigues
+--------------------------------------------------
+Nome: Martins Nascimento - ME
+Capacidade Máxima: 89
+Rua: Viaduto Maria Cecília Lopes, Nº 99
+Bairro: Vila Primeiro De Maio - Cidade: Freitas
+--------------------------------------------------
+Nome: Barros S.A.
+Capacidade Máxima: 57
+Rua: Praça Ribeiro, Nº 595
+Bairro: Alto Dos Pinheiros - Cidade: Freitas
+--------------------------------------------------
+Nome: da Cruz
+Capacidade Máxima: 44
+Rua: Viela Sabrina Cunha, Nº 9
+Bairro: Buritis - Cidade: Santos dos Dourados
+--------------------------------------------------
+Nome: Gonçalves Freitas - EI
+Capacidade Máxima: 59
+Rua: Feira Farias, Nº 768
+Bairro: Canadá - Cidade: Cardoso do Norte
+--------------------------------------------------
+Nome: da Conceição
+Capacidade Máxima: 77
+Rua: Loteamento Alice Oliveira, Nº 848
+Bairro: Castelo - Cidade: da Cruz
+--------------------------------------------------
+Nome: da Cruz S/A
+Capacidade Máxima: 55
+Rua: Passarela Azevedo, Nº 87
+Bairro: Parque São Pedro - Cidade: Rocha das Flores
+--------------------------------------------------
+Nome: Cunha
+Capacidade Máxima: 42
+Rua: Lagoa de da Conceição, Nº 51
+Bairro: Vila Santa Monica 1ª Seção - Cidade: Farias
+--------------------------------------------------
+Nome: da Conceição Fogaça - EI
+Capacidade Máxima: 84
+Rua: Campo de Moreira, Nº 9
+Bairro: Aarão Reis - Cidade: Almeida
+--------------------------------------------------
+Nome: Fogaça
+Capacidade Máxima: 75
+Rua: Rodovia Valentina Viana, Nº 411
+Bairro: Barão Homem De Melo 1ª Seção - Cidade: Lopes
+--------------------------------------------------
+Nome: Gonçalves - EI
+Capacidade Máxima: 52
+Rua: Avenida de Correia, Nº 51
+Bairro: Virgínia - Cidade: das Neves de Azevedo
+--------------------------------------------------
+Nome: Ferreira S/A
+Capacidade Máxima: 41
+Rua: Parque de Moura, Nº 33
+Bairro: Lourdes - Cidade: Cardoso do Amparo
+--------------------------------------------------
+Nome: Fogaça - EI
+Capacidade Máxima: 71
+Rua: Vereda de Gomes, Nº 992
+Bairro: Vila Maloca - Cidade: Fernandes da Serra
+--------------------------------------------------
+Nome: Oliveira
+Capacidade Máxima: 64
+Rua: Vereda de Moura, Nº 749
+Bairro: Ipe - Cidade: da Costa
+--------------------------------------------------
+Nome: Costa
+Capacidade Máxima: 19
+Rua: Feira de Lopes, Nº 57
+Bairro: Mangabeiras - Cidade: Nogueira Alegre
+--------------------------------------------------
+Nome: Nunes
+Capacidade Máxima: 97
+Rua: Recanto Pedro Henrique Costela, Nº 136
+Bairro: Conjunto Paulo Vi - Cidade: Moreira da Prata
+--------------------------------------------------
+Nome: Cardoso Gomes Ltda.
+Capacidade Máxima: 7
+Rua: Avenida da Costa, Nº 42
+Bairro: Sion - Cidade: da Rosa de Freitas
+--------------------------------------------------
+Nome: Freitas e Filhos
+Capacidade Máxima: 74
+Rua: Colônia de Rezende, Nº 83
+Bairro: Dom Joaquim - Cidade: Costela
+--------------------------------------------------
+Nome: Duarte
+Capacidade Máxima: 83
+Rua: Loteamento de Santos, Nº 9
+Bairro: Piraja - Cidade: das Neves de da Cunha
+--------------------------------------------------
+Nome: Viana e Filhos
+Capacidade Máxima: 20
+Rua: Lagoa Augusto Moreira, Nº 1
+Bairro: Vila Califórnia - Cidade: Moraes das Pedras
+--------------------------------------------------
+Nome: Fernandes Nunes e Filhos
+Capacidade Máxima: 55
+Rua: Campo Nunes, Nº 87
+Bairro: Santa Terezinha - Cidade: Costela
+--------------------------------------------------
+Nome: Costela S/A
+Capacidade Máxima: 58
+Rua: Núcleo Peixoto, Nº 44
+Bairro: Castanheira - Cidade: Moraes
+--------------------------------------------------
+Nome: Cavalcanti - EI
+Capacidade Máxima: 34
+Rua: Trecho de da Paz, Nº 16
+Bairro: Cônego Pinheiro 1ª Seção - Cidade: Cavalcanti das Flores
+--------------------------------------------------
+Nome: Novaes Dias Ltda.
+Capacidade Máxima: 94
+Rua: Estrada Theo Rocha, Nº 989
+Bairro: Monte São José - Cidade: da Luz
+--------------------------------------------------
+Nome: Peixoto Ltda.
+Capacidade Máxima: 76
+Rua: Setor Davi Lucca da Cunha, Nº 810
+Bairro: Vitoria - Cidade: Moraes
+--------------------------------------------------
+Nome: Vieira S/A
+Capacidade Máxima: 53
+Rua: Aeroporto Leonardo Ramos, Nº 2
+Bairro: Barreiro - Cidade: Santos
+--------------------------------------------------
+Nome: Almeida Ltda.
+Capacidade Máxima: 19
+Rua: Lago Ana Ribeiro, Nº 41
+Bairro: Virgínia - Cidade: Martins de Minas
+--------------------------------------------------
+Nome: Rocha - EI
+Capacidade Máxima: 35
+Rua: Morro Viana, Nº 88
+Bairro: Conjunto Floramar - Cidade: Silva
+--------------------------------------------------
+Nome: Moreira Martins e Filhos
+Capacidade Máxima: 94
+Rua: Travessa Silveira, Nº 78
+Bairro: Novo Das Industrias - Cidade: da Costa
+--------------------------------------------------
+Nome: Mendes e Filhos
+Capacidade Máxima: 77
+Rua: Rua Sales, Nº 6
+Bairro: Itaipu - Cidade: Porto
+--------------------------------------------------
+Nome: Campos S/A
+Capacidade Máxima: 18
+Rua: Vereda Clara Cunha, Nº 657
+Bairro: Anchieta - Cidade: Vieira do Galho
+--------------------------------------------------
+Nome: da Luz Ltda.
+Capacidade Máxima: 81
+Rua: Lagoa Ana Carolina da Cunha, Nº 55
+Bairro: Paulo Vi - Cidade: Teixeira
+--------------------------------------------------
+Nome: Fernandes
+Capacidade Máxima: 11
+Rua: Fazenda Nogueira, Nº 481
+Bairro: Ernesto Nascimento - Cidade: Gonçalves
+--------------------------------------------------
+Nome: Costa S.A.
+Capacidade Máxima: 55
+Rua: Praça Guilherme Farias, Nº 67
+Bairro: Vila São Paulo - Cidade: Porto
+--------------------------------------------------
+Nome: Pires Cardoso - ME
+Capacidade Máxima: 79
+Rua: Loteamento da Paz, Nº 8
+Bairro: Barão Homem De Melo 1ª Seção - Cidade: Castro das Flores
+--------------------------------------------------
+Nome: da Mota - EI
+Capacidade Máxima: 21
+Rua: Praia de Gonçalves, Nº 5
+Bairro: Conjunto Bonsucesso - Cidade: das Neves
+--------------------------------------------------
+Nome: Pires
+Capacidade Máxima: 77
+Rua: Praia Ribeiro, Nº 56
+Bairro: Mariano De Abreu - Cidade: Barbosa
+--------------------------------------------------
+Nome: Porto
+Capacidade Máxima: 89
+Rua: Esplanada Fogaça, Nº 61
+Bairro: Vitoria Da Conquista - Cidade: Cardoso de Costa
+--------------------------------------------------
+Nome: Cardoso - ME
+Capacidade Máxima: 13
+Rua: Rua de Nascimento, Nº 79
+Bairro: Beija Flor - Cidade: Ferreira
+--------------------------------------------------

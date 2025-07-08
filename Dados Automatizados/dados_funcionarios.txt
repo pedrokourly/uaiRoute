@@ -1,0 +1,800 @@
+Nome: Lara Rodrigues
+Cargo: Despachante
+E-mail: unascimento@bol.com.br
+Senha: rl!FO7hp#)9Y
+Admin: Não
+Alojamento ID: 10
+Endereço: Distrito Calebe Ribeiro, 432 - Vila Nova Cachoeirinha 2ª Seção - Pereira
+------------------------------------------------------------
+Nome: Sr. Diego Castro
+Cargo: Mestre-de-obras
+E-mail: oalves@yahoo.com.br
+Senha: @3(ZE_OydJLs
+Admin: Sim
+Alojamento ID: 10
+Endereço: Lagoa Enrico Peixoto, 33 - Alípio De Melo - Santos
+------------------------------------------------------------
+Nome: Fernando Fernandes
+Cargo: Eletricista
+E-mail: joao-felipepinto@jesus.com
+Senha: xC0AV4Mq*XR@
+Admin: Sim
+Alojamento ID: 3
+Endereço: Viela de Pinto, 522 - Bairro Das Indústrias Ii - Alves dos Dourados
+------------------------------------------------------------
+Nome: André Teixeira
+Cargo: Engenheiro mecânico
+E-mail: arthur58@gmail.com
+Senha: k7cGTO_s#3fC
+Admin: Não
+Alojamento ID: 6
+Endereço: Aeroporto de Costa, 12 - Santa Rosa - Cardoso
+------------------------------------------------------------
+Nome: Enrico da Luz
+Cargo: Soldado
+E-mail: ana-beatriz45@moreira.br
+Senha: o%5aXAUv0D5N
+Admin: Não
+Alojamento ID: 1
+Endereço: Campo de Aragão, 16 - Lagoa - Caldeira
+------------------------------------------------------------
+Nome: Benjamin Vieira
+Cargo: Piloto automobilístico
+E-mail: pedro-henrique44@yahoo.com.br
+Senha: )*5MgXyVZa7E
+Admin: Não
+Alojamento ID: 5
+Endereço: Sítio Enzo Gabriel Freitas, 5 - Cônego Pinheiro 2ª Seção - Silveira
+------------------------------------------------------------
+Nome: Bárbara Cardoso
+Cargo: Chargista
+E-mail: cavalcantihelena@yahoo.com.br
+Senha: G)7DbNFHBv4k
+Admin: Sim
+Alojamento ID: 7
+Endereço: Estação Raquel Carvalho, 41 - Venda Nova - da Rosa
+------------------------------------------------------------
+Nome: Danilo Rocha
+Cargo: Militar do Exército
+E-mail: raquel29@ig.com.br
+Senha: ^sgTr+C6SY4Z
+Admin: Não
+Alojamento ID: 3
+Endereço: Jardim de Gonçalves, 8 - Vila São João Batista - Pereira
+------------------------------------------------------------
+Nome: Joana Novaes
+Cargo: Viveirista
+E-mail: limavinicius@fernandes.com
+Senha: )l$*Z49g(1^5
+Admin: Não
+Alojamento ID: 1
+Endereço: Rua Alícia Caldeira, 63 - Rio Branco - Moraes do Galho
+------------------------------------------------------------
+Nome: Caio Nascimento
+Cargo: Agente funerário
+E-mail: beatrizpires@moura.com
+Senha: NA(JGz481mKw
+Admin: Não
+Alojamento ID: 4
+Endereço: Vila de Viana, 2 - Tupi B - Cunha
+------------------------------------------------------------
+Nome: Lavínia Alves
+Cargo: Reumatologista
+E-mail: ocarvalho@gomes.org
+Senha: %&9oq^A8wcWL
+Admin: Não
+Alojamento ID: 1
+Endereço: Vereda de Freitas, 2 - Barão Homem De Melo 3ª Seção - Mendes
+------------------------------------------------------------
+Nome: Daniela da Mata
+Cargo: Profissional de relações públicas
+E-mail: novaesisabel@rodrigues.com
+Senha: +gEMzmPJ!88R
+Admin: Sim
+Alojamento ID: 10
+Endereço: Favela de Oliveira, 71 - Conjunto Lagoa - Azevedo
+------------------------------------------------------------
+Nome: Pedro Henrique Carvalho
+Cargo: Cobaia Médica
+E-mail: duartedaniel@ig.com.br
+Senha: gwAnT&)r28F!
+Admin: Sim
+Alojamento ID: 5
+Endereço: Sítio de Correia, 34 - Universitário - Fogaça
+------------------------------------------------------------
+Nome: Alexandre Vieira
+Cargo: Recreador
+E-mail: da-cunhaheitor@uol.com.br
+Senha: CyTwKtjeR)2C
+Admin: Sim
+Alojamento ID: 8
+Endereço: Viaduto de Mendes, 960 - Caetano Furquim - Gomes
+------------------------------------------------------------
+Nome: Guilherme Santos
+Cargo: Produtor editorial
+E-mail: vianapedro-miguel@uol.com.br
+Senha: Do!3IvfsSf2l
+Admin: Sim
+Alojamento ID: 9
+Endereço: Alameda Araújo, 6 - Vila Nova Cachoeirinha 3ª Seção - Caldeira
+------------------------------------------------------------
+Nome: Laura da Luz
+Cargo: Ambulante
+E-mail: nicoleporto@monteiro.com
+Senha: !lLpsz53F*3D
+Admin: Sim
+Alojamento ID: 9
+Endereço: Quadra Raul Lopes, 65 - Vila Madre Gertrudes 1ª Seção - Nascimento
+------------------------------------------------------------
+Nome: Clara da Cruz
+Cargo: Gerente de banco
+E-mail: ramosleandro@uol.com.br
+Senha: @ld6tUlFQ2W%
+Admin: Não
+Alojamento ID: 4
+Endereço: Loteamento Pietra Araújo, 945 - Flavio De Oliveira - Moraes da Prata
+------------------------------------------------------------
+Nome: Samuel Melo
+Cargo: Topógrafo
+E-mail: ana-lauravieira@silva.com
+Senha: N3zG79Vl)#@Q
+Admin: Não
+Alojamento ID: 5
+Endereço: Chácara Gabriel Cardoso, 66 - Vila Independencia 1ª Seção - Freitas Alegre
+------------------------------------------------------------
+Nome: Dr. Luiz Henrique Castro
+Cargo: Empresário
+E-mail: antonio52@silveira.org
+Senha: (!VgFtff^31E
+Admin: Não
+Alojamento ID: 6
+Endereço: Alameda de Aragão, 91 - Vila Jardim Montanhes - Cardoso
+------------------------------------------------------------
+Nome: Elisa da Paz
+Cargo: Vendedor
+E-mail: levigomes@bol.com.br
+Senha: ^9!tTKt4caB_
+Admin: Sim
+Alojamento ID: 10
+Endereço: Favela Noah Oliveira, 6 - Barreiro - da Cruz
+------------------------------------------------------------
+Nome: João Pedro Melo
+Cargo: Projetista mecânico
+E-mail: eduardamoura@yahoo.com.br
+Senha: 6B1bfJygx&iQ
+Admin: Não
+Alojamento ID: 1
+Endereço: Praça de Dias, 11 - Monte Azul - Freitas de Ferreira
+------------------------------------------------------------
+Nome: Ana Clara Porto
+Cargo: Copeiro
+E-mail: ferreirajoana@costa.com
+Senha: n7+4s6Ywf!R5
+Admin: Não
+Alojamento ID: 7
+Endereço: Quadra Souza, 445 - Garças - da Costa
+------------------------------------------------------------
+Nome: Henrique Barbosa
+Cargo: General
+E-mail: novaesalexandre@teixeira.com
+Senha: !9M_szK0$%6Q
+Admin: Sim
+Alojamento ID: 3
+Endereço: Rodovia Cardoso, 2 - Varzea Da Palma - Santos de Castro
+------------------------------------------------------------
+Nome: Bryan Vieira
+Cargo: Impressor
+E-mail: da-luzana@sales.br
+Senha: Qk3Gdx9l+gD8
+Admin: Não
+Alojamento ID: 7
+Endereço: Ladeira Barros, 23 - Barão Homem De Melo 3ª Seção - Carvalho das Pedras
+------------------------------------------------------------
+Nome: Danilo Fernandes
+Cargo: Maquiador
+E-mail: ida-costa@vieira.br
+Senha: _sj^xGm(yFU0
+Admin: Não
+Alojamento ID: 3
+Endereço: Estrada Mariane Fogaça, 19 - Das Industrias I - Cardoso
+------------------------------------------------------------
+Nome: Giovanna Correia
+Cargo: Oficial de justiça
+E-mail: souzaana-julia@hotmail.com
+Senha: ^1cR9oMt6d4E
+Admin: Sim
+Alojamento ID: 9
+Endereço: Morro Almeida, 1 - Jonas Veiga - da Rocha de Souza
+------------------------------------------------------------
+Nome: Dra. Ana Luiza Vieira
+Cargo: Estilista
+E-mail: melohelena@uol.com.br
+Senha: (LLv5U^cEmR^
+Admin: Não
+Alojamento ID: 8
+Endereço: Estrada Maria Eduarda da Rosa, 86 - Vila Piratininga - Pires do Campo
+------------------------------------------------------------
+Nome: Juliana Melo
+Cargo: Repositor
+E-mail: wdias@cardoso.br
+Senha: *A9yKQmd+&5N
+Admin: Não
+Alojamento ID: 4
+Endereço: Vale da Mota, 64 - Vila Jardim Montanhes - da Conceição das Flores
+------------------------------------------------------------
+Nome: Nicole da Rosa
+Cargo: Diarista
+E-mail: qcosta@bol.com.br
+Senha: CBsFKDNsD%@8
+Admin: Sim
+Alojamento ID: 9
+Endereço: Campo Mirella Silva, 2 - Vila Jardim Leblon - Barbosa
+------------------------------------------------------------
+Nome: Sofia Barbosa
+Cargo: Continuista
+E-mail: da-cruzerick@goncalves.net
+Senha: #8SXpSm2&pw*
+Admin: Sim
+Alojamento ID: 3
+Endereço: Vila de das Neves, 85 - São Geraldo - Rodrigues
+------------------------------------------------------------
+Nome: Francisco da Cunha
+Cargo: Assessor parlamentar
+E-mail: monteiroemanuelly@ribeiro.br
+Senha: 2ns8FQ7ZZ*Hx
+Admin: Sim
+Alojamento ID: 8
+Endereço: Vila de Melo, 321 - Custodinha - Moreira
+------------------------------------------------------------
+Nome: Amanda Porto
+Cargo: Diagramador
+E-mail: nuneslarissa@novaes.br
+Senha: #CbB(mc05psX
+Admin: Sim
+Alojamento ID: 10
+Endereço: Lago Silveira, 1 - Estrela Do Oriente - Cardoso
+------------------------------------------------------------
+Nome: Pedro Lucas Vieira
+Cargo: Engenheiro naval
+E-mail: ferreirasophia@hotmail.com
+Senha: 0m^YEyrO^86J
+Admin: Sim
+Alojamento ID: 7
+Endereço: Área Costa, 21 - Bairro Das Indústrias Ii - Pires do Amparo
+------------------------------------------------------------
+Nome: Juliana Almeida
+Cargo: Nadador
+E-mail: amanda76@bol.com.br
+Senha: 7T#6YaSTyOjL
+Admin: Não
+Alojamento ID: 5
+Endereço: Conjunto Barbosa, 997 - Braúnas - da Mota do Norte
+------------------------------------------------------------
+Nome: Isabel da Paz
+Cargo: Lancheiro
+E-mail: ana-claramonteiro@porto.net
+Senha: b8rM4GLHPRD#
+Admin: Sim
+Alojamento ID: 1
+Endereço: Núcleo Fernandes, 4 - Floresta - Moraes
+------------------------------------------------------------
+Nome: Cecília Porto
+Cargo: Ascensorista
+E-mail: francisco28@da.br
+Senha: XIg$NEb&@5T_
+Admin: Sim
+Alojamento ID: 6
+Endereço: Feira Theo Rodrigues, 538 - Jaqueline - Mendes da Serra
+------------------------------------------------------------
+Nome: Joaquim Gonçalves
+Cargo: Portuário
+E-mail: andrepinto@uol.com.br
+Senha: 1%iHV5%wfL1_
+Admin: Não
+Alojamento ID: 7
+Endereço: Favela Alana Silveira, 2 - Santa Monica - Ferreira
+------------------------------------------------------------
+Nome: Theo da Rocha
+Cargo: Desenhista
+E-mail: jcardoso@castro.com
+Senha: #GO%g%28F86F
+Admin: Não
+Alojamento ID: 7
+Endereço: Setor Emanuel Araújo, 5 - São Francisco Das Chagas - Lima do Sul
+------------------------------------------------------------
+Nome: Davi da Mota
+Cargo: Governador
+E-mail: vrocha@castro.org
+Senha: @Ts46OE89s46
+Admin: Não
+Alojamento ID: 5
+Endereço: Colônia de Ferreira, 20 - Tupi B - Farias
+------------------------------------------------------------
+Nome: Srta. Pietra Rezende
+Cargo: Gerente de banco
+E-mail: diogomartins@uol.com.br
+Senha: vdMzO!RG+6B1
+Admin: Sim
+Alojamento ID: 1
+Endereço: Condomínio da Paz, 33 - Planalto - Barros
+------------------------------------------------------------
+Nome: Emanuelly Lopes
+Cargo: Lutador de luta livre
+E-mail: bruno60@gmail.com
+Senha: zv(2YoaE)Nq2
+Admin: Sim
+Alojamento ID: 2
+Endereço: Lagoa de Gonçalves, 64 - Ademar Maldonado - da Mata de Minas
+------------------------------------------------------------
+Nome: Sophia Moura
+Cargo: Embalsamador
+E-mail: eoliveira@uol.com.br
+Senha: *2p3rxMv74Fi
+Admin: Não
+Alojamento ID: 10
+Endereço: Esplanada Emilly Barbosa, 73 - Laranjeiras - da Mata
+------------------------------------------------------------
+Nome: Diego Fogaça
+Cargo: Retificador
+E-mail: calebe12@bol.com.br
+Senha: y6A4Ucmg&J5D
+Admin: Sim
+Alojamento ID: 1
+Endereço: Conjunto Fernandes, 8 - Novo Das Industrias - Monteiro
+------------------------------------------------------------
+Nome: Miguel Nunes
+Cargo: Assistente social
+E-mail: kamillynunes@duarte.com
+Senha: #ijeKHBk$4Wh
+Admin: Não
+Alojamento ID: 3
+Endereço: Praia de Campos, 87 - Santa Tereza - da Cruz
+------------------------------------------------------------
+Nome: Diogo Freitas
+Cargo: Técnico em rede
+E-mail: barbara28@da.org
+Senha: _IB*q@+$&d6l
+Admin: Sim
+Alojamento ID: 1
+Endereço: Estação Oliveira, 54 - Vila Barragem Santa Lúcia - da Cunha do Sul
+------------------------------------------------------------
+Nome: Laura Rocha
+Cargo: Músico
+E-mail: emanuellynovaes@cardoso.br
+Senha: V@+97K8j)X_m
+Admin: Sim
+Alojamento ID: 4
+Endereço: Travessa Nunes, 67 - Floramar - da Cruz Alegre
+------------------------------------------------------------
+Nome: Luiz Henrique Barros
+Cargo: Cartunista
+E-mail: araujonoah@ig.com.br
+Senha: T#9!!HJgDop3
+Admin: Não
+Alojamento ID: 3
+Endereço: Trevo Maria Fernanda da Rocha, 56 - Vila Da Ária - Cardoso
+------------------------------------------------------------
+Nome: Nicolas Jesus
+Cargo: Técnico em rede
+E-mail: sophia88@da.net
+Senha: dtyN_PVk_49G
+Admin: Não
+Alojamento ID: 2
+Endereço: Parque Erick Rodrigues, 93 - Álvaro Camargos - Ramos de Farias
+------------------------------------------------------------
+Nome: Luiz Fernando Aragão
+Cargo: Armador
+E-mail: eloah91@gomes.net
+Senha: )y*IN#t!s84M
+Admin: Sim
+Alojamento ID: 10
+Endereço: Passarela Lavínia Nogueira, 74 - Marieta 1ª Seção - Lopes do Oeste
+------------------------------------------------------------
+Nome: Luana Oliveira
+Cargo: Profissional de áudio
+E-mail: kevin06@ig.com.br
+Senha: M0aOob@9+cZf
+Admin: Sim
+Alojamento ID: 5
+Endereço: Trecho da Cunha, 49 - Belvedere - Ramos de Aragão
+------------------------------------------------------------
+Nome: Vitor Gabriel Pereira
+Cargo: Profissional de educação física
+E-mail: valentinada-mota@da.br
+Senha: eYMh%Ubk_#7c
+Admin: Sim
+Alojamento ID: 3
+Endereço: Passarela Ana Laura Duarte, 23 - Vila Madre Gertrudes 3ª Seção - Santos Alegre
+------------------------------------------------------------
+Nome: Sra. Nicole Barros
+Cargo: Meeiro
+E-mail: valentina02@hotmail.com
+Senha: 5rq$I9e)@9o@
+Admin: Não
+Alojamento ID: 2
+Endereço: Quadra Levi Novaes, 51 - Flavio De Oliveira - Caldeira
+------------------------------------------------------------
+Nome: Carlos Eduardo Caldeira
+Cargo: Guarda roupeiro
+E-mail: lucca20@fogaca.com
+Senha: *SZML58v**7#
+Admin: Não
+Alojamento ID: 9
+Endereço: Estrada de Rodrigues, 8 - Vila Formosa - Martins
+------------------------------------------------------------
+Nome: Elisa Fernandes
+Cargo: Porteiro
+E-mail: talves@gomes.br
+Senha: 04T0Ar+f!3&(
+Admin: Sim
+Alojamento ID: 8
+Endereço: Condomínio de da Costa, 52 - Indaiá - Viana
+------------------------------------------------------------
+Nome: Yuri Alves
+Cargo: Senador
+E-mail: ana-beatrizporto@uol.com.br
+Senha: fP10+^Yxa^QW
+Admin: Sim
+Alojamento ID: 8
+Endereço: Estação Thiago Carvalho, 4 - Camponesa 1ª Seção - Alves
+------------------------------------------------------------
+Nome: Dr. Cauê Caldeira
+Cargo: Engenheiro de ergonomia
+E-mail: joao-lucas97@hotmail.com
+Senha: o6HnN7k@ch0^
+Admin: Sim
+Alojamento ID: 9
+Endereço: Praia Peixoto, 91 - Marçola - Jesus da Praia
+------------------------------------------------------------
+Nome: Dr. Emanuel Oliveira
+Cargo: Teólogo
+E-mail: da-cruzgabriel@correia.com
+Senha: hk70RBp*XE$8
+Admin: Sim
+Alojamento ID: 10
+Endereço: Recanto Melo, 43 - Santo André - Rocha
+------------------------------------------------------------
+Nome: Pedro da Mata
+Cargo: Profissional de cinema
+E-mail: cauarocha@yahoo.com.br
+Senha: !PlPDybdElM9
+Admin: Sim
+Alojamento ID: 3
+Endereço: Vila da Rosa, 88 - Vila Maria - Rocha
+------------------------------------------------------------
+Nome: Ana Beatriz Rocha
+Cargo: Dermatologista
+E-mail: cavalcantiluiz-fernando@uol.com.br
+Senha: b*aK8*EmQ(VZ
+Admin: Sim
+Alojamento ID: 7
+Endereço: Área de Fogaça, 785 - Jardim Alvorada - da Rosa Alegre
+------------------------------------------------------------
+Nome: Isaac Souza
+Cargo: Paparazzo
+E-mail: cramos@hotmail.com
+Senha: n1%%sRs3qydI
+Admin: Sim
+Alojamento ID: 2
+Endereço: Campo de Souza, 43 - Caiçaras - Moura de Minas
+------------------------------------------------------------
+Nome: Dra. Vitória Monteiro
+Cargo: Tecnólogo em rochas ornamentais
+E-mail: marianagoncalves@hotmail.com
+Senha: wM2AxKWmX_K8
+Admin: Não
+Alojamento ID: 10
+Endereço: Esplanada Bruno Santos, 39 - Pindura Saia - Costela
+------------------------------------------------------------
+Nome: Gustavo Alves
+Cargo: Profissional de relações públicas
+E-mail: nicolasda-mota@da.net
+Senha: q#8Ir@Yy%Mx*
+Admin: Sim
+Alojamento ID: 6
+Endereço: Vale de Nunes, 30 - Nossa Senhora Aparecida - das Neves
+------------------------------------------------------------
+Nome: Beatriz da Rocha
+Cargo: Cabeleireiro
+E-mail: sofianunes@bol.com.br
+Senha: wL&KrXhoJe2J
+Admin: Sim
+Alojamento ID: 3
+Endereço: Aeroporto de Cavalcanti, 53 - Nova Suíça - Pereira do Campo
+------------------------------------------------------------
+Nome: Henrique Melo
+Cargo: Metalúrgico
+E-mail: nina68@nogueira.org
+Senha: VXEzl9zlN2Z&
+Admin: Não
+Alojamento ID: 1
+Endereço: Condomínio Sales, 742 - Vila Fumec - Moreira Alegre
+------------------------------------------------------------
+Nome: Luiza das Neves
+Cargo: Topógrafo
+E-mail: gabriel99@goncalves.org
+Senha: _*bvDA1Eg4PM
+Admin: Não
+Alojamento ID: 8
+Endereço: Sítio Henrique Lopes, 933 - Boa Vista - Nascimento das Flores
+------------------------------------------------------------
+Nome: Sr. Igor Lima
+Cargo: Marcador de luz
+E-mail: baraujo@yahoo.com.br
+Senha: dH*sA$zkV+q9
+Admin: Não
+Alojamento ID: 6
+Endereço: Alameda Augusto Moreira, 33 - Vila Sesc - da Cruz
+------------------------------------------------------------
+Nome: Benjamin Fernandes
+Cargo: Lubrificador de máquinas
+E-mail: lucca29@porto.br
+Senha: nT3*g+rbRNWG
+Admin: Não
+Alojamento ID: 9
+Endereço: Largo de Pinto, 4 - Nova Cachoeirinha - Lopes
+------------------------------------------------------------
+Nome: Srta. Maria Clara da Mata
+Cargo: Comandante
+E-mail: rafaela81@ig.com.br
+Senha: %HEYuic0)84M
+Admin: Sim
+Alojamento ID: 6
+Endereço: Via de Mendes, 89 - Apolonia - Ferreira
+------------------------------------------------------------
+Nome: Dr. Marcelo Nascimento
+Cargo: Líder comunitário
+E-mail: tmoreira@correia.com
+Senha: 2H5+JoAv(L^O
+Admin: Não
+Alojamento ID: 10
+Endereço: Área de Teixeira, 46 - Chácara Leonina - Almeida do Oeste
+------------------------------------------------------------
+Nome: Evelyn Correia
+Cargo: Terapeuta Holístico
+E-mail: nda-paz@moraes.com
+Senha: ed5NOwYOf)SL
+Admin: Sim
+Alojamento ID: 3
+Endereço: Lagoa de Freitas, 65 - Vila São Rafael - Almeida
+------------------------------------------------------------
+Nome: Maria Caldeira
+Cargo: Gari
+E-mail: camposluiz-otavio@cavalcanti.br
+Senha: C@!B+XWewX4M
+Admin: Não
+Alojamento ID: 3
+Endereço: Residencial de Rodrigues, 516 - São Jorge 3ª Seção - Moraes
+------------------------------------------------------------
+Nome: Sr. Vitor Jesus
+Cargo: Investigador particular
+E-mail: jda-cunha@nascimento.br
+Senha: p426kRqd$5_6
+Admin: Não
+Alojamento ID: 10
+Endereço: Avenida de da Luz, 670 - Santa Helena - Nascimento
+------------------------------------------------------------
+Nome: Nina Rodrigues
+Cargo: Percursionista
+E-mail: fpinto@nunes.org
+Senha: XA5kb9Cg6KO!
+Admin: Não
+Alojamento ID: 4
+Endereço: Colônia Luiz Fernando Cardoso, 1 - Mangabeiras - Peixoto de Teixeira
+------------------------------------------------------------
+Nome: Dr. Nathan Barbosa
+Cargo: Prefeito
+E-mail: peixotokaique@hotmail.com
+Senha: Fw+2&Yv!#Kc#
+Admin: Sim
+Alojamento ID: 4
+Endereço: Esplanada de Cunha, 316 - Conjunto Califórnia Ii - Melo
+------------------------------------------------------------
+Nome: Kevin Mendes
+Cargo: Agente de viagens
+E-mail: pereirajulia@araujo.com
+Senha: !eFJ6Ub%4XBv
+Admin: Não
+Alojamento ID: 7
+Endereço: Lago da Mota, 725 - Jardim Atlântico - Monteiro de Cardoso
+------------------------------------------------------------
+Nome: Dra. Maria Eduarda Mendes
+Cargo: Diretor de cinema
+E-mail: maria-luizada-rosa@aragao.br
+Senha: (Y5WONqa5h$V
+Admin: Não
+Alojamento ID: 2
+Endereço: Largo Lara Ferreira, 729 - Vila Vista Alegre - Melo
+------------------------------------------------------------
+Nome: Bryan Azevedo
+Cargo: Dançarino
+E-mail: joao-guilhermenogueira@yahoo.com.br
+Senha: U2rEw&*JmpH#
+Admin: Não
+Alojamento ID: 9
+Endereço: Via de da Rosa, 170 - Novo Aarão Reis - Sales
+------------------------------------------------------------
+Nome: Renan Silveira
+Cargo: Cobrador de ônibus
+E-mail: mouragabrielly@uol.com.br
+Senha: +6YKG6zff64O
+Admin: Sim
+Alojamento ID: 7
+Endereço: Pátio da Costa, 45 - Jardim Do Vale - Pires
+------------------------------------------------------------
+Nome: Emanuelly Moreira
+Cargo: Implantodontista
+E-mail: carlos-eduardosouza@uol.com.br
+Senha: n9dpjO*F!6TN
+Admin: Não
+Alojamento ID: 1
+Endereço: Feira Rocha, 387 - Dom Bosco - Costela
+------------------------------------------------------------
+Nome: Maria Eduarda Porto
+Cargo: Estofador
+E-mail: rezendeana-carolina@bol.com.br
+Senha: #4pxKc_z@*rU
+Admin: Sim
+Alojamento ID: 6
+Endereço: Passarela Santos, 501 - Santa Helena - Aragão Verde
+------------------------------------------------------------
+Nome: Enzo Rodrigues
+Cargo: Instrumentador cirúrgico
+E-mail: aragaojoao-gabriel@uol.com.br
+Senha: M#2v7ten%tmR
+Admin: Sim
+Alojamento ID: 9
+Endereço: Viela Nicolas Costa, 36 - Penha - Lopes
+------------------------------------------------------------
+Nome: Miguel da Conceição
+Cargo: Feirante
+E-mail: enrico72@almeida.net
+Senha: %9xS**ViQ%4C
+Admin: Não
+Alojamento ID: 1
+Endereço: Largo João Miguel Sales, 445 - Vila De Sá - Martins
+------------------------------------------------------------
+Nome: Vitor Lima
+Cargo: Tecnólogo em silvicultura
+E-mail: murilomendes@rocha.br
+Senha: )PC5vQok@!m6
+Admin: Sim
+Alojamento ID: 6
+Endereço: Sítio Souza, 44 - Unidas - Ferreira
+------------------------------------------------------------
+Nome: Vitória Lopes
+Cargo: Saxofonista
+E-mail: martinsgiovanna@teixeira.br
+Senha: Y7n)c^Cs#7EV
+Admin: Não
+Alojamento ID: 5
+Endereço: Praia João Felipe das Neves, 14 - Minaslandia - Moreira
+------------------------------------------------------------
+Nome: Dr. Henrique Cardoso
+Cargo: Agente de viagens
+E-mail: natalia46@melo.com
+Senha: dx&8CsYt+75j
+Admin: Sim
+Alojamento ID: 7
+Endereço: Área da Mota, 44 - União - Vieira de Campos
+------------------------------------------------------------
+Nome: Dra. Stephany Farias
+Cargo: Adestrador de animais
+E-mail: das-nevesdavi-lucca@uol.com.br
+Senha: *%2CEeqw(q%y
+Admin: Não
+Alojamento ID: 7
+Endereço: Via Luiz Otávio Cunha, 718 - Suzana - Peixoto
+------------------------------------------------------------
+Nome: Eloah Fogaça
+Cargo: Fisioterapeuta
+E-mail: yagoda-mata@carvalho.net
+Senha: $G1Z1NgtcS6G
+Admin: Sim
+Alojamento ID: 4
+Endereço: Lago da Rosa, 375 - Estrela Do Oriente - Ferreira
+------------------------------------------------------------
+Nome: Alexandre Santos
+Cargo: Modelista
+E-mail: brunanovaes@costa.com
+Senha: N9%qgEtHyqm1
+Admin: Não
+Alojamento ID: 2
+Endereço: Colônia de da Costa, 306 - Pousada Santo Antonio - da Luz de Ramos
+------------------------------------------------------------
+Nome: Ana Sophia das Neves
+Cargo: Zelador
+E-mail: davi-lucca50@yahoo.com.br
+Senha: 1+C4O43a&)Jf
+Admin: Sim
+Alojamento ID: 1
+Endereço: Campo Ana Carolina Freitas, 59 - Eymard - Moreira
+------------------------------------------------------------
+Nome: Thiago Santos
+Cargo: Jogador de vôlei
+E-mail: isabelly84@almeida.com
+Senha: M16)h(pKP$AV
+Admin: Não
+Alojamento ID: 9
+Endereço: Praia de Moreira, 68 - Guarani - Almeida
+------------------------------------------------------------
+Nome: Raul Correia
+Cargo: Hematologista
+E-mail: duarteleandro@bol.com.br
+Senha: $XHSz%!7j78N
+Admin: Não
+Alojamento ID: 4
+Endereço: Sítio Rocha, 4 - Barão Homem De Melo 2ª Seção - Fogaça
+------------------------------------------------------------
+Nome: Dr. Heitor Almeida
+Cargo: Agente de defesa sanitária animal
+E-mail: ana-juliaaraujo@moreira.com
+Senha: $3FA@_Ytdsfq
+Admin: Sim
+Alojamento ID: 2
+Endereço: Esplanada Gomes, 827 - Vista Alegre - Cardoso Paulista
+------------------------------------------------------------
+Nome: Brenda Pires
+Cargo: Tecnólogo em jogos digitais
+E-mail: mouraemilly@pinto.net
+Senha: 01J2Lxow$Msr
+Admin: Sim
+Alojamento ID: 5
+Endereço: Parque de Campos, 988 - Castelo - Farias
+------------------------------------------------------------
+Nome: Cecília Campos
+Cargo: Arranjador musical
+E-mail: amanda84@ig.com.br
+Senha: _hI(xA2Pd42G
+Admin: Sim
+Alojamento ID: 4
+Endereço: Sítio Almeida, 3 - Vila Trinta E Um De Março - Mendes Paulista
+------------------------------------------------------------
+Nome: Helena Oliveira
+Cargo: Epidemiólogo
+E-mail: icardoso@azevedo.com
+Senha: $oEll#L4A_9R
+Admin: Não
+Alojamento ID: 2
+Endereço: Estação de Jesus, 66 - Barão Homem De Melo 2ª Seção - Ribeiro
+------------------------------------------------------------
+Nome: Ana Luiza Novaes
+Cargo: Retificador
+E-mail: emanuel43@hotmail.com
+Senha: Zvoy5@Uu0&N$
+Admin: Não
+Alojamento ID: 1
+Endereço: Estação de da Cunha, 21 - Cenaculo - Silva
+------------------------------------------------------------
+Nome: Sra. Beatriz Almeida
+Cargo: Prensista
+E-mail: vitor-gabrielaraujo@mendes.com
+Senha: p*@n8da9!v6C
+Admin: Não
+Alojamento ID: 6
+Endereço: Área de Souza, 78 - Marmiteiros - Mendes do Campo
+------------------------------------------------------------
+Nome: Dr. João Felipe da Cruz
+Cargo: Profissional de rádio e tv
+E-mail: kaiquefarias@uol.com.br
+Senha: a7(@Gw*VJUq7
+Admin: Sim
+Alojamento ID: 9
+Endereço: Núcleo de Monteiro, 24 - São Bento - Oliveira
+------------------------------------------------------------
+Nome: Júlia Viana
+Cargo: Nutrologista
+E-mail: goncalvesolivia@bol.com.br
+Senha: c_F@M2mw$e9P
+Admin: Sim
+Alojamento ID: 5
+Endereço: Rodovia Benjamin da Conceição, 1 - São João Batista - Monteiro de Martins
+------------------------------------------------------------
+Nome: Luiz Miguel da Cunha
+Cargo: Cancerologista ou Oncologista
+E-mail: viniciuscardoso@bol.com.br
+Senha: _5IUBBps1fSi
+Admin: Sim
+Alojamento ID: 10
+Endereço: Largo Ana Julia Rocha, 24 - Vila De Sá - Monteiro
+------------------------------------------------------------

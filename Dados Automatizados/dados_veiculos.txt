@@ -1,0 +1,600 @@
+Tipo: Van
+Placa: EON-1611
+Capacidade: 17
+Endereço: Favela de Moreira, Nº 4 - Santa Amelia - Rezende Grande
+Disponível: Não
+------------------------------------------------------------
+Tipo: Carro
+Placa: HOZ-1856
+Capacidade: 3
+Endereço: Residencial de Araújo, Nº 13 - Palmares - Costa
+Disponível: Não
+------------------------------------------------------------
+Tipo: Caminhao
+Placa: LZT-0044
+Capacidade: 18
+Endereço: Vereda de Jesus, Nº 73 - Vila Califórnia - Nunes do Galho
+Disponível: Não
+------------------------------------------------------------
+Tipo: Caminhao
+Placa: XSO-8577
+Capacidade: 20
+Endereço: Quadra Vieira, Nº 90 - Alto Dos Pinheiros - Nascimento
+Disponível: Sim
+------------------------------------------------------------
+Tipo: Caminhao
+Placa: PYW-6309
+Capacidade: 12
+Endereço: Avenida Isadora Barros, Nº 12 - Vila Madre Gertrudes 3ª Seção - Nunes das Pedras
+Disponível: Não
+------------------------------------------------------------
+Tipo: Caminhao
+Placa: LAP-7941
+Capacidade: 14
+Endereço: Alameda de Barros, Nº 850 - Vila Jardim Montanhes - Rezende
+Disponível: Sim
+------------------------------------------------------------
+Tipo: Carro
+Placa: CGY-6259
+Capacidade: 15
+Endereço: Sítio Theo Teixeira, Nº 40 - Vila Canto Do Sabiá - Nunes
+Disponível: Sim
+------------------------------------------------------------
+Tipo: Carro
+Placa: PKY-1189
+Capacidade: 4
+Endereço: Colônia Ferreira, Nº 46 - Vila Trinta E Um De Março - Araújo da Serra
+Disponível: Não
+------------------------------------------------------------
+Tipo: Caminhao
+Placa: UXA-4057
+Capacidade: 6
+Endereço: Recanto Laura Gomes, Nº 6 - Beija Flor - da Conceição de Cardoso
+Disponível: Sim
+------------------------------------------------------------
+Tipo: Moto
+Placa: LXK-1632
+Capacidade: 11
+Endereço: Ladeira de Pires, Nº 958 - Salgado Filho - Ribeiro
+Disponível: Sim
+------------------------------------------------------------
+Tipo: Caminhao
+Placa: WGA-4055
+Capacidade: 10
+Endereço: Morro Erick Barbosa, Nº 48 - Vila Ipiranga - Pinto
+Disponível: Não
+------------------------------------------------------------
+Tipo: Van
+Placa: GRY-3060
+Capacidade: 17
+Endereço: Passarela de Moraes, Nº 45 - Vila Madre Gertrudes 4ª Seção - Barros das Pedras
+Disponível: Sim
+------------------------------------------------------------
+Tipo: Caminhao
+Placa: VZZ-5523
+Capacidade: 19
+Endereço: Vereda Alves, Nº 967 - Confisco - Moura
+Disponível: Sim
+------------------------------------------------------------
+Tipo: Van
+Placa: JZD-6324
+Capacidade: 18
+Endereço: Quadra de Gomes, Nº 30 - Tupi A - Peixoto
+Disponível: Sim
+------------------------------------------------------------
+Tipo: Caminhao
+Placa: HDK-1579
+Capacidade: 8
+Endereço: Condomínio de Mendes, Nº 79 - Palmares - Azevedo
+Disponível: Não
+------------------------------------------------------------
+Tipo: Moto
+Placa: FBX-0157
+Capacidade: 8
+Endereço: Estação de Cunha, Nº 35 - Santa Helena - Rezende de Vieira
+Disponível: Não
+------------------------------------------------------------
+Tipo: Van
+Placa: RZA-1477
+Capacidade: 12
+Endereço: Via Ferreira, Nº 982 - Vila Antena - Dias
+Disponível: Não
+------------------------------------------------------------
+Tipo: Caminhao
+Placa: UJZ-6109
+Capacidade: 4
+Endereço: Aeroporto Joana Nunes, Nº 50 - Padre Eustáquio - Gonçalves de Fernandes
+Disponível: Não
+------------------------------------------------------------
+Tipo: Carro
+Placa: OFO-7539
+Capacidade: 3
+Endereço: Praça Enzo Gabriel Silveira, Nº 2 - Conjunto Celso Machado - da Luz Paulista
+Disponível: Sim
+------------------------------------------------------------
+Tipo: Caminhao
+Placa: TEO-7196
+Capacidade: 13
+Endereço: Quadra de Dias, Nº 98 - Virgínia - Pires do Amparo
+Disponível: Não
+------------------------------------------------------------
+Tipo: Van
+Placa: FDH-8366
+Capacidade: 5
+Endereço: Vila da Paz, Nº 69 - São José - Pinto das Flores
+Disponível: Sim
+------------------------------------------------------------
+Tipo: Caminhao
+Placa: MZR-8554
+Capacidade: 10
+Endereço: Avenida Freitas, Nº 15 - Vila Bandeirantes - Aragão de Cavalcanti
+Disponível: Não
+------------------------------------------------------------
+Tipo: Caminhao
+Placa: QGM-7137
+Capacidade: 17
+Endereço: Morro Cunha, Nº 59 - Ermelinda - da Luz dos Dourados
+Disponível: Não
+------------------------------------------------------------
+Tipo: Carro
+Placa: MQI-7702
+Capacidade: 5
+Endereço: Praça de Rezende, Nº 628 - Túnel De Ibirité - Rodrigues
+Disponível: Sim
+------------------------------------------------------------
+Tipo: Carro
+Placa: BLN-1540
+Capacidade: 15
+Endereço: Trevo Porto, Nº 8 - Jaqueline - Pinto das Flores
+Disponível: Não
+------------------------------------------------------------
+Tipo: Moto
+Placa: EMO-9126
+Capacidade: 19
+Endereço: Esplanada Elisa Cardoso, Nº 56 - Esperança - da Mota
+Disponível: Sim
+------------------------------------------------------------
+Tipo: Caminhao
+Placa: LUD-0310
+Capacidade: 2
+Endereço: Rua de Ribeiro, Nº 44 - Beira Linha - Souza das Flores
+Disponível: Não
+------------------------------------------------------------
+Tipo: Van
+Placa: RMM-2361
+Capacidade: 18
+Endereço: Esplanada das Neves, Nº 81 - Aeroporto - Caldeira
+Disponível: Não
+------------------------------------------------------------
+Tipo: Van
+Placa: UVI-4177
+Capacidade: 8
+Endereço: Passarela Emilly Farias, Nº 636 - Estoril - Gonçalves da Serra
+Disponível: Não
+------------------------------------------------------------
+Tipo: Van
+Placa: LZX-3057
+Capacidade: 19
+Endereço: Feira João Miguel Ribeiro, Nº 1 - Conjunto Califórnia Ii - Araújo
+Disponível: Não
+------------------------------------------------------------
+Tipo: Carro
+Placa: BCR-5670
+Capacidade: 4
+Endereço: Lagoa Ana Lívia Barbosa, Nº 7 - Barão Homem De Melo 2ª Seção - Santos de Goiás
+Disponível: Sim
+------------------------------------------------------------
+Tipo: Van
+Placa: ILQ-8866
+Capacidade: 10
+Endereço: Chácara de Lima, Nº 89 - Nova America - Azevedo da Serra
+Disponível: Sim
+------------------------------------------------------------
+Tipo: Carro
+Placa: SVO-6997
+Capacidade: 20
+Endereço: Parque Mariana Rocha, Nº 202 - Santana Do Cafezal - Barros
+Disponível: Sim
+------------------------------------------------------------
+Tipo: Caminhao
+Placa: ZGD-7556
+Capacidade: 7
+Endereço: Viela Lavínia Nunes, Nº 4 - Vila Independencia 2ª Seção - Moreira
+Disponível: Sim
+------------------------------------------------------------
+Tipo: Moto
+Placa: TAG-1231
+Capacidade: 15
+Endereço: Trecho de Jesus, Nº 697 - Camponesa 1ª Seção - Lopes
+Disponível: Não
+------------------------------------------------------------
+Tipo: Moto
+Placa: GSJ-9820
+Capacidade: 3
+Endereço: Quadra Pires, Nº 4 - Marilandia - Rocha Verde
+Disponível: Sim
+------------------------------------------------------------
+Tipo: Van
+Placa: CXJ-7339
+Capacidade: 9
+Endereço: Largo Moraes, Nº 68 - Novo São Lucas - Moraes de Viana
+Disponível: Sim
+------------------------------------------------------------
+Tipo: Van
+Placa: OTF-9708
+Capacidade: 8
+Endereço: Pátio Nogueira, Nº 3 - Bacurau - Azevedo do Campo
+Disponível: Não
+------------------------------------------------------------
+Tipo: Carro
+Placa: FKC-8249
+Capacidade: 9
+Endereço: Condomínio Nunes, Nº 3 - Vila Da Paz - da Rosa Verde
+Disponível: Sim
+------------------------------------------------------------
+Tipo: Caminhao
+Placa: QFC-2803
+Capacidade: 10
+Endereço: Conjunto Costela, Nº 9 - Vila Paquetá - Barbosa
+Disponível: Sim
+------------------------------------------------------------
+Tipo: Moto
+Placa: SSU-7078
+Capacidade: 12
+Endereço: Praça Fernanda Gomes, Nº 4 - Nova Gameleira - Almeida
+Disponível: Não
+------------------------------------------------------------
+Tipo: Van
+Placa: LYO-1260
+Capacidade: 13
+Endereço: Vila de Aragão, Nº 9 - Beija Flor - das Neves do Galho
+Disponível: Não
+------------------------------------------------------------
+Tipo: Van
+Placa: WWE-9284
+Capacidade: 11
+Endereço: Residencial de Jesus, Nº 9 - Jardim Montanhês - Pires do Norte
+Disponível: Não
+------------------------------------------------------------
+Tipo: Caminhao
+Placa: SSH-7950
+Capacidade: 2
+Endereço: Rodovia de Novaes, Nº 74 - Vila Suzana Segunda Seção - da Cruz
+Disponível: Não
+------------------------------------------------------------
+Tipo: Van
+Placa: HVN-6363
+Capacidade: 7
+Endereço: Feira Fernandes, Nº 7 - Ventosa - Nunes de Minas
+Disponível: Sim
+------------------------------------------------------------
+Tipo: Carro
+Placa: EOQ-1437
+Capacidade: 15
+Endereço: Estrada Pedro Campos, Nº 1 - Pantanal - da Mota
+Disponível: Não
+------------------------------------------------------------
+Tipo: Moto
+Placa: DGN-5994
+Capacidade: 12
+Endereço: Condomínio de Rodrigues, Nº 9 - Pindorama - Alves
+Disponível: Não
+------------------------------------------------------------
+Tipo: Carro
+Placa: VNX-4865
+Capacidade: 7
+Endereço: Distrito da Costa, Nº 117 - Prado - Carvalho
+Disponível: Não
+------------------------------------------------------------
+Tipo: Moto
+Placa: ATQ-4355
+Capacidade: 17
+Endereço: Recanto Maria Clara Souza, Nº 23 - Nova Granada - Costa das Pedras
+Disponível: Não
+------------------------------------------------------------
+Tipo: Van
+Placa: LEA-6394
+Capacidade: 2
+Endereço: Campo Carvalho, Nº 38 - São Tomaz - Cardoso de Moura
+Disponível: Não
+------------------------------------------------------------
+Tipo: Van
+Placa: CKP-2777
+Capacidade: 4
+Endereço: Avenida Maria Vitória Santos, Nº 85 - São Sebastião - Farias de Ferreira
+Disponível: Sim
+------------------------------------------------------------
+Tipo: Caminhao
+Placa: CHQ-8482
+Capacidade: 3
+Endereço: Sítio Davi Lucca Carvalho, Nº 48 - Senhor Dos Passos - Peixoto de Fogaça
+Disponível: Não
+------------------------------------------------------------
+Tipo: Caminhao
+Placa: KZD-7492
+Capacidade: 14
+Endereço: Estrada de Moraes, Nº 31 - Corumbiara - Farias da Serra
+Disponível: Sim
+------------------------------------------------------------
+Tipo: Carro
+Placa: WPW-8825
+Capacidade: 15
+Endereço: Estação Calebe Lima, Nº 98 - Acaba Mundo - Rodrigues Grande
+Disponível: Sim
+------------------------------------------------------------
+Tipo: Van
+Placa: HTK-0193
+Capacidade: 14
+Endereço: Sítio de Nogueira, Nº 61 - Olhos D'água - Teixeira de Minas
+Disponível: Não
+------------------------------------------------------------
+Tipo: Moto
+Placa: NOU-6608
+Capacidade: 17
+Endereço: Lago Fogaça, Nº 7 - Novo Tupi - Rocha
+Disponível: Sim
+------------------------------------------------------------
+Tipo: Caminhao
+Placa: DME-9024
+Capacidade: 2
+Endereço: Setor Fogaça, Nº 68 - Cruzeiro - Ferreira
+Disponível: Não
+------------------------------------------------------------
+Tipo: Carro
+Placa: MTG-0157
+Capacidade: 17
+Endereço: Distrito Pedro Henrique Silva, Nº 902 - Ouro Minas - Melo do Galho
+Disponível: Não
+------------------------------------------------------------
+Tipo: Caminhao
+Placa: QZB-7056
+Capacidade: 15
+Endereço: Rodovia de Cardoso, Nº 49 - Canaa - da Cunha do Sul
+Disponível: Sim
+------------------------------------------------------------
+Tipo: Van
+Placa: AJE-4409
+Capacidade: 4
+Endereço: Pátio de Gomes, Nº 95 - Jonas Veiga - Lima
+Disponível: Sim
+------------------------------------------------------------
+Tipo: Carro
+Placa: AXD-8608
+Capacidade: 12
+Endereço: Recanto Ferreira, Nº 74 - Vila Piratininga - Araújo
+Disponível: Não
+------------------------------------------------------------
+Tipo: Caminhao
+Placa: MBL-2402
+Capacidade: 3
+Endereço: Travessa Eduarda Silveira, Nº 42 - Cruzeiro - Pires
+Disponível: Sim
+------------------------------------------------------------
+Tipo: Caminhao
+Placa: CJW-6947
+Capacidade: 10
+Endereço: Condomínio de Fernandes, Nº 52 - Vila Jardim São José - Ramos
+Disponível: Não
+------------------------------------------------------------
+Tipo: Van
+Placa: YNV-0016
+Capacidade: 14
+Endereço: Jardim de Araújo, Nº 49 - Garças - Santos
+Disponível: Sim
+------------------------------------------------------------
+Tipo: Caminhao
+Placa: TON-8801
+Capacidade: 3
+Endereço: Rodovia de Azevedo, Nº 985 - Vila Das Oliveiras - Peixoto de Goiás
+Disponível: Sim
+------------------------------------------------------------
+Tipo: Caminhao
+Placa: ARJ-3190
+Capacidade: 16
+Endereço: Via Pereira, Nº 89 - São Damião - Melo
+Disponível: Sim
+------------------------------------------------------------
+Tipo: Moto
+Placa: MYO-7058
+Capacidade: 8
+Endereço: Residencial Ribeiro, Nº 52 - Conjunto Bonsucesso - Barbosa dos Dourados
+Disponível: Não
+------------------------------------------------------------
+Tipo: Van
+Placa: IXZ-4569
+Capacidade: 12
+Endereço: Setor Benício Mendes, Nº 592 - Castelo - Jesus
+Disponível: Sim
+------------------------------------------------------------
+Tipo: Van
+Placa: WBK-9751
+Capacidade: 7
+Endereço: Condomínio Kevin Correia, Nº 37 - Vila Nossa Senhora Do Rosário - Araújo
+Disponível: Sim
+------------------------------------------------------------
+Tipo: Caminhao
+Placa: DER-1371
+Capacidade: 2
+Endereço: Viaduto Pedro Lucas Costela, Nº 8 - Nova Granada - Sales
+Disponível: Não
+------------------------------------------------------------
+Tipo: Van
+Placa: SWF-5589
+Capacidade: 11
+Endereço: Aeroporto de das Neves, Nº 15 - Vila Trinta E Um De Março - Ribeiro Alegre
+Disponível: Sim
+------------------------------------------------------------
+Tipo: Carro
+Placa: BJO-4155
+Capacidade: 17
+Endereço: Residencial Lorena Martins, Nº 141 - São Jorge 2ª Seção - Novaes de Goiás
+Disponível: Sim
+------------------------------------------------------------
+Tipo: Caminhao
+Placa: JGM-3967
+Capacidade: 11
+Endereço: Recanto Guilherme Barbosa, Nº 12 - Jardim São José - Farias da Serra
+Disponível: Sim
+------------------------------------------------------------
+Tipo: Carro
+Placa: VEP-3195
+Capacidade: 3
+Endereço: Morro Noah Barbosa, Nº 78 - Vila Real 2ª Seção - da Mota
+Disponível: Sim
+------------------------------------------------------------
+Tipo: Caminhao
+Placa: EIA-3873
+Capacidade: 7
+Endereço: Estação Barros, Nº 17 - Serra Verde - Gomes
+Disponível: Não
+------------------------------------------------------------
+Tipo: Van
+Placa: LFQ-5024
+Capacidade: 17
+Endereço: Passarela de Cardoso, Nº 8 - Jardim Leblon - Caldeira das Flores
+Disponível: Não
+------------------------------------------------------------
+Tipo: Moto
+Placa: JBA-4047
+Capacidade: 8
+Endereço: Travessa Ramos, Nº 43 - Serra Verde - da Rosa
+Disponível: Não
+------------------------------------------------------------
+Tipo: Carro
+Placa: RGF-8061
+Capacidade: 15
+Endereço: Fazenda de Campos, Nº 13 - Granja De Freitas - Nunes do Amparo
+Disponível: Sim
+------------------------------------------------------------
+Tipo: Carro
+Placa: SCD-0359
+Capacidade: 20
+Endereço: Setor de Melo, Nº 49 - Vila São Francisco - Moreira
+Disponível: Não
+------------------------------------------------------------
+Tipo: Van
+Placa: OFG-0414
+Capacidade: 13
+Endereço: Viaduto de Vieira, Nº 79 - Inconfidência - Barbosa do Amparo
+Disponível: Sim
+------------------------------------------------------------
+Tipo: Caminhao
+Placa: ZQC-7016
+Capacidade: 2
+Endereço: Viela Maitê Viana, Nº 75 - Graça - Oliveira Verde
+Disponível: Não
+------------------------------------------------------------
+Tipo: Caminhao
+Placa: ABK-1534
+Capacidade: 18
+Endereço: Vale Pires, Nº 13 - Vila Havaí - Araújo
+Disponível: Não
+------------------------------------------------------------
+Tipo: Caminhao
+Placa: DHD-4811
+Capacidade: 9
+Endereço: Largo Cardoso, Nº 41 - Vila Madre Gertrudes 1ª Seção - Oliveira do Oeste
+Disponível: Não
+------------------------------------------------------------
+Tipo: Moto
+Placa: IKC-2257
+Capacidade: 16
+Endereço: Campo Nogueira, Nº 77 - São Lucas - Farias
+Disponível: Sim
+------------------------------------------------------------
+Tipo: Moto
+Placa: KPB-0412
+Capacidade: 14
+Endereço: Rodovia Guilherme Teixeira, Nº 16 - Engenho Nogueira - Oliveira
+Disponível: Sim
+------------------------------------------------------------
+Tipo: Carro
+Placa: ZAH-1263
+Capacidade: 6
+Endereço: Distrito Bárbara Almeida, Nº 435 - Vila Puc - Nunes de Costela
+Disponível: Não
+------------------------------------------------------------
+Tipo: Moto
+Placa: CNS-6073
+Capacidade: 7
+Endereço: Viela de Fogaça, Nº 70 - Vila Jardim Alvorada - Nascimento da Prata
+Disponível: Não
+------------------------------------------------------------
+Tipo: Moto
+Placa: LHY-0085
+Capacidade: 19
+Endereço: Residencial Caio Freitas, Nº 3 - Beira Linha - Duarte
+Disponível: Sim
+------------------------------------------------------------
+Tipo: Carro
+Placa: UDX-6451
+Capacidade: 11
+Endereço: Residencial Marcos Vinicius Gomes, Nº 57 - Vila Fumec - Fogaça
+Disponível: Sim
+------------------------------------------------------------
+Tipo: Carro
+Placa: CLZ-3665
+Capacidade: 16
+Endereço: Chácara da Cunha, Nº 807 - Petropolis - da Costa
+Disponível: Não
+------------------------------------------------------------
+Tipo: Carro
+Placa: IST-7083
+Capacidade: 16
+Endereço: Fazenda Bryan Sales, Nº 59 - Vila Independencia 3ª Seção - Fogaça
+Disponível: Não
+------------------------------------------------------------
+Tipo: Caminhao
+Placa: CCP-1851
+Capacidade: 20
+Endereço: Parque Sabrina Aragão, Nº 265 - Xangri-Lá - Farias Alegre
+Disponível: Não
+------------------------------------------------------------
+Tipo: Van
+Placa: KUO-4046
+Capacidade: 5
+Endereço: Ladeira Heitor Cardoso, Nº 978 - Fazendinha - Jesus dos Dourados
+Disponível: Sim
+------------------------------------------------------------
+Tipo: Caminhao
+Placa: JLN-5176
+Capacidade: 7
+Endereço: Fazenda de Pires, Nº 68 - Vila Da Luz - Nunes da Mata
+Disponível: Sim
+------------------------------------------------------------
+Tipo: Moto
+Placa: FRR-0698
+Capacidade: 6
+Endereço: Vale de Cardoso, Nº 150 - Conjunto Jatoba - da Costa
+Disponível: Não
+------------------------------------------------------------
+Tipo: Caminhao
+Placa: XSD-3977
+Capacidade: 14
+Endereço: Estação Maria Alice da Costa, Nº 87 - Caiçara - Adelaide - Mendes
+Disponível: Sim
+------------------------------------------------------------
+Tipo: Carro
+Placa: BEX-3393
+Capacidade: 14
+Endereço: Trecho Eloah Sales, Nº 528 - Vila Madre Gertrudes 4ª Seção - Oliveira de Martins
+Disponível: Sim
+------------------------------------------------------------
+Tipo: Carro
+Placa: ZTC-1299
+Capacidade: 14
+Endereço: Vale de Oliveira, Nº 64 - Chácara Leonina - Moreira
+Disponível: Não
+------------------------------------------------------------
+Tipo: Van
+Placa: TKS-9823
+Capacidade: 13
+Endereço: Sítio de da Rosa, Nº 18 - Vista Alegre - Cardoso Paulista
+Disponível: Não
+------------------------------------------------------------
+Tipo: Carro
+Placa: PNM-0054
+Capacidade: 8
+Endereço: Sítio de Fogaça, Nº 7 - Vila Batik - Vieira
+Disponível: Sim
+------------------------------------------------------------
