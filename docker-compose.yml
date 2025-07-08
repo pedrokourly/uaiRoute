@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  # Backend Django
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    container_name: uairoute-backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend/db.sqlite3:/app/db.sqlite3
+      - backend_data:/app/data
+    environment:
+      - DEBUG=True
+      - ALLOWED_HOSTS=backend,localhost,127.0.0.1
+    networks:
+      - uairoute-network
+    restart: unless-stopped
+
+  # Frontend Flask
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    container_name: uairoute-frontend
+    ports:
+      - "5000:5000"
+    environment:
+      - SERVER_IP=backend
+      - DEBUG=True
+      - BACKEND_URL=http://backend:8000
+    depends_on:
+      - backend
+    networks:
+      - uairoute-network
+    restart: unless-stopped
+
+volumes:
+  backend_data:
+
+networks:
+  uairoute-network:
+    driver: bridge

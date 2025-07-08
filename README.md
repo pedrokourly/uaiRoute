@@ -55,7 +55,17 @@ uaiRoute/
 │   ├── static/                # CSS, JS, imagens
 │   ├── routes.py              # Rotas principais
 │   ├── auth_routes.py         # Autenticação
+│   ├── config.py              # Configurações centralizadas
 │   └── *_routes.py            # Rotas específicas
+├── scripts/                    # Scripts de inicialização
+│   ├── start-backend.sh       # Script do backend
+│   └── start-frontend.sh      # Script do frontend
+├── docker-compose.yml         # Orquestração Docker
+├── Dockerfile.backend         # Imagem do Django
+├── Dockerfile.frontend        # Imagem do Flask
+├── Makefile                   # Comandos facilitados
+├── .dockerignore              # Arquivos ignorados no Docker
+├── .env.example               # Exemplo de variáveis de ambiente
 ├── requirements.txt           # Dependências Python
 └── README_SETUP.md           # Guia de configuração
 ```
@@ -106,8 +116,40 @@ uaiRoute/
 ## 🚀 Instalação e Configuração
 
 ### Pré-requisitos
-- Python 3.12+
+- Python 3.12+ (para execução local)
+- Docker e Docker Compose (para execução containerizada)
 - pip (gerenciador de pacotes Python)
+
+### 🐳 Executar com Docker (Recomendado)
+
+#### Opção 1: Usando Docker Compose
+```bash
+# 1. Clone o repositório
+git clone https://github.com/seu-usuario/uairoute.git
+cd uairoute
+
+# 2. Execute com Docker Compose
+docker-compose up -d
+
+# 3. Acesse o sistema
+# Frontend: http://localhost:5000
+# Backend API: http://localhost:8000
+```
+
+#### Opção 2: Usando Makefile (mais fácil)
+```bash
+# Primeira execução (build + start)
+make setup
+
+# Comandos úteis
+make up      # Iniciar serviços
+make down    # Parar serviços
+make logs    # Ver logs
+make restart # Reiniciar
+make clean   # Limpeza completa
+```
+
+### 💻 Executar Localmente (Desenvolvimento)
 
 ### 1. Clone o repositório
 ```bash
@@ -151,11 +193,35 @@ python uairoute.py
 
 ## 🔧 Configuração Avançada
 
+### 🐳 Docker
+O projeto inclui configuração completa para Docker:
+
+#### Arquivos Docker
+- `Dockerfile.backend` - Imagem do Django
+- `Dockerfile.frontend` - Imagem do Flask  
+- `docker-compose.yml` - Orquestração dos serviços
+- `Makefile` - Comandos facilitados
+- `.dockerignore` - Arquivos ignorados no build
+
+#### Volumes
+- `backend_data:/app/data` - Dados persistentes do backend
+- `./backend/db.sqlite3:/app/db.sqlite3` - Banco de dados
+
+#### Rede
+- `uairoute-network` - Rede interna para comunicação entre serviços
+
 ### Variáveis de Ambiente
-Crie um arquivo `.env` no diretório `frontend/`:
+Crie um arquivo `.env` no diretório raiz baseado no `.env.example`:
 ```env
-SERVER_IP=localhost
+# Desenvolvimento local
 DEBUG=True
+SERVER_IP=localhost
+BACKEND_URL=http://localhost:8000
+
+# Docker
+# DEBUG=True
+# SERVER_IP=backend  
+# BACKEND_URL=http://backend:8000
 ```
 
 ### Banco de Dados
@@ -219,34 +285,78 @@ O projeto usa SQLite por padrão. Para produção, configure PostgreSQL ou MySQL
 
 ## 📝 Comandos Úteis
 
+### 🐳 Docker Commands
+```bash
+# Build e inicialização
+make setup          # Primeira execução (build + up)
+make build          # Construir imagens
+make up             # Iniciar serviços
+make down           # Parar serviços
+
+# Monitoramento
+make logs           # Ver todos os logs
+make backend        # Logs apenas do backend
+make frontend       # Logs apenas do frontend
+
+# Manutenção
+make restart        # Reiniciar serviços
+make clean          # Limpeza completa (containers, imagens, volumes)
+
+# Docker Compose direto
+docker-compose up -d                    # Iniciar em background
+docker-compose logs -f                  # Ver logs em tempo real
+docker-compose exec backend bash       # Acessar container do backend
+docker-compose exec frontend bash      # Acessar container do frontend
+```
+
 ### Django (Backend)
 ```bash
-# Criar migrações
-python manage.py makemigrations
+# Desenvolvimento local
+python manage.py makemigrations        # Criar migrações
+python manage.py migrate               # Aplicar migrações
+python manage.py createsuperuser       # Criar superusuário
+python manage.py collectstatic         # Coletar arquivos estáticos
+python manage.py shell                 # Shell Django
 
-# Aplicar migrações
-python manage.py migrate
-
-# Criar superusuário
-python manage.py createsuperuser
-
-# Coletar arquivos estáticos
-python manage.py collectstatic
-
-# Shell Django
-python manage.py shell
+# Docker
+docker-compose exec backend python manage.py makemigrations
+docker-compose exec backend python manage.py migrate
+docker-compose exec backend python manage.py shell
 ```
 
 ### Flask (Frontend)
 ```bash
-# Executar com debug
-python uairoute.py
+# Desenvolvimento local
+python uairoute.py                      # Executar com debug
+python uairoute.py --host 0.0.0.0 --port 5000  # IP específico
 
-# Executar em IP específico
-python uairoute.py --host 0.0.0.0 --port 5000
+# Docker
+docker-compose restart frontend        # Reiniciar apenas frontend
+docker-compose logs -f frontend        # Logs do frontend
 ```
 
 ## 🐛 Resolução de Problemas
+
+### 🐳 Docker
+**Containers não iniciam:**
+```bash
+make down && make clean && make setup
+```
+
+**Erro de porta ocupada:**
+```bash
+# Verificar portas em uso
+netstat -tulpn | grep :5000
+netstat -tulpn | grep :8000
+
+# Parar containers e tentar novamente
+make down && make up
+```
+
+**Problemas de permissão:**
+```bash
+sudo chown -R $USER:$USER .
+```
 
 ### Erro de CORS
 Verifique se `django-cors-headers` está instalado e configurado no `settings.py`.
@@ -255,7 +365,25 @@ Verifique se `django-cors-headers` está instalado e configurado no `settings.py
 A API do OpenStreetMap tem limite de requisições. Aguarde alguns segundos entre requisições.
 
 ### Erro de Conexão Backend/Frontend
-Verifique se ambos os servidores estão rodando nas portas corretas (8000 e 5000).
+```bash
+# Verificar se serviços estão rodando
+docker-compose ps
+
+# Verificar logs
+make logs
+
+# Verificar conectividade interna
+docker-compose exec frontend curl http://backend:8000/
+```
+
+### Banco de Dados
+```bash
+# Resetar migrações (cuidado em produção!)
+docker-compose exec backend python manage.py migrate --fake-initial
+
+# Backup do banco
+docker cp uairoute-backend:/app/db.sqlite3 ./backup_db.sqlite3
+```
 
 ## 📄 Licença
 
@@ -272,6 +400,35 @@ Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para ma
 - **v1.0.0** - Versão inicial com funcionalidades básicas
 - **v1.1.0** - Sistema de mapas e geocodificação
 - **v1.2.0** - Otimização de rotas
+- **v1.3.0** - Containerização com Docker
+
+## 🐳 Docker Details
+
+### Imagens Docker
+- **Backend**: `uairoute-backend` (Django + SQLite)
+- **Frontend**: `uairoute-frontend` (Flask + Templates)
+
+### Arquitetura Docker
+```
+┌─────────────────┐    ┌─────────────────┐
+│   Frontend      │    │    Backend      │
+│   Flask:5000    │◄──►│   Django:8000   │
+│                 │    │                 │
+├─────────────────┤    ├─────────────────┤
+│ • Templates     │    │ • REST API      │
+│ • Static Files  │    │ • SQLite DB     │
+│ • Routes        │    │ • Migrations    │
+└─────────────────┘    └─────────────────┘
+```
+
+### Volumes Persistentes
+- **Database**: `./backend/db.sqlite3` → `/app/db.sqlite3`
+- **Backend Data**: `backend_data` volume para dados persistentes
+
+### Configuração de Rede
+- **Network**: `uairoute-network` (bridge)
+- **Comunicação**: Frontend conecta em `http://backend:8000`
+- **Exposição**: Frontend na porta 5000, Backend na porta 8000
 
 ---
 
