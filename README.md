@@ -425,9 +425,9 @@ docker-compose down && docker-compose up -d --build
 
 **Erro de porta ocupada:**
 ```bash
-# Verificar portas em uso
+# Verificar porta em uso (só o frontend expõe porta no host; o backend
+# é interno e não publica a 8000)
 netstat -tulpn | grep :5000
-netstat -tulpn | grep :8000
 
 # Parar containers e tentar novamente
 docker-compose down && docker-compose up -d

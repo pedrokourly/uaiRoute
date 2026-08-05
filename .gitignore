@@ -72,6 +72,9 @@ instance/
 # Sphinx documentation
 docs/_build/
 
+# Specs e planos do superpowers nunca são commitados
+docs/superpowers/
+
 # PyBuilder
 .pybuilder/
 target/
