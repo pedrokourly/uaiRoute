@@ -20,8 +20,10 @@ services:
       - uairoute-network
     restart: unless-stopped
     healthcheck:
-      # A raiz "/" não tem rota e responde 404, o que faria `curl -f` falhar.
-      test: ["CMD", "curl", "-f", "http://localhost:8000/api/funcionarios/"]
+      # Rota dedicada, que não consulta o banco. Não use um endpoint de dados
+      # aqui: na branch demo eles exigem um header de sessão que o healthcheck
+      # não tem como enviar.
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health/"]
       interval: 10s
       timeout: 5s
       retries: 5
