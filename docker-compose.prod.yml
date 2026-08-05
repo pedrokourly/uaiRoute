@@ -1,0 +1,31 @@
+# Stack de produção. Sobe com:
+#   docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build
+#
+# Exige SECRET_KEY no ambiente: com DEBUG=False os dois apps recusam subir
+# sem ela (ver exigir_secret_key em settings.py e config.py).
+services:
+  backend:
+    environment:
+      - DEBUG=False
+      - SECRET_KEY=${SECRET_KEY:?defina SECRET_KEY no .env}
+      - ALLOWED_HOSTS=${ALLOWED_HOSTS:-backend}
+      - DATABASE_PATH=/app/data/db.sqlite3
+    # setup_admin_if_needed() em manage.py só dispara com o comando runserver.
+    # Sob gunicorn ele nunca rodaria, e o deploy nasceria sem conta de acesso
+    # -- por isso create_admin é chamado explicitamente aqui.
+    #
+    # Workers sync, sem --threads: a branch demo troca o banco por processo.
+    command: >
+      sh -c "python manage.py migrate --noinput
+      && python manage.py collectstatic --noinput
+      && python manage.py create_admin
+      && gunicorn uairoute.wsgi:application --bind 0.0.0.0:8000 --workers 3"
+
+  frontend:
+    environment:
+      - DEBUG=False
+      - SECRET_KEY=${SECRET_KEY:?defina SECRET_KEY no .env}
+      - BACKEND_URL=http://backend:8000
+      - SERVER_IP=${SERVER_IP:-localhost}
+      - ORS_API_KEY=${ORS_API_KEY:-}
+    command: gunicorn uairoute:app --bind 0.0.0.0:5000 --workers 3
