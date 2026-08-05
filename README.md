@@ -125,17 +125,21 @@ partir de um clone limpo.
 git clone https://github.com/seu-usuario/uairoute.git
 cd uairoute
 
-# 2. Suba os serviços
+# 2. Suba os serviços (desenvolvimento)
 docker-compose up -d --build
 
 # 3. Acesse o sistema
 # Frontend: http://localhost:5000
-# Backend API: http://localhost:8000
 ```
 
 No primeiro start o backend aplica as migrações e cria o administrador padrão
 automaticamente — acompanhe por `docker-compose logs -f backend`. O frontend só
 sobe depois que o backend passa no healthcheck.
+
+**Nota de Segurança:** O backend Django não é publicado no host — não é acessível
+em `localhost:8000`. É um serviço interno que só o frontend (Flask) alcança,
+dentro da rede do Docker Compose, em `http://backend:8000`. Isso impede acesso
+não autenticado direto à API.
 
 ### 💻 Executar Localmente (Desenvolvimento)
 
@@ -158,11 +162,40 @@ python uairoute.py
 Sem a variável `DATABASE_PATH`, o Django usa `backend/db.sqlite3` — nenhuma
 configuração extra é necessária para rodar fora do Docker.
 
-### 🌐 Acessos
+### 🌐 Acessos (Desenvolvimento)
 
 - **Frontend**: http://localhost:5000
+
+No modo desenvolvimento local (sem Docker), a API também fica acessível:
+
 - **API Django**: http://localhost:8000
 - **Admin Django**: http://localhost:8000/admin
+
+### 🚀 Stack de Produção
+
+Para publicar em produção, use:
+
+```bash
+docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build
+```
+
+**Requisito obrigatório:** a variável `SECRET_KEY` deve estar definida no ambiente.
+Gere uma chave segura com:
+
+```bash
+python -c "import secrets; print(secrets.token_urlsafe(50))"
+```
+
+E defina no `.env` ou passe ao Compose:
+
+```bash
+export SECRET_KEY="sua-chave-gerada-acima"
+docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build
+```
+
+O `docker-compose.prod.yml` sobrescreve `DEBUG=False`, força `SECRET_KEY`, e
+executa ambos os apps sob Gunicorn com múltiplos workers. O banco continua no
+volume nomeado `backend_data`.
 
 ### 👤 Usuário Padrão
 
@@ -218,16 +251,41 @@ O backend lê toda a configuração sensível do ambiente. Com Docker Compose os
 valores já vêm definidos nos arquivos `docker-compose*.yml`; para execução local
 ou para sobrescrever em produção, crie um `.env` na raiz baseado no `.env.example`.
 
-| Variável | Padrão (sem env) | Descrição |
-| -------- | ---------------- | --------- |
-| `SECRET_KEY` | chave de dev insegura | Obrigatório definir em produção |
-| `DEBUG` | `True` | `True`/`False` |
-| `ALLOWED_HOSTS` | `localhost,127.0.0.1` | Separado por vírgulas |
-| `CSRF_TRUSTED_ORIGINS` | `http://localhost:5000,http://127.0.0.1:5000` | Separado por vírgulas |
-| `DATABASE_PATH` | `backend/db.sqlite3` | Caminho do SQLite |
+#### Backend (Django)
 
-`backend` precisa estar em `ALLOWED_HOSTS` no Docker — é o hostname pelo qual o
-frontend chama a API dentro da rede do Compose.
+| Variável | Padrão (dev, `DEBUG=True`) | Obrigatório em produção | Descrição |
+| -------- | -------------------------- | ---------------------- | --------- |
+| `SECRET_KEY` | chave insegura versionada | ✓ Sim | Chave para assinar sessões e tokens. Gere com `python -c "import secrets; print(secrets.token_urlsafe(50))"` |
+| `DEBUG` | `True` | — | `True`/`False` para modo debug |
+| `ALLOWED_HOSTS` | `localhost,127.0.0.1` | — | Hosts permitidos, separados por vírgula. Inclua `backend` para Docker. |
+| `CSRF_TRUSTED_ORIGINS` | `http://localhost:5000,http://127.0.0.1:5000` | — | Origens confiáveis para CSRF, separadas por vírgula |
+| `CORS_ALLOWED_ORIGINS` | `http://localhost:5000,http://127.0.0.1:5000` | — | Origens permitidas para CORS (requisições do frontend), separadas por vírgula |
+| `DATABASE_PATH` | `backend/db.sqlite3` | — | Caminho do SQLite. No Docker aponta para `/app/data/db.sqlite3` (volume persistente) |
+| `ORS_API_KEY` | (vazio) | — | Chave da OpenRouteService para cálculo de rotas (veja abaixo) |
+
+#### Frontend (Flask)
+
+| Variável | Padrão (dev) | Descrição |
+| -------- | ------------ | --------- |
+| `BACKEND_URL` | `http://localhost:8000` | URL da API Django. No Docker use `http://backend:8000` |
+| `SERVER_IP` | `localhost` | IP/hostname para bind do Flask. Use `0.0.0.0` em produção ou Docker. |
+| `DEBUG` | `True` | Modo debug |
+| `SECRET_KEY` | (lê do backend) | Em produção, deve ser a mesma do backend |
+| `ORS_API_KEY` | (vazio) | Chave da OpenRouteService (veja abaixo) |
+
+#### OpenRouteService (`ORS_API_KEY`)
+
+A chave da OpenRouteService é usada para calcular rotas otimizadas nas ordens
+de serviço. Antes era hardcoded no template do frontend; agora é uma variável
+de ambiente lida tanto pelo **backend** (ao criar/editar ordens) quanto pelo
+**frontend** (ao visualizar ordens).
+
+Sem a chave:
+- O backend não calcula `distancia_total` e `tempo_estimado`
+- O frontend retorna erro 503 ao tentar visualizar a rota
+
+Obtenha uma chave gratuita em https://openrouteservice.org/dev/#/signup
+e defina em `ORS_API_KEY` no `.env` ou na stack de produção.
 
 ### Banco de Dados
 O projeto usa SQLite por padrão. Para produção, configure PostgreSQL ou MySQL no `settings.py`.
@@ -235,6 +293,25 @@ O projeto usa SQLite por padrão. Para produção, configure PostgreSQL ou MySQL
 ### APIs Externas
 - **Geocoding**: Utiliza a API gratuita do OpenStreetMap (Nominatim)
 - **Mapas**: Integração com Leaflet.js e OpenStreetMap
+
+## 🧪 Testes
+
+O projeto inclui suítes de testes para backend e frontend usando `pytest` e
+`pytest-django`.
+
+### Executar Testes
+
+```bash
+# Testes do backend
+cd backend
+python -m pytest -v
+
+# Testes do frontend
+cd frontend
+python -m pytest -v
+```
+
+Cada diretório tem seu próprio `pytest.ini` com configurações específicas.
 
 ## 📊 API Endpoints
 
@@ -395,6 +472,17 @@ docker-compose restart backend
 **Atenção:** `docker-compose down -v` remove o volume `backend_data` e, com ele,
 o banco. Faça o backup acima antes. Sem o `-v`, os dados são preservados.
 
+## 🎯 Branch `demo`
+
+Existe uma branch `demo` que estende o trabalho desta branch (`seguranca`/`produto`).
+A branch `demo` implementa um modo isolado por visitante: cada acesso anônimo
+(sem login) cria uma sessão isolada com dados de teste, sem afetar o estado
+compartilhado dos usuários autenticados.
+
+Esta branch (`seguranca`) representa o estado base (modo "produto" compartilhado),
+enquanto a branch `demo` constrói sobre ela para adicionar a experiência isolada
+de demonstração.
+
 ## 📄 Licença
 
 Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
@@ -406,25 +494,40 @@ Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para ma
 - **Frontend**: `uairoute-frontend` (Flask + Templates)
 
 ### Arquitetura Docker
+
 ```
-┌─────────────────┐    ┌─────────────────┐
-│   Frontend      │    │    Backend      │
-│   Flask:5000    │◄──►│   Django:8000   │
-│                 │    │                 │
-├─────────────────┤    ├─────────────────┤
-│ • Templates     │    │ • REST API      │
-│ • Static Files  │    │ • SQLite DB     │
-│ • Routes        │    │ • Migrations    │
-└─────────────────┘    └─────────────────┘
+┌────────────────────────────────────────────────────────┐
+│  uairoute-network (bridge)                             │
+│                                                         │
+│  ┌─────────────────┐              ┌─────────────────┐  │
+│  │   Frontend      │              │    Backend      │  │
+│  │   Flask:5000    │─────────────►│   Django:8000   │  │
+│  │  (publicado)    │              │  (interno)      │  │
+│  ├─────────────────┤              ├─────────────────┤  │
+│  │ • Templates     │              │ • REST API      │  │
+│  │ • Static Files  │              │ • SQLite DB     │  │
+│  │ • Routes        │              │ • Migrations    │  │
+│  └─────────────────┘              └─────────────────┘  │
+│         ▲                                                │
+│         │ :5000                                          │
+│    (host)                                               │
+└────────────────────────────────────────────────────────┘
 ```
 
+**Acesso:**
+- **Frontend**: Publicado em `:5000` no host (acessível externamente)
+- **Backend**: Interno apenas — não publicado no host. Acessível dentro da rede
+  Compose via `http://backend:8000` (do frontend) ou via Docker Compose exec
+
 ### Volumes Persistentes
+
 - **Database**: volume nomeado `backend_data` → `/app/data/db.sqlite3`
 
 ### Configuração de Rede
+
 - **Network**: `uairoute-network` (bridge)
 - **Comunicação**: Frontend conecta em `http://backend:8000`
-- **Exposição**: Frontend na porta 5000, Backend na porta 8000
+- **Exposição**: Apenas Frontend publicado na porta 5000. Backend é interno.
 
 ---
 
