@@ -16,7 +16,7 @@ def test_proxy_exige_sessao(client):
     assert resposta.is_json
 
 
-@patch("api_proxy_routes.requests.get")
+@patch("api_proxy_routes.backend_client.get")
 def test_proxy_de_obras_repassa_o_json(mock_get, client_logado):
     mock_get.return_value = RespostaFalsa([{"id": 1, "nome": "Obra Centro"}])
     resposta = client_logado.get("/api/obras")
@@ -24,19 +24,19 @@ def test_proxy_de_obras_repassa_o_json(mock_get, client_logado):
     assert resposta.get_json() == [{"id": 1, "nome": "Obra Centro"}]
 
 
-@patch("api_proxy_routes.requests.get")
+@patch("api_proxy_routes.backend_client.get")
 def test_proxy_de_veiculos_repassa_o_json(mock_get, client_logado):
     mock_get.return_value = RespostaFalsa([{"id": 7, "placa": "ABC1D23"}])
     assert client_logado.get("/api/veiculos").get_json() == [{"id": 7, "placa": "ABC1D23"}]
 
 
-@patch("api_proxy_routes.requests.get")
+@patch("api_proxy_routes.backend_client.get")
 def test_proxy_de_alojamentos_repassa_o_json(mock_get, client_logado):
     mock_get.return_value = RespostaFalsa([{"id": 3, "nome": "Alojamento Norte"}])
     assert client_logado.get("/api/alojamento").get_json() == [{"id": 3, "nome": "Alojamento Norte"}]
 
 
-@patch("api_proxy_routes.requests.get")
+@patch("api_proxy_routes.backend_client.get")
 def test_proxy_traduz_backend_fora_do_ar_em_502(mock_get, client_logado):
     import requests as req
     mock_get.side_effect = req.RequestException("conexão recusada")

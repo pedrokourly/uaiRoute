@@ -1,5 +1,5 @@
 import os
-import requests
+import backend_client
 from flask import render_template, session, redirect, url_for, jsonify
 from uairoute import app
 from config import API_URLS
@@ -49,7 +49,7 @@ def mapa():
     if funcionario:
         try:
             # Buscar ordens de serviço relacionadas ao alojamento do funcionário
-            response = requests.get(f'{API_URLS["ordens_servico"]}funcionario/{funcionario["id"]}/')
+            response = backend_client.get(f'{API_URLS["ordens_servico"]}funcionario/{funcionario["id"]}/')
             if response.status_code == 200:
                 data = response.json()
                 ordens_servico = data.get('ordens', [])

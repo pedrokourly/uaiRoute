@@ -1,6 +1,7 @@
 from flask import render_template, request, redirect, url_for, jsonify, session
 from uairoute import app
 import requests
+import backend_client
 
 # Importar os decoradores de autenticação
 from auth_routes import require_admin, require_login
@@ -11,7 +12,7 @@ from config import API_URLS
 @require_admin
 def ordens_servico():
     try:
-        response = requests.get(API_URLS['ordens_servico'])
+        response = backend_client.get(API_URLS['ordens_servico'])
         if response.status_code == 200:
             ordens = response.json()
             return render_template('OrdemServico/listar-ordens.html', ordens=ordens)
@@ -25,13 +26,13 @@ def ordens_servico():
 def cadastrar_ordem_servico():
     # Buscar dados necessários para o formulário
     try:
-        veiculos_response = requests.get(API_URLS['veiculos'])
+        veiculos_response = backend_client.get(API_URLS['veiculos'])
         veiculos = veiculos_response.json() if veiculos_response.status_code == 200 else []
-        
-        obras_response = requests.get(API_URLS['obras'])
+
+        obras_response = backend_client.get(API_URLS['obras'])
         obras = obras_response.json() if obras_response.status_code == 200 else []
-        
-        alojamentos_response = requests.get(API_URLS['alojamentos'])
+
+        alojamentos_response = backend_client.get(API_URLS['alojamentos'])
         alojamentos = alojamentos_response.json() if alojamentos_response.status_code == 200 else []
     except:
         veiculos = []
@@ -60,7 +61,7 @@ def cadastrar_ordem_servico():
         }
         
         try:
-            response = requests.post(API_URLS['ordens_servico'], json=ordem_data)
+            response = backend_client.post(API_URLS['ordens_servico'], json=ordem_data)
             if response.status_code in [200, 201]:
                 return redirect(url_for('ordens_servico'))
             else:
@@ -92,10 +93,10 @@ def visualizar_ordem_servico(id):
     
     try:
         # Buscar dados da ordem de serviço
-        response = requests.get(f'{API_URLS["ordens_servico"]}{id}/')
+        response = backend_client.get(f'{API_URLS["ordens_servico"]}{id}/')
         if response.status_code == 200:
             ordem = response.json()
-            return render_template('OrdemServico/visualizar-ordem.html', 
+            return render_template('OrdemServico/visualizar-ordem.html',
                                  ordem=ordem, 
                                  is_admin=funcionario.get('is_admin', False))
         else:
@@ -121,7 +122,7 @@ def ordem_servico_rota_api(id):
             return jsonify({'error': 'Acesso negado a esta ordem'}), 403
     
     try:
-        response = requests.get(f'{API_URLS["ordens_servico"]}{id}/rota/')
+        response = backend_client.get(f'{API_URLS["ordens_servico"]}{id}/rota/')
         if response.status_code == 200:
             return jsonify(response.json())
         else:
@@ -136,7 +137,7 @@ def funcionario_pode_acessar_ordem(funcionario_id, ordem_id):
     """
     try:
         # Buscar informações do funcionário
-        funcionario_response = requests.get(f'{API_URLS["funcionarios"]}{funcionario_id}/')
+        funcionario_response = backend_client.get(f'{API_URLS["funcionarios"]}{funcionario_id}/')
         if funcionario_response.status_code != 200:
             return False
         
@@ -151,7 +152,7 @@ def funcionario_pode_acessar_ordem(funcionario_id, ordem_id):
             return False
         
         # Buscar a ordem de serviço
-        ordem_response = requests.get(f'{API_URLS["ordens_servico"]}{ordem_id}/')
+        ordem_response = backend_client.get(f'{API_URLS["ordens_servico"]}{ordem_id}/')
         if ordem_response.status_code != 200:
             return False
         
@@ -190,7 +191,7 @@ def minhas_ordens():
     
     try:
         # Buscar ordens de serviço relacionadas ao alojamento do funcionário
-        response = requests.get(f'{API_URLS["ordens_servico"]}funcionario/{funcionario["id"]}/')
+        response = backend_client.get(f'{API_URLS["ordens_servico"]}funcionario/{funcionario["id"]}/')
         
         if response.status_code == 200:
             data = response.json()
@@ -225,11 +226,11 @@ def visualizar_minha_ordem(id):
     
     try:
         # Buscar dados da ordem de serviço
-        response = requests.get(f'{API_URLS["ordens_servico"]}{id}/')
-        
+        response = backend_client.get(f'{API_URLS["ordens_servico"]}{id}/')
+
         if response.status_code == 200:
             ordem = response.json()
-            
+
             # Verificar se o funcionário tem acesso a esta ordem
             alojamento_funcionario_id = funcionario.get('alojamento')
             if not alojamento_funcionario_id:
@@ -275,7 +276,7 @@ def excluir_ordem_servico(id):
     """
     try:
         # Fazer requisição DELETE para o backend
-        response = requests.delete(f'{API_URLS["ordens_servico"]}{id}/')
+        response = backend_client.delete(f'{API_URLS["ordens_servico"]}{id}/')
         
         if response.status_code == 204:
             # Exclusão bem-sucedida
@@ -296,7 +297,7 @@ def excluir_ordem_servico(id):
 def editar_ordem_servico(id):
     try:
         # Buscar a ordem de serviço específica
-        ordem_response = requests.get(f'{API_URLS["ordens_servico"]}{id}/')
+        ordem_response = backend_client.get(f'{API_URLS["ordens_servico"]}{id}/')
         if ordem_response.status_code != 200:
             return render_template('OrdemServico/listar-ordens.html', 
                                  error="Ordem de serviço não encontrada.")
@@ -304,15 +305,15 @@ def editar_ordem_servico(id):
         ordem = ordem_response.json()
         
         # Buscar dados necessários para o formulário
-        veiculos_response = requests.get(API_URLS['veiculos'])
+        veiculos_response = backend_client.get(API_URLS['veiculos'])
         veiculos = veiculos_response.json() if veiculos_response.status_code == 200 else []
-        
-        obras_response = requests.get(API_URLS['obras'])
+
+        obras_response = backend_client.get(API_URLS['obras'])
         obras = obras_response.json() if obras_response.status_code == 200 else []
-        
-        alojamentos_response = requests.get(API_URLS['alojamentos'])
+
+        alojamentos_response = backend_client.get(API_URLS['alojamentos'])
         alojamentos = alojamentos_response.json() if alojamentos_response.status_code == 200 else []
-        
+
     except Exception as e:
         return render_template('OrdemServico/listar-ordens.html', 
                              error="Erro ao conectar com o servidor.")
@@ -340,7 +341,7 @@ def editar_ordem_servico(id):
         }
         
         try:
-            response = requests.put(f'{API_URLS["ordens_servico"]}{id}/', json=ordem_data)
+            response = backend_client.put(f'{API_URLS["ordens_servico"]}{id}/', json=ordem_data)
             if response.status_code in [200, 201]:
                 return redirect(url_for('ordens_servico'))
             else:

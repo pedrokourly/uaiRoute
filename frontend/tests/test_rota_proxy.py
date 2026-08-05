@@ -22,7 +22,7 @@ def test_direcoes_sem_chave_configurada_responde_503(client_logado, monkeypatch)
     assert resposta.status_code == 503
 
 
-@patch("rota_routes.requests.post")
+@patch("rota_routes.backend_client.post")
 def test_direcoes_repassa_a_resposta(mock_post, client_logado, monkeypatch):
     monkeypatch.setattr("rota_routes.ORS_API_KEY", "chave-de-teste")
     mock_post.return_value = RespostaFalsa({"routes": [{"summary": {"distance": 1200}}]})
@@ -31,7 +31,7 @@ def test_direcoes_repassa_a_resposta(mock_post, client_logado, monkeypatch):
     assert resposta.get_json()["routes"][0]["summary"]["distance"] == 1200
 
 
-@patch("rota_routes.requests.post")
+@patch("rota_routes.backend_client.post")
 def test_a_chave_vai_no_header_e_nao_no_corpo(mock_post, client_logado, monkeypatch):
     monkeypatch.setattr("rota_routes.ORS_API_KEY", "chave-de-teste")
     mock_post.return_value = RespostaFalsa({"routes": []})

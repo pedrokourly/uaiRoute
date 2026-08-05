@@ -1,6 +1,6 @@
 from flask import render_template, request, redirect, url_for
 from uairoute import app
-import requests
+import backend_client
 
 # Importar os decoradores de autenticação
 from auth_routes import require_admin
@@ -12,7 +12,7 @@ from config import API_URLS
 @require_admin
 def alojamentos():
     try:
-        response = requests.get(API_URLS['alojamentos'])
+        response = backend_client.get(API_URLS['alojamentos'])
         print(response.status_code)
         if response.status_code == 200:
             alojamentos = response.json()
@@ -36,7 +36,7 @@ def cadastrarAlojamento():
         }
         
         try:
-            response = requests.post(API_URLS['alojamentos'], json=alojamento)
+            response = backend_client.post(API_URLS['alojamentos'], json=alojamento)
             if response.status_code in [200, 201]:
                 return redirect(url_for('alojamentos'))
             else:
@@ -59,7 +59,7 @@ def editarAlojamento(id):
             'cidade': request.form.get('cidade', '').strip()
         }
         try:
-            response = requests.put(f'{API_URLS["alojamentos"]}{id}/', json=alojamento)
+            response = backend_client.put(f'{API_URLS["alojamentos"]}{id}/', json=alojamento)
             if response.status_code in [200, 204]:
                 return redirect(url_for('alojamentos'))
             else:
@@ -82,7 +82,7 @@ def editarAlojamento(id):
     
     # GET: busca dados do alojamento
     try:
-        response = requests.get(f'{API_URLS["alojamentos"]}{id}/')
+        response = backend_client.get(f'{API_URLS["alojamentos"]}{id}/')
         if response.status_code == 200:
             alojamento = response.json()
         else:
@@ -95,7 +95,7 @@ def editarAlojamento(id):
 @require_admin
 def excluirAlojamento(id):
     try:
-        response = requests.delete(f'{API_URLS["alojamentos"]}{id}/')
+        response = backend_client.delete(f'{API_URLS["alojamentos"]}{id}/')
         if response.status_code in [200, 204]:
             return redirect(url_for('alojamentos'))
         else:

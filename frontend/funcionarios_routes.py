@@ -1,6 +1,6 @@
 from flask import render_template, request, redirect, url_for
 from uairoute import app
-import requests
+import backend_client
 
 # Importar os decoradores de autenticação
 from auth_routes import require_admin
@@ -12,7 +12,7 @@ from config import API_URLS
 @require_admin
 def funcionarios():
     try:
-        response = requests.get(API_URLS['funcionarios'])
+        response = backend_client.get(API_URLS['funcionarios'])
         if response.status_code == 200:
             funcionarios = response.json()
             return render_template('Funcionarios/listar-funcionario.html', funcionarios=funcionarios)
@@ -26,11 +26,11 @@ def funcionarios():
 def cadastrarFuncionario():
     # Buscar alojamentos disponíveis
     try:
-        alojamentos_response = requests.get(API_URLS['alojamentos'])
+        alojamentos_response = backend_client.get(API_URLS['alojamentos'])
         alojamentos = alojamentos_response.json() if alojamentos_response.status_code == 200 else []
     except:
         alojamentos = []
-    
+
     if request.method == 'POST':
         funcionario = {
             'nome_completo': request.form['nome_completo'],
@@ -41,7 +41,7 @@ def cadastrarFuncionario():
             'alojamento': request.form.get('alojamento') if request.form.get('alojamento') else None
         }
         try:
-            response = requests.post(API_URLS['funcionarios'], json=funcionario)
+            response = backend_client.post(API_URLS['funcionarios'], json=funcionario)
             if response.status_code in [200, 201]:
                 return redirect(url_for('funcionarios'))
             else:
@@ -68,11 +68,11 @@ def cadastrarFuncionario():
 def editarFuncionario(id):
     # Buscar alojamentos disponíveis
     try:
-        alojamentos_response = requests.get(API_URLS['alojamentos'])
+        alojamentos_response = backend_client.get(API_URLS['alojamentos'])
         alojamentos = alojamentos_response.json() if alojamentos_response.status_code == 200 else []
     except:
         alojamentos = []
-    
+
     if request.method == 'POST':
         funcionario = {
             'nome_completo': request.form['nome_completo'],
@@ -83,7 +83,7 @@ def editarFuncionario(id):
             'alojamento': request.form.get('alojamento') if request.form.get('alojamento') else None
         }
         try:
-            response = requests.put(f'{API_URLS["funcionarios"]}{id}/', json=funcionario)
+            response = backend_client.put(f'{API_URLS["funcionarios"]}{id}/', json=funcionario)
             if response.status_code in [200, 204]:
                 return redirect(url_for('funcionarios'))
             else:
@@ -105,7 +105,7 @@ def editarFuncionario(id):
             return render_template('Funcionarios/editar-funcionario.html', funcionario=funcionario, error=str(e), alojamentos=alojamentos)
     # GET: busca dados do funcionário
     try:
-        response = requests.get(f'{API_URLS["funcionarios"]}{id}/')
+        response = backend_client.get(f'{API_URLS["funcionarios"]}{id}/')
         if response.status_code == 200:
             funcionario = response.json()
         else:
@@ -118,7 +118,7 @@ def editarFuncionario(id):
 @require_admin
 def excluirFuncionario(id):
     try:
-        response = requests.delete(f'{API_URLS["funcionarios"]}{id}/')
+        response = backend_client.delete(f'{API_URLS["funcionarios"]}{id}/')
         if response.status_code in [200, 204]:
             return redirect(url_for('funcionarios'))
         else:

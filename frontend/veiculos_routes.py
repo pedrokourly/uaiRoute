@@ -1,6 +1,6 @@
 from flask import render_template, request, redirect, url_for
 from uairoute import app
-import requests
+import backend_client
 
 # Importar os decoradores de autenticação
 from auth_routes import require_admin
@@ -11,7 +11,7 @@ from config import API_URLS
 @app.route('/veiculos')
 @require_admin
 def veiculos():
-    response = requests.get(API_URLS['veiculos'])
+    response = backend_client.get(API_URLS['veiculos'])
     if response.status_code == 200:
         veiculos = response.json()
         return render_template('Veiculos/listar-veiculos.html', veiculos=veiculos)
@@ -34,7 +34,7 @@ def cadastrarVeiculo():
         }
         
         try:
-            response = requests.post(API_URLS['veiculos'], json=veiculo)
+            response = backend_client.post(API_URLS['veiculos'], json=veiculo)
             if response.status_code in [200, 201]:
                 return redirect(url_for('veiculos'))
             else:
@@ -59,7 +59,7 @@ def editarVeiculo(id):
             'disponibilidade': 'disponibilidade' in request.form
         }
         try:
-            response = requests.put(f'{API_URLS["veiculos"]}{id}/', json=veiculo)
+            response = backend_client.put(f'{API_URLS["veiculos"]}{id}/', json=veiculo)
             if response.status_code in [200, 204]:
                 return redirect(url_for('veiculos'))
             else:
@@ -69,7 +69,7 @@ def editarVeiculo(id):
             return render_template('Veiculos/editar-veiculos.html', veiculo=veiculo, error=str(e))
     # GET: busca dados do veículo
     try:
-        response = requests.get(f'{API_URLS["veiculos"]}{id}/')
+        response = backend_client.get(f'{API_URLS["veiculos"]}{id}/')
         if response.status_code == 200:
             veiculo = response.json()
         else:
@@ -82,7 +82,7 @@ def editarVeiculo(id):
 @require_admin
 def excluirVeiculo(id):
     try:
-        response = requests.delete(f'{API_URLS["veiculos"]}{id}/')
+        response = backend_client.delete(f'{API_URLS["veiculos"]}{id}/')
         if response.status_code in [200, 204]:
             return redirect(url_for('veiculos'))
         else:

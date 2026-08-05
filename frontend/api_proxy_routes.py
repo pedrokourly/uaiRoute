@@ -5,6 +5,7 @@ JavaScript do mapa não consegue mais falar com ele diretamente. Estas rotas
 são a única ponte, e passam pela mesma sessão que protege o resto do app.
 """
 import requests
+import backend_client
 from flask import jsonify
 
 from uairoute import app
@@ -14,7 +15,7 @@ from auth_routes import require_login_api
 
 def _repassar(url):
     try:
-        resposta = requests.get(url, timeout=10)
+        resposta = backend_client.get(url, timeout=10)
     except requests.RequestException as erro:
         return jsonify({'error': f'Backend indisponível: {erro}'}), 502
 

@@ -7,6 +7,7 @@ A chamada passa a sair daqui, e a chave nunca chega ao browser.
 import os
 
 import requests
+import backend_client
 from flask import jsonify, request
 
 from uairoute import app
@@ -29,7 +30,7 @@ def rota_direcoes():
         return jsonify({'error': 'São necessárias ao menos duas coordenadas.'}), 400
 
     try:
-        resposta = requests.post(
+        resposta = backend_client.post(
             ORS_URL,
             headers={
                 'Authorization': ORS_API_KEY,

@@ -9,7 +9,7 @@ from unittest.mock import patch
 from requests.exceptions import ConnectionError as RequestsConnectionError
 
 
-@patch("routes.requests.get", side_effect=RequestsConnectionError("backend indisponível"))
+@patch("routes.backend_client.get", side_effect=RequestsConnectionError("backend indisponível"))
 def test_mapa_renderiza_com_origem_vazia(mock_get, client_logado):
     resposta = client_logado.get("/mapa")
 
