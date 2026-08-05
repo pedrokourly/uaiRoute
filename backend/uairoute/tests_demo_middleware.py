@@ -1,4 +1,5 @@
 import pytest
+from django.test import Client
 
 from uairoute.demo_middleware import IdDeDemoInvalido, caminho_do_banco
 
@@ -28,5 +29,5 @@ def test_health_nao_exige_header(client):
     assert client.get("/health/").status_code == 200
 
 
-def test_api_sem_header_responde_400(client):
-    assert client.get("/api/funcionarios/").status_code == 400
+def test_api_sem_header_responde_400():
+    assert Client().get("/api/funcionarios/").status_code == 400

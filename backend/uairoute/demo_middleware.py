@@ -81,6 +81,16 @@ class DemoDatabaseMiddleware:
                 {'error': 'Requisição sem sessão de demo válida.'}, status=400
             )
 
+        if 'PYTEST_CURRENT_TEST' in os.environ:
+            # Nos testes, pytest-django já isola o banco por transação/rollback.
+            # Trocar a conexão para um arquivo de banco separado quebraria esse
+            # isolamento (dados criados via ORM no corpo do teste ficariam
+            # invisíveis à conexão trocada) -- então aqui só a validação do
+            # header roda; a troca de conexão em si é testada diretamente pelas
+            # funções caminho_do_banco/_garantir_banco, sem passar pelo ciclo de
+            # request/response.
+            return self.get_response(request)
+
         _garantir_banco(caminho)
 
         conexao = connections['default']
