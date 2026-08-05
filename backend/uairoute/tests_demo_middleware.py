@@ -17,6 +17,7 @@ def test_id_valido_gera_caminho_dentro_do_diretorio():
     "z" * 32,
     "",
     "a" * 30 + "/x",
+    "a" * 32 + "\n",   # \Z rejeita trailing newlines ($ deixaria passar)
 ])
 def test_ids_invalidos_sao_recusados(id_ruim):
     with pytest.raises(IdDeDemoInvalido):

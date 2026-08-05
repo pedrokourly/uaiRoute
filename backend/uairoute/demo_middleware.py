@@ -10,15 +10,17 @@ assim nenhuma view, serializer ou model precisa saber que isso existe.
 Requer gunicorn com workers sync e sem --threads. A conexão é por processo;
 com várias threads por worker, dois visitantes a compartilhariam.
 """
+import os
 import re
 import shutil
+import tempfile
 from pathlib import Path
 
 from django.conf import settings
 from django.db import connections
 from django.http import JsonResponse
 
-ID_VALIDO = re.compile(r'^[0-9a-f]{32}$')
+ID_VALIDO = re.compile(r'^[0-9a-f]{32}\Z')
 
 # Caminhos que respondem sem tocar no banco e, por isso, sem sessão de demo.
 CAMINHOS_LIVRES = ('/health/',)
@@ -49,7 +51,18 @@ def _garantir_banco(caminho):
         raise FileNotFoundError(
             f'Banco semente ausente em {semente}. Rode: python manage.py build_seed'
         )
-    shutil.copy2(semente, caminho)
+    # Copia para um arquivo temporário no mesmo diretório e troca atomicamente:
+    # shutil.copy2 direto no destino não é atômico (trunca e escreve aos poucos),
+    # então uma segunda requisição concorrente para o mesmo demo_id novo poderia
+    # abrir uma conexão SQLite contra um arquivo parcialmente escrito.
+    fd, temporario = tempfile.mkstemp(dir=caminho.parent, suffix='.tmp')
+    os.close(fd)
+    try:
+        shutil.copy2(semente, temporario)
+        os.replace(temporario, caminho)
+    except BaseException:
+        Path(temporario).unlink(missing_ok=True)
+        raise
 
 
 class DemoDatabaseMiddleware:
