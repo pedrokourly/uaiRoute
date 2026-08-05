@@ -26,6 +26,17 @@ class FuncionarioSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(f"O alojamento '{alojamento.nome}' está lotado.")
         return alojamento
 
+    def validate(self, attrs):
+        """Senha em branco só é válida na edição (significa 'manter a senha
+        atual'). Ao criar um funcionário novo não existe senha atual para
+        manter, então senha ausente ou vazia deve ser rejeitada aqui —
+        antes de qualquer save(), para não gravar um funcionário sem senha."""
+        if self.instance is None and not attrs.get('senha'):
+            raise serializers.ValidationError(
+                {'senha': 'A senha é obrigatória para cadastrar um novo funcionário.'}
+            )
+        return attrs
+
     def create(self, validated_data):
         """Criptografa a senha ao criar um funcionário"""
         if 'senha' in validated_data:
