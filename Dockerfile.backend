@@ -24,8 +24,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copiar código do backend
 COPY backend/ .
 
-# Criar diretório para banco de dados (ponto de montagem do volume backend_data)
-RUN mkdir -p /app/data
+# Ponto de montagem do volume backend_data. demos/ recebe um arquivo SQLite
+# por visitante do demo; a semente fica na raiz de data/.
+RUN mkdir -p /app/data/demos
 
 # Expor porta
 EXPOSE 8000
