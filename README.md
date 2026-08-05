@@ -48,7 +48,7 @@ uaiRoute/
 │   │   ├── utils/             # Utilitários (geocoding)
 │   │   └── veiculos/          # Gestão de veículos
 │   ├── uairoute/              # Configurações Django
-│   ├── db.sqlite3             # Banco de dados
+│   ├── db.sqlite3             # Banco de dados (execução local sem Docker)
 │   └── manage.py              # CLI Django
 ├── frontend/                   # Interface Flask
 │   ├── templates/             # Templates HTML
@@ -57,17 +57,12 @@ uaiRoute/
 │   ├── auth_routes.py         # Autenticação
 │   ├── config.py              # Configurações centralizadas
 │   └── *_routes.py            # Rotas específicas
-├── scripts/                    # Scripts de inicialização
-│   ├── start-backend.sh       # Script do backend
-│   └── start-frontend.sh      # Script do frontend
 ├── docker-compose.yml         # Orquestração Docker
 ├── Dockerfile.backend         # Imagem do Django
 ├── Dockerfile.frontend        # Imagem do Flask
-├── Makefile                   # Comandos facilitados
 ├── .dockerignore              # Arquivos ignorados no Docker
 ├── .env.example               # Exemplo de variáveis de ambiente
-├── requirements.txt           # Dependências Python
-└── README_SETUP.md           # Guia de configuração
+└── requirements.txt           # Dependências Python
 ```
 
 ## ✨ Funcionalidades
@@ -122,74 +117,77 @@ uaiRoute/
 
 ### 🐳 Executar com Docker (Recomendado)
 
-#### Opção 1: Usando Docker Compose
+Não é preciso criar arquivos nem preparar o banco antes: o Compose sobe tudo a
+partir de um clone limpo.
+
 ```bash
 # 1. Clone o repositório
 git clone https://github.com/seu-usuario/uairoute.git
 cd uairoute
 
-# 2. Execute com Docker Compose
-docker-compose up -d
+# 2. Suba os serviços
+docker-compose up -d --build
 
 # 3. Acesse o sistema
 # Frontend: http://localhost:5000
 # Backend API: http://localhost:8000
 ```
 
-#### Opção 2: Usando Makefile (mais fácil)
-```bash
-# Primeira execução (build + start)
-make setup
-
-# Comandos úteis
-make up      # Iniciar serviços
-make down    # Parar serviços
-make logs    # Ver logs
-make restart # Reiniciar
-make clean   # Limpeza completa
-```
+No primeiro start o backend aplica as migrações e cria o administrador padrão
+automaticamente — acompanhe por `docker-compose logs -f backend`. O frontend só
+sobe depois que o backend passa no healthcheck.
 
 ### 💻 Executar Localmente (Desenvolvimento)
 
-### 1. Clone o repositório
 ```bash
+# 1. Clone e instale as dependências
 git clone https://github.com/seu-usuario/uairoute.git
 cd uairoute
-```
-
-### 2. Instale as dependências
-```bash
 pip install -r requirements.txt
-```
 
-### 3. Configure o Backend (Django)
-```bash
+# 2. Backend Django (um terminal)
 cd backend
-
-# Execute as migrações
 python manage.py migrate
+python manage.py runserver     # cria o admin padrão automaticamente
 
-# Inicie o servidor (criará admin automaticamente)
-python manage.py runserver
-```
-
-### 4. Configure o Frontend (Flask)
-```bash
+# 3. Frontend Flask (outro terminal)
 cd frontend
-
-# Inicie o servidor Flask
 python uairoute.py
 ```
 
-### 5. Acesse o sistema
+Sem a variável `DATABASE_PATH`, o Django usa `backend/db.sqlite3` — nenhuma
+configuração extra é necessária para rodar fora do Docker.
+
+### 🌐 Acessos
+
 - **Frontend**: http://localhost:5000
 - **API Django**: http://localhost:8000
 - **Admin Django**: http://localhost:8000/admin
 
 ### 👤 Usuário Padrão
-- **Email**: admin@teste.com
-- **Senha**: admin
-- **Tipo**: Administrador
+
+Criado automaticamente na primeira execução do `runserver`, em ambos os modos:
+
+| Campo | Valor             |
+| ----- | ----------------- |
+| Email | `admin@teste.com` |
+| Senha | `admin`           |
+| Tipo  | Administrador     |
+
+Se preferir criar o administrador manualmente, ou se algo falhar no bootstrap
+automático:
+
+```bash
+python manage.py create_admin      # apenas o administrador
+python manage.py setup_initial     # migrations + administrador
+
+# Via Docker
+docker-compose exec backend python manage.py create_admin
+```
+
+Para alterar as credenciais padrão, edite `setup_admin_if_needed()` em
+[`backend/manage.py`](backend/manage.py) ou o comando em
+`backend/api/funcionarios/management/commands/create_admin.py`.
 
 ## 🔧 Configuração Avançada
 
@@ -200,29 +198,36 @@ O projeto inclui configuração completa para Docker:
 - `Dockerfile.backend` - Imagem do Django
 - `Dockerfile.frontend` - Imagem do Flask  
 - `docker-compose.yml` - Orquestração dos serviços
-- `Makefile` - Comandos facilitados
 - `.dockerignore` - Arquivos ignorados no build
 
 #### Volumes
-- `backend_data:/app/data` - Dados persistentes do backend
-- `./backend/db.sqlite3:/app/db.sqlite3` - Banco de dados
+
+- `backend_data:/app/data` - Volume nomeado com o banco SQLite (`/app/data/db.sqlite3`)
+
+O banco fica **dentro** do volume nomeado, não em um bind mount de arquivo.
+Isso é proposital: um bind mount como `./backend/db.sqlite3:/app/db.sqlite3`
+quebra em clone limpo, porque o arquivo está no `.gitignore` e o Docker cria um
+diretório vazio no lugar dele.
 
 #### Rede
 - `uairoute-network` - Rede interna para comunicação entre serviços
 
 ### Variáveis de Ambiente
-Crie um arquivo `.env` no diretório raiz baseado no `.env.example`:
-```env
-# Desenvolvimento local
-DEBUG=True
-SERVER_IP=localhost
-BACKEND_URL=http://localhost:8000
 
-# Docker
-# DEBUG=True
-# SERVER_IP=backend  
-# BACKEND_URL=http://backend:8000
-```
+O backend lê toda a configuração sensível do ambiente. Com Docker Compose os
+valores já vêm definidos nos arquivos `docker-compose*.yml`; para execução local
+ou para sobrescrever em produção, crie um `.env` na raiz baseado no `.env.example`.
+
+| Variável | Padrão (sem env) | Descrição |
+| -------- | ---------------- | --------- |
+| `SECRET_KEY` | chave de dev insegura | Obrigatório definir em produção |
+| `DEBUG` | `True` | `True`/`False` |
+| `ALLOWED_HOSTS` | `localhost,127.0.0.1` | Separado por vírgulas |
+| `CSRF_TRUSTED_ORIGINS` | `http://localhost:5000,http://127.0.0.1:5000` | Separado por vírgulas |
+| `DATABASE_PATH` | `backend/db.sqlite3` | Caminho do SQLite |
+
+`backend` precisa estar em `ALLOWED_HOSTS` no Docker — é o hostname pelo qual o
+frontend chama a API dentro da rede do Compose.
 
 ### Banco de Dados
 O projeto usa SQLite por padrão. Para produção, configure PostgreSQL ou MySQL no `settings.py`.
@@ -288,25 +293,23 @@ O projeto usa SQLite por padrão. Para produção, configure PostgreSQL ou MySQL
 ### 🐳 Docker Commands
 ```bash
 # Build e inicialização
-make setup          # Primeira execução (build + up)
-make build          # Construir imagens
-make up             # Iniciar serviços
-make down           # Parar serviços
+docker-compose up -d --build            # Primeira execução (build + start)
+docker-compose up -d                    # Iniciar em background
+docker-compose down                     # Parar serviços
+docker-compose restart                  # Reiniciar serviços
 
 # Monitoramento
-make logs           # Ver todos os logs
-make backend        # Logs apenas do backend
-make frontend       # Logs apenas do frontend
-
-# Manutenção
-make restart        # Reiniciar serviços
-make clean          # Limpeza completa (containers, imagens, volumes)
-
-# Docker Compose direto
-docker-compose up -d                    # Iniciar em background
+docker-compose ps                       # Status dos containers
 docker-compose logs -f                  # Ver logs em tempo real
-docker-compose exec backend bash       # Acessar container do backend
-docker-compose exec frontend bash      # Acessar container do frontend
+docker-compose logs -f backend          # Logs apenas do backend
+docker-compose logs -f frontend         # Logs apenas do frontend
+
+# Acesso aos containers
+docker-compose exec backend bash        # Shell no backend
+docker-compose exec frontend bash       # Shell no frontend
+
+# Limpeza (⚠️ o -v apaga o volume com o banco de dados)
+docker-compose down -v
 ```
 
 ### Django (Backend)
@@ -340,7 +343,7 @@ docker-compose logs -f frontend        # Logs do frontend
 ### 🐳 Docker
 **Containers não iniciam:**
 ```bash
-make down && make clean && make setup
+docker-compose down && docker-compose up -d --build
 ```
 
 **Erro de porta ocupada:**
@@ -350,7 +353,7 @@ netstat -tulpn | grep :5000
 netstat -tulpn | grep :8000
 
 # Parar containers e tentar novamente
-make down && make up
+docker-compose down && docker-compose up -d
 ```
 
 **Problemas de permissão:**
@@ -370,7 +373,7 @@ A API do OpenStreetMap tem limite de requisições. Aguarde alguns segundos entr
 docker-compose ps
 
 # Verificar logs
-make logs
+docker-compose logs -f
 
 # Verificar conectividade interna
 docker-compose exec frontend curl http://backend:8000/
@@ -381,9 +384,16 @@ docker-compose exec frontend curl http://backend:8000/
 # Resetar migrações (cuidado em produção!)
 docker-compose exec backend python manage.py migrate --fake-initial
 
-# Backup do banco
-docker cp uairoute-backend:/app/db.sqlite3 ./backup_db.sqlite3
+# Backup do banco (vive no volume backend_data)
+docker cp uairoute-backend:/app/data/db.sqlite3 ./backup_db.sqlite3
+
+# Restaurar um backup
+docker cp ./backup_db.sqlite3 uairoute-backend:/app/data/db.sqlite3
+docker-compose restart backend
 ```
+
+**Atenção:** `docker-compose down -v` remove o volume `backend_data` e, com ele,
+o banco. Faça o backup acima antes. Sem o `-v`, os dados são preservados.
 
 ## 📄 Licença
 
@@ -409,8 +419,7 @@ Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para ma
 ```
 
 ### Volumes Persistentes
-- **Database**: `./backend/db.sqlite3` → `/app/db.sqlite3`
-- **Backend Data**: `backend_data` volume para dados persistentes
+- **Database**: volume nomeado `backend_data` → `/app/data/db.sqlite3`
 
 ### Configuração de Rede
 - **Network**: `uairoute-network` (bridge)

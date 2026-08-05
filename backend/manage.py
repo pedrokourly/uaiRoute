@@ -2,6 +2,7 @@
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
+import traceback
 
 
 def setup_admin_if_needed():
@@ -26,8 +27,10 @@ def setup_admin_if_needed():
             print("  Email: admin@teste.com")
             print("  Senha: admin")
     except Exception as e:
-        # Se der erro (como durante migrations), ignora
-        pass
+        # Não interrompe o boot do servidor, mas o erro precisa ficar visível:
+        # falhas de migração ou de conexão com o banco aparecem aqui primeiro.
+        print(f"✗ Falha ao configurar o administrador padrão: {type(e).__name__}: {e}", file=sys.stderr)
+        traceback.print_exc()
 
 
 def main():

@@ -4,9 +4,15 @@ FROM python:3.12-slim
 # Definir diretório de trabalho
 WORKDIR /app
 
+# Sem isso o stdout do Python fica em block-buffering e mensagens como a
+# criação do admin padrão (ou erros no bootstrap) não aparecem em `docker logs`.
+ENV PYTHONUNBUFFERED=1
+
 # Instalar dependências do sistema
+# curl é usado pelo healthcheck do docker-compose.prod.yml
 RUN apt-get update && apt-get install -y \
     gcc \
+    curl \
     && rm -rf /var/lib/apt/lists/*
 
 # Copiar requirements
@@ -15,20 +21,15 @@ COPY requirements.txt .
 # Instalar dependências Python
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copiar scripts
-COPY scripts/ /scripts/
-
 # Copiar código do backend
 COPY backend/ .
 
-# Criar diretório para banco de dados
+# Criar diretório para banco de dados (ponto de montagem do volume backend_data)
 RUN mkdir -p /app/data
-
-# Dar permissão de execução aos scripts
-RUN chmod +x /scripts/*.sh
 
 # Expor porta
 EXPOSE 8000
 
-# Comando para iniciar o servidor
-CMD ["/scripts/start-backend.sh"]
+# Aplica as migrações antes de subir — é o que faz um clone limpo funcionar.
+# O manage.py cria o administrador padrão ao detectar o comando runserver.
+CMD ["sh", "-c", "python manage.py migrate --noinput && python manage.py runserver 0.0.0.0:8000"]

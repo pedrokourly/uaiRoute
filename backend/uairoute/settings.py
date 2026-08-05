@@ -1,19 +1,29 @@
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
+def env_list(name, default):
+    """Lê uma variável de ambiente separada por vírgulas como lista."""
+    return [item.strip() for item in os.environ.get(name, default).split(',') if item.strip()]
+
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-uy*m606ry@h-akvtkvahs7bh-dz@rai6q59_1zk2j3+@*zq0q+'
+# O fallback abaixo serve apenas para desenvolvimento local sem Docker.
+SECRET_KEY = os.environ.get(
+    'SECRET_KEY',
+    'django-insecure-uy*m606ry@h-akvtkvahs7bh-dz@rai6q59_1zk2j3+@*zq0q+',
+)
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DEBUG', 'True').strip().lower() in ('true', '1', 'yes', 'on')
 
-ALLOWED_HOSTS = ['192.168.100.150', 'localhost']
+ALLOWED_HOSTS = env_list('ALLOWED_HOSTS', 'localhost,127.0.0.1')
 
 
 # Application definition
@@ -70,10 +80,14 @@ WSGI_APPLICATION = 'uairoute.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
+# DATABASE_PATH permite apontar o SQLite para o volume persistente do Docker
+# (/app/data/db.sqlite3). Sem a variável, cai no caminho padrão do dev local.
+DATABASE_PATH = os.environ.get('DATABASE_PATH') or BASE_DIR / 'db.sqlite3'
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': DATABASE_PATH,
     }
 }
 
@@ -138,7 +152,7 @@ CORS_ALLOW_ALL_ORIGINS = True  # Para desenvolvimento
 CORS_ALLOW_CREDENTIALS = True
 
 # CSRF exemption for API
-CSRF_TRUSTED_ORIGINS = [
-    "http://localhost:5000",
-    "http://127.0.0.1:5000",
-]
+CSRF_TRUSTED_ORIGINS = env_list(
+    'CSRF_TRUSTED_ORIGINS',
+    'http://localhost:5000,http://127.0.0.1:5000',
+)

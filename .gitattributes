@@ -1,0 +1,25 @@
+# Normalização de fim de linha.
+#
+# Scripts executados dentro dos containers Linux precisam de LF. Com CRLF, o
+# shebang vira "#!/bin/bash\r" e o container falha no boot com
+# "exec /scripts/start-backend.sh: no such file or directory" — o kernel está
+# reclamando do interpretador, não do script. Isso acontece em qualquer clone
+# feito no Windows com core.autocrlf=true (o padrão).
+* text=auto
+
+*.sh text eol=lf
+Dockerfile* text eol=lf
+Makefile text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+
+# O Compose lê o .env da raiz para substituir ${VARIAVEIS}. Com CRLF, o valor
+# carrega um \r invisível no final (ex.: SECRET_KEY=abc\r).
+.env* text eol=lf
+
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.sqlite3 binary
