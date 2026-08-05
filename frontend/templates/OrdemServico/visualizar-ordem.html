@@ -265,8 +265,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     async function calcularRota(rotaData) {
-        const apiKey = '5b3ce3597851110001cf62489715e0567dc24edd98bd95aee36637a9';
-        
         // Preparar coordenadas para a rota
         const coordinates = [];
         coordinates.push(rotaData.veiculo.posicao);
@@ -283,19 +281,10 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log('Coordenadas para rota:', coordinates);
         
         try {
-            const directionsResponse = await fetch('https://api.openrouteservice.org/v2/directions/driving-car/json', {
+            const directionsResponse = await fetch('/api/rota/direcoes', {
                 method: 'POST',
-                headers: {
-                    'Authorization': apiKey,
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    coordinates: coordinates,
-                    profile: 'driving-car',
-                    format: 'json',
-                    geometry: 'true',
-                    instructions: 'false'
-                })
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ coordinates: coordinates })
             });
 
             if (!directionsResponse.ok) {
