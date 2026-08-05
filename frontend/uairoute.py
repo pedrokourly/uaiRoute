@@ -5,6 +5,13 @@ from config import DEBUG, SECRET_KEY, get_template_config
 app = Flask(__name__)
 app.secret_key = SECRET_KEY
 
+app.config.update(
+    SESSION_COOKIE_HTTPONLY=True,
+    SESSION_COOKIE_SAMESITE='Lax',
+    # Só em produção: com HTTPS ausente no dev, o cookie seria descartado.
+    SESSION_COOKIE_SECURE=not DEBUG,
+)
+
 # Disponibilizar configurações para todos os templates
 @app.context_processor
 def inject_config():

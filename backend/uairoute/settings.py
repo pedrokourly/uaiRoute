@@ -1,5 +1,6 @@
 import os
 from pathlib import Path
+from django.core.exceptions import ImproperlyConfigured
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -13,15 +14,28 @@ def env_list(name, default):
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-# O fallback abaixo serve apenas para desenvolvimento local sem Docker.
-SECRET_KEY = os.environ.get(
-    'SECRET_KEY',
-    'django-insecure-uy*m606ry@h-akvtkvahs7bh-dz@rai6q59_1zk2j3+@*zq0q+',
-)
+CHAVE_DE_DESENVOLVIMENTO = 'django-insecure-uy*m606ry@h-akvtkvahs7bh-dz@rai6q59_1zk2j3+@*zq0q+'
 
-# SECURITY WARNING: don't run with debug turned on in production!
+
+def exigir_secret_key(debug, valor):
+    """Em produção, subir sem SECRET_KEY é pior do que não subir.
+
+    O fallback está versionado; assinar sessões com ele em produção equivale
+    a não assinar nada.
+    """
+    if valor:
+        return valor
+    if debug:
+        return CHAVE_DE_DESENVOLVIMENTO
+    raise ImproperlyConfigured(
+        'SECRET_KEY é obrigatória quando DEBUG=False. '
+        'Gere uma com: python -c "import secrets; print(secrets.token_urlsafe(50))"'
+    )
+
+
 DEBUG = os.environ.get('DEBUG', 'True').strip().lower() in ('true', '1', 'yes', 'on')
+
+SECRET_KEY = exigir_secret_key(DEBUG, os.environ.get('SECRET_KEY'))
 
 ALLOWED_HOSTS = env_list('ALLOWED_HOSTS', 'localhost,127.0.0.1')
 
@@ -143,12 +157,13 @@ REST_FRAMEWORK = {
 
 
 # CORS configuration
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5000",  # Flask frontend
-    "http://127.0.0.1:5000",
-]
+CORS_ALLOWED_ORIGINS = env_list(
+    'CORS_ALLOWED_ORIGINS',
+    'http://localhost:5000,http://127.0.0.1:5000',
+)
 
-CORS_ALLOW_ALL_ORIGINS = True  # Para desenvolvimento
+# Liberar todas as origens só faz sentido em desenvolvimento.
+CORS_ALLOW_ALL_ORIGINS = DEBUG
 CORS_ALLOW_CREDENTIALS = True
 
 # CSRF exemption for API

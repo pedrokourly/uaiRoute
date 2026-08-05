@@ -1,6 +1,6 @@
 import os
 import backend_client
-from flask import render_template, session, redirect, url_for, jsonify
+from flask import render_template, session, redirect, url_for
 from uairoute import app
 from config import API_URLS
 
@@ -59,15 +59,8 @@ def mapa():
             error = f"Erro de conexão: {str(e)}"
     
     server_ip = os.environ.get('SERVER_IP')
-    return render_template('mapa.html', 
-                         server_ip=server_ip, 
+    return render_template('mapa.html',
+                         server_ip=server_ip,
                          funcionario=funcionario,
                          ordens_servico=ordens_servico,
                          error=error)
-
-@app.route('/debug-sessao')
-def debug_sessao():
-    return jsonify({
-        'logged_in': session.get('logged_in', False),
-        'funcionario': session.get('funcionario', None)
-    })
