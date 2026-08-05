@@ -8,6 +8,7 @@ services:
     environment:
       - DEBUG=False
       - SECRET_KEY=${SECRET_KEY:?defina SECRET_KEY no .env}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD:?defina ADMIN_PASSWORD no .env}
       # Precisa incluir localhost/127.0.0.1: o healthcheck herdado do
       # docker-compose.yml faz curl em http://localhost:8000/health/ de
       # dentro do próprio container, e o Django rejeita (400) qualquer Host

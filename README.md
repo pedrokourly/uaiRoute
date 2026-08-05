@@ -179,48 +179,69 @@ Para publicar em produção, use:
 docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build
 ```
 
-**Requisito obrigatório:** a variável `SECRET_KEY` deve estar definida no ambiente.
-Gere uma chave segura com:
+**Requisitos obrigatórios:**
 
-```bash
-python -c "import secrets; print(secrets.token_urlsafe(50))"
-```
+1. **`SECRET_KEY`**: Variável de ambiente com a chave de sessão.
+   Gere uma chave segura com:
 
-E defina no `.env` ou passe ao Compose:
+   ```bash
+   python -c "import secrets; print(secrets.token_urlsafe(50))"
+   ```
+
+2. **`ADMIN_PASSWORD`**: Variável de ambiente com a senha do administrador padrão.
+   Defina uma senha forte (não use `admin` em produção).
+
+Exemplo de launch:
 
 ```bash
 export SECRET_KEY="sua-chave-gerada-acima"
+export ADMIN_PASSWORD="sua-senha-segura"
 docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build
 ```
 
-O `docker-compose.prod.yml` sobrescreve `DEBUG=False`, força `SECRET_KEY`, e
-executa ambos os apps sob Gunicorn com múltiplos workers. O banco continua no
-volume nomeado `backend_data`.
+**Requisito de HTTPS:** O Flask define `Secure` no cookie de sessão em produção
+(`DEBUG=False`), mas **a stack por si só não fornece TLS/HTTPS**. Você **precisa**
+de um reverse proxy com HTTPS em frente aos containers. Sem HTTPS, os navegadores
+silenciosamente descartam o cookie e o login ficará em loop infinito.
+
+Opções recomendadas:
+- **Nginx**: Configure como reverse proxy com certificado Let's Encrypt (Certbot)
+- **Caddy**: Reverse proxy com HTTPS automático
+- **Traefik**: Orquestrador com suporte nativo a HTTPS e Let's Encrypt
+- **Hospedagem**: Use HTTPS/TLS nativa do seu provider (AWS ALB, Google Cloud Load Balancer, etc.)
+
+O `docker-compose.prod.yml` sobrescreve `DEBUG=False`, força `SECRET_KEY` e
+`ADMIN_PASSWORD`, e executa ambos os apps sob Gunicorn com múltiplos workers.
+O banco continua no volume nomeado `backend_data`.
 
 ### 👤 Usuário Padrão
 
-Criado automaticamente na primeira execução do `runserver`, em ambos os modos:
+Criado automaticamente na primeira execução:
 
-| Campo | Valor             |
-| ----- | ----------------- |
-| Email | `admin@teste.com` |
-| Senha | `admin`           |
-| Tipo  | Administrador     |
+| Campo | Desenvolvimento (DEBUG=True) | Produção (DEBUG=False) |
+| ----- | ---------------------------- | ---------------------- |
+| Email | `admin@teste.com`            | `admin@teste.com`      |
+| Senha | `admin` (fallback)           | Definida via `ADMIN_PASSWORD` |
+| Tipo  | Administrador                | Administrador          |
 
-Se preferir criar o administrador manualmente, ou se algo falhar no bootstrap
-automático:
+**Em desenvolvimento:** o administrador é criado automaticamente com a senha `admin`
+ao executar `python manage.py runserver`.
+
+**Em produção:** a variável de ambiente `ADMIN_PASSWORD` é **obrigatória**. Defina
+uma senha forte no `.env` ou ao passar variáveis ao Docker. A senha nunca é exibida
+em logs — aparece apenas como "(definida via ADMIN_PASSWORD)".
+
+Se preferir criar o administrador manualmente, ou se algo falhar no bootstrap:
 
 ```bash
+# Localmente (desenvolvimento)
 python manage.py create_admin      # apenas o administrador
 python manage.py setup_initial     # migrations + administrador
 
 # Via Docker
+export ADMIN_PASSWORD="sua-senha-segura"
 docker-compose exec backend python manage.py create_admin
 ```
-
-Para alterar as credenciais padrão, edite `setup_admin_if_needed()` em
-[`backend/manage.py`](backend/manage.py) ou o comando em
-`backend/api/funcionarios/management/commands/create_admin.py`.
 
 ## 🔧 Configuração Avançada
 
