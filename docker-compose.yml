@@ -5,8 +5,9 @@ services:
       context: .
       dockerfile: Dockerfile.backend
     container_name: uairoute-backend
-    ports:
-      - "8000:8000"
+    # Sem `ports`: o backend é serviço interno. A API não tem autenticação
+    # própria -- quem alcança a porta 8000 cria administradores à vontade.
+    # Quem fala com ele é o Flask, por http://backend:8000 dentro da rede.
     volumes:
       # Volume nomeado: o banco vive dentro dele (DATABASE_PATH abaixo).
       # Não use bind mount de arquivo aqui — em um clone limpo o db.sqlite3

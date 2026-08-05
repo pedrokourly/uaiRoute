@@ -25,8 +25,9 @@ SERVER_IP = os.environ.get('SERVER_IP', 'localhost')
 
 # Função para disponibilizar configurações nos templates
 def get_template_config():
+    # BACKEND_URL não é mais publicado aqui: o browser não tem acesso ao
+    # Django, e expor a URL interna só serviria para confundir.
     return {
-        'BACKEND_URL': BACKEND_URL,
         'SERVER_IP': SERVER_IP,
         'DEBUG': DEBUG
     }

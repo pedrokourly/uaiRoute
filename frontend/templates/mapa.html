@@ -391,7 +391,9 @@
 <script src="{{ url_for('static', filename='scripts/map.js') }}"></script>
 <script>
     const SERVER_IP = "{{ server_ip }}";
-    const API_BASE = "{{ config.BACKEND_URL }}";
+    // Origem vazia = as chamadas viram relativas e caem nas rotas do Flask
+    // (api_proxy_routes.py). O Django não é mais alcançável pelo browser.
+    const API_BASE = "";
     window.API_BASE = API_BASE; // Disponibilizar para map.js
     $(document).ready(function () {
         Promise.all([
