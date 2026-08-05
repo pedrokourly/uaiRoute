@@ -70,6 +70,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'uairoute.demo_middleware.DemoDatabaseMiddleware',
 ]
 
 ROOT_URLCONF = 'uairoute.urls'
@@ -179,3 +180,10 @@ CSRF_TRUSTED_ORIGINS = env_list(
     'CSRF_TRUSTED_ORIGINS',
     'http://localhost:5000,http://127.0.0.1:5000',
 )
+
+
+# --- Demo isolado por visitante (exclusivo da branch demo) ---
+DEMO_DIR = os.environ.get('DEMO_DIR', '/app/data/demos')
+DEMO_SEED = os.environ.get('DEMO_SEED', '/app/data/seed.sqlite3')
+DEMO_HEADER = 'HTTP_X_DEMO_SESSION'
+DEMO_MAX_BANCOS = int(os.environ.get('DEMO_MAX_BANCOS', '200'))
