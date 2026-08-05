@@ -7,7 +7,12 @@ services:
     environment:
       - DEBUG=False
       - SECRET_KEY=${SECRET_KEY:?defina SECRET_KEY no .env}
-      - ALLOWED_HOSTS=${ALLOWED_HOSTS:-backend}
+      # Precisa incluir localhost/127.0.0.1: o healthcheck herdado do
+      # docker-compose.yml faz curl em http://localhost:8000/health/ de
+      # dentro do próprio container, e o Django rejeita (400) qualquer Host
+      # fora de ALLOWED_HOSTS. Sem isso o healthcheck nunca fica healthy e o
+      # frontend (que depende de backend: condition: service_healthy) não sobe.
+      - ALLOWED_HOSTS=${ALLOWED_HOSTS:-backend,localhost,127.0.0.1}
       - DEMO_DIR=/app/data/demos
       - DEMO_SEED=/app/data/seed.sqlite3
       - DEMO_MAX_BANCOS=${DEMO_MAX_BANCOS:-200}
