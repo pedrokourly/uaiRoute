@@ -37,3 +37,7 @@ def put(url, **kwargs):
 
 def delete(url, **kwargs):
     return _chamar('DELETE', url, **kwargs)
+
+
+def patch(url, **kwargs):
+    return _chamar('PATCH', url, **kwargs)

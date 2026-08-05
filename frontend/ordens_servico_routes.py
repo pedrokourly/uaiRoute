@@ -1,6 +1,5 @@
 from flask import render_template, request, redirect, url_for, jsonify, session
 from uairoute import app
-import requests
 import backend_client
 
 # Importar os decoradores de autenticação
@@ -365,8 +364,8 @@ def concluir_ordem_servico(id):
     """
     try:
         # Fazer requisição PATCH para alterar apenas o status
-        response = requests.patch(
-            f'{API_URLS["ordens_servico"]}{id}/', 
+        response = backend_client.patch(
+            f'{API_URLS["ordens_servico"]}{id}/',
             json={'status': 'concluida'}
         )
         

@@ -12,6 +12,14 @@ def test_get_repassa_url_e_metodo(mock_request):
 
 
 @patch("backend_client.requests.request")
+def test_patch_repassa_url_e_metodo(mock_request):
+    backend_client.patch("http://backend:8000/api/ordens-servico/1/")
+    args, kwargs = mock_request.call_args
+    assert args[0] == "PATCH"
+    assert args[1] == "http://backend:8000/api/ordens-servico/1/"
+
+
+@patch("backend_client.requests.request")
 def test_timeout_padrao_aplicado(mock_request):
     backend_client.get("http://backend:8000/api/obras/")
     assert mock_request.call_args.kwargs["timeout"] == 15
