@@ -52,3 +52,14 @@ def _autenticar_como_admin():
     if dados.get('success'):
         session['funcionario'] = dados['funcionario']
         session['logged_in'] = True
+
+
+@app.route('/demo/modal-visto', methods=['POST'])
+def marcar_modal_visto():
+    session['demo_modal_visto'] = True
+    return '', 204
+
+
+@app.context_processor
+def injetar_estado_do_modal():
+    return {'demo_modal_pendente': not session.get('demo_modal_visto', False)}

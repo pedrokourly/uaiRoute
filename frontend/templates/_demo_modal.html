@@ -1,0 +1,68 @@
+{# Modal de boas-vindas do demo. Usa o componente nativo do Bootstrap, que
+   default.html já carrega -- nenhuma dependência nova. #}
+<div class="modal fade" id="modal-demo" tabindex="-1" aria-labelledby="modal-demo-titulo" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modal-demo-titulo">Bem-vindo ao UaiRoute</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+      </div>
+      <div class="modal-body">
+        <p>
+          O <strong>UaiRoute</strong> organiza o transporte de equipes de construção civil:
+          cadastra funcionários, obras, veículos e alojamentos, e monta ordens de serviço
+          com cálculo de rota e visualização no mapa.
+        </p>
+
+        <div class="alert alert-info" role="alert">
+          <strong>Isto é uma demonstração.</strong> Os dados que você vê são só seus —
+          ninguém mais enxerga o que você criar, e nada do que você apagar afeta outra
+          pessoa. Tudo é removido após 24 horas sem uso.
+        </div>
+
+        <p class="mb-2"><strong>O que dá para fazer:</strong></p>
+        <ul>
+          <li>Cadastrar, editar e excluir funcionários, obras, veículos e alojamentos</li>
+          <li>Montar ordens de serviço, com paradas em alojamentos e cálculo de rota</li>
+          <li>Ver obras, veículos e alojamentos posicionados no mapa</li>
+        </ul>
+
+        <p class="mb-1">
+          Você entrou como <strong>administrador</strong>, que enxerga tudo.
+        </p>
+        <p class="text-muted small mb-0">
+          Para ver a plataforma pelos olhos de um funcionário comum, saia e entre com
+          <code>joao@teste.com</code> / <code>123456</code>. O administrador é
+          <code>admin@teste.com</code> / <code>admin</code>.
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Explorar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  (function () {
+    const elemento = document.getElementById('modal-demo');
+    if (!elemento) return;
+
+    {% if demo_modal_pendente %}
+    new bootstrap.Modal(elemento).show();
+    {% endif %}
+
+    // A marca fica no servidor, não em localStorage: a sessão já é a fonte de
+    // verdade do demo e acompanha o visitante entre abas.
+    elemento.addEventListener('hidden.bs.modal', function () {
+      fetch('/demo/modal-visto', { method: 'POST' });
+    });
+
+    document.querySelectorAll('[data-abrir-demo]').forEach(function (gatilho) {
+      gatilho.addEventListener('click', function (evento) {
+        evento.preventDefault();
+        new bootstrap.Modal(elemento).show();
+      });
+    });
+  })();
+</script>

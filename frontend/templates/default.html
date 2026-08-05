@@ -95,6 +95,9 @@
         
         <ul class="navbar-nav ms-auto">
           {% if session.logged_in %}
+          <li class="nav-item">
+            <a class="nav-link" href="#" data-abrir-demo>Sobre esta demo</a>
+          </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               <span class="material-symbols-outlined">account_circle</span>
@@ -129,6 +132,7 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO"
     crossorigin="anonymous"></script>
+  {% include "_demo_modal.html" %}
 </body>
 
 </html>
