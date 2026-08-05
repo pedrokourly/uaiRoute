@@ -3,6 +3,11 @@ from django.contrib.auth.hashers import make_password
 from .models import Funcionario
 
 class FuncionarioSerializer(serializers.ModelSerializer):
+    # write_only: o hash entra pelo POST/PUT mas nunca sai numa resposta.
+    # required=False e allow_blank preservam o fluxo de edição, em que o campo
+    # vazio significa "manter a senha atual" (ver update() abaixo).
+    senha = serializers.CharField(write_only=True, required=False, allow_blank=True)
+
     rua = serializers.CharField(source='alojamento.rua', read_only=True)
     numero = serializers.CharField(source='alojamento.numero', read_only=True)
     bairro = serializers.CharField(source='alojamento.bairro', read_only=True)
