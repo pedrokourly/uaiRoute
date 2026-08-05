@@ -14,9 +14,9 @@ def obras():
     response = backend_client.get(API_URLS['obras'])
     if response.status_code == 200:
         obras = response.json()
-        return render_template('obras/listar-obras.html', obras=obras)
+        return render_template('Obras/listar-obras.html', obras=obras)
     else:
-        return render_template('obras/listar-obras.html', error="Erro ao buscar obras.")
+        return render_template('Obras/listar-obras.html', error="Erro ao buscar obras.")
 
 @app.route('/obras/cadastrar', methods=['GET', 'POST'])
 @require_admin
@@ -35,10 +35,10 @@ def cadastrarObra():
             if response.status_code in [200, 201]:
                 return redirect(url_for('obras'))
             else:
-                return render_template('obras/cadastrar-obras.html', error='Erro ao cadastrar obra.')
+                return render_template('Obras/cadastrar-obras.html', error='Erro ao cadastrar obra.')
         except Exception as e:
-            return render_template('obras/cadastrar-obras.html', error=str(e))
-    return render_template('obras/cadastrar-obras.html')
+            return render_template('Obras/cadastrar-obras.html', error=str(e))
+    return render_template('Obras/cadastrar-obras.html')
 
 @app.route('/obras/editar/<int:id>', methods=['GET', 'POST'])
 @require_admin
@@ -56,9 +56,9 @@ def editarObra(id):
             if response.status_code in [200, 204]:
                 return redirect(url_for('obras'))
             else:
-                return render_template('obras/editar-obras.html', obra=obra, error='Erro ao editar obra.')
+                return render_template('Obras/editar-obras.html', obra=obra, error='Erro ao editar obra.')
         except Exception as e:
-            return render_template('obras/editar-obras.html', obra=obra, error=str(e))
+            return render_template('Obras/editar-obras.html', obra=obra, error=str(e))
     # GET: busca dados da obra
     try:
         response = backend_client.get(f'{API_URLS["obras"]}{id}/')
@@ -68,7 +68,7 @@ def editarObra(id):
             obra = {}
     except Exception:
         obra = {}
-    return render_template('obras/editar-obras.html', obra=obra)
+    return render_template('Obras/editar-obras.html', obra=obra)
 
 @app.route('/obras/excluir/<int:id>', methods=['POST'])
 @require_admin
