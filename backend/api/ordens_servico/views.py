@@ -3,6 +3,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .models import OrdemServico
 from .serializers import OrdemServicoSerializer
+import os
 import requests
 import json
 
@@ -147,8 +148,13 @@ def ordens_servico_funcionario(request, funcionario_id):
 
 def calcular_rota_otimizada(ordem_servico):
     """Calcula a rota otimizada usando a API OpenRouteService"""
-    api_key = '5b3ce3597851110001cf62489715e0567dc24edd98bd95aee36637a9'
-    
+    api_key = os.environ.get('ORS_API_KEY', '')
+    if not api_key:
+        # Sem chave configurada, não há como chamar a OpenRouteService: aborta
+        # aqui e deixa distancia_total/tempo_estimado como estão, do mesmo
+        # jeito que uma falha de rede é tratada mais abaixo.
+        return
+
     # Ponto de partida (localização do veículo)
     veiculo = ordem_servico.veiculo
     if veiculo.latitude and veiculo.longitude:
