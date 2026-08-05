@@ -10,6 +10,7 @@ import funcionarios_routes
 import alojamentos_routes
 import ordens_servico_routes
 import auth_routes
+import api_proxy_routes
 
 # Importar os decoradores de autenticação
 from auth_routes import require_login, require_admin

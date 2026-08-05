@@ -1,4 +1,4 @@
-from flask import render_template, request, redirect, url_for, session, flash
+from flask import render_template, request, redirect, url_for, session, flash, jsonify
 from uairoute import app
 import requests
 from config import API_URLS, BACKEND_URL
@@ -124,6 +124,19 @@ def require_login(f):
     def decorated_function(*args, **kwargs):
         if not session.get('logged_in'):
             return redirect(url_for('login'))
+        return f(*args, **kwargs)
+    decorated_function.__name__ = f.__name__
+    return decorated_function
+
+def require_login_api(f):
+    """Como require_login, mas responde 401 em JSON.
+
+    As rotas consumidas por fetch não podem receber um redirect: o browser o
+    seguiria em silêncio e o JavaScript tentaria parsear o HTML do login.
+    """
+    def decorated_function(*args, **kwargs):
+        if not session.get('logged_in'):
+            return jsonify({'error': 'Não autenticado'}), 401
         return f(*args, **kwargs)
     decorated_function.__name__ = f.__name__
     return decorated_function
