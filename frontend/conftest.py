@@ -1,5 +1,6 @@
 import os
 import sys
+from unittest.mock import patch
 
 import pytest
 
@@ -8,6 +9,27 @@ import pytest
 sys.path.insert(0, os.path.dirname(__file__))
 
 from uairoute import app as flask_app  # noqa: E402
+
+
+class RespostaDeLogin:
+    status_code = 200
+
+    def json(self):
+        return {
+            "success": True,
+            "funcionario": {
+                "id": 1, "nome_completo": "Administrador",
+                "email": "admin@teste.com", "cargo": "Administrador",
+                "is_admin": True, "alojamento": None,
+            },
+        }
+
+
+@pytest.fixture
+def backend_falso():
+    """Intercepta o POST de login que o auto-login do demo dispara."""
+    with patch("backend_client.post", return_value=RespostaDeLogin()) as mock:
+        yield mock
 
 
 @pytest.fixture

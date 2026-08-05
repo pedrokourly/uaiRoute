@@ -12,6 +12,7 @@ import ordens_servico_routes
 import auth_routes
 import api_proxy_routes
 import rota_routes
+import demo_session
 
 # Importar os decoradores de autenticação
 from auth_routes import require_login, require_admin

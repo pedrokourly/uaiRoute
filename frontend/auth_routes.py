@@ -41,7 +41,14 @@ def login():
 
 @app.route('/logout')
 def logout():
+    # O demo_id precisa atravessar o logout: ele identifica o banco do
+    # visitante, e um session.clear() puro o mandaria para um banco novo e
+    # vazio na requisição seguinte.
+    demo_id = session.get('demo_id')
     session.clear()
+    if demo_id:
+        session['demo_id'] = demo_id
+        session['demo_deslogado'] = True
     return redirect(url_for('login'))
 
 @app.route('/perfil', methods=['GET', 'POST'])

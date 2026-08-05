@@ -6,18 +6,35 @@ Na branch main, headers_extras() não devolve nada.
 """
 import requests
 
+from config import BACKEND_URL
+
 TIMEOUT_PADRAO = 15
 
 
-def headers_extras():
-    """Gancho de extensão. A branch demo o substitui pelo header de sessão."""
-    return {}
+def headers_extras(url):
+    """Header que diz ao backend qual banco de demo usar.
+
+    Fora de um contexto de requisição (comandos, testes de unidade) não há
+    sessão, e o dicionário vazio faz a chamada seguir sem o header.
+    """
+    from flask import has_request_context, session
+
+    # Só injeta o header em chamadas ao próprio backend Django -- a chamada
+    # à OpenRouteService em rota_routes.py usa o mesmo cliente, e o id de
+    # sessão do demo não tem nada a ver com aquele serviço externo.
+    if not url.startswith(BACKEND_URL):
+        return {}
+
+    if not has_request_context():
+        return {}
+    demo_id = session.get('demo_id')
+    return {'X-Demo-Session': demo_id} if demo_id else {}
 
 
 def _chamar(metodo, url, **kwargs):
     kwargs.setdefault('timeout', TIMEOUT_PADRAO)
     headers = dict(kwargs.pop('headers', None) or {})
-    headers.update(headers_extras())
+    headers.update(headers_extras(url))
     if headers:
         kwargs['headers'] = headers
     return requests.request(metodo, url, **kwargs)
