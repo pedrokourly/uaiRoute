@@ -1,3 +1,11 @@
+# Stack do demo público (branch demo): um único arquivo, sem overlay.
+# Sobe com:
+#   export SECRET_KEY=$(python -c "import secrets; print(secrets.token_urlsafe(50))")
+#   docker-compose up -d --build
+# Acesse http://localhost:5000 -- só o frontend é publicado no host.
+#
+# Cada visitante recebe um banco SQLite próprio, copiado da semente
+# (ver backend/api/funcionarios/management/commands/build_seed.py).
 services:
   # Backend Django
   backend:
@@ -14,22 +22,36 @@ services:
       # não existe no host e o Docker criaria um diretório vazio no lugar.
       - backend_data:/app/data
     environment:
-      - DEBUG=True
-      - ALLOWED_HOSTS=backend,localhost,127.0.0.1
+      - DEBUG=False
+      - SECRET_KEY=${SECRET_KEY:?defina SECRET_KEY no .env}
+      # Precisa incluir localhost/127.0.0.1: o healthcheck abaixo faz curl em
+      # http://localhost:8000/health/ de dentro do próprio container, e o
+      # Django rejeita (400) qualquer Host fora de ALLOWED_HOSTS. Sem isso o
+      # healthcheck nunca fica healthy e o frontend (que depende de
+      # backend: condition: service_healthy) não sobe.
+      - ALLOWED_HOSTS=${ALLOWED_HOSTS:-backend,localhost,127.0.0.1}
       - DATABASE_PATH=/app/data/db.sqlite3
+      - DEMO_DIR=/app/data/demos
+      - DEMO_SEED=/app/data/seed.sqlite3
+      - DEMO_MAX_BANCOS=${DEMO_MAX_BANCOS:-200}
       - ORS_API_KEY=${ORS_API_KEY:-}
     networks:
       - uairoute-network
     restart: unless-stopped
     healthcheck:
-      # Rota dedicada, que não consulta o banco. Não use um endpoint de dados
-      # aqui: na branch demo eles exigem um header de sessão que o healthcheck
-      # não tem como enviar.
+      # Rota dedicada, que não consulta o banco. Um endpoint de dados
+      # exigiria um header de sessão que o healthcheck não tem como enviar.
       test: ["CMD", "curl", "-f", "http://localhost:8000/health/"]
       interval: 10s
       timeout: 5s
       retries: 5
       start_period: 30s
+    # Workers sync e sem --threads: DemoDatabaseMiddleware troca o banco da
+    # conexão por processo, e threads fariam dois visitantes compartilhá-la.
+    command: >
+      sh -c "python manage.py collectstatic --noinput
+      && python manage.py build_seed
+      && gunicorn uairoute.wsgi:application --bind 0.0.0.0:8000 --workers 3"
 
   # Frontend Flask
   frontend:
@@ -40,9 +62,10 @@ services:
     ports:
       - "5000:5000"
     environment:
-      - SERVER_IP=backend
-      - DEBUG=True
+      - DEBUG=False
+      - SECRET_KEY=${SECRET_KEY:?defina SECRET_KEY no .env}
       - BACKEND_URL=http://backend:8000
+      - SERVER_IP=${SERVER_IP:-localhost}
       - ORS_API_KEY=${ORS_API_KEY:-}
     depends_on:
       backend:
@@ -50,6 +73,26 @@ services:
     networks:
       - uairoute-network
     restart: unless-stopped
+    command: gunicorn uairoute:app --bind 0.0.0.0:5000 --workers 3
+
+  # Limpeza periódica dos bancos de visitantes inativos
+  demo-cleanup:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    container_name: uairoute-demo-cleanup
+    volumes:
+      - backend_data:/app/data
+    environment:
+      - DEBUG=False
+      - SECRET_KEY=${SECRET_KEY:?defina SECRET_KEY no .env}
+      - DEMO_DIR=/app/data/demos
+      - DEMO_MAX_BANCOS=${DEMO_MAX_BANCOS:-200}
+    networks:
+      - uairoute-network
+    restart: unless-stopped
+    command: >
+      sh -c "while true; do python manage.py limpar_demos --idade-horas 24; sleep 3600; done"
 
 volumes:
   backend_data:

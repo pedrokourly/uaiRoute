@@ -117,6 +117,11 @@ uaiRoute/
 
 ### 🐳 Executar com Docker (Recomendado)
 
+**Esta é a branch `demo`.** O `docker-compose.yml` aqui já é a stack pronta para
+publicar publicamente — cada visitante recebe dados isolados, ver
+[Stack de Demo](#-stack-de-demo) abaixo. Não há um `docker-compose.yml` separado
+"de desenvolvimento" nesta branch; para isso, use a `main`.
+
 Não é preciso criar arquivos nem preparar o banco antes: o Compose sobe tudo a
 partir de um clone limpo.
 
@@ -124,17 +129,22 @@ partir de um clone limpo.
 # 1. Clone o repositório
 git clone https://github.com/seu-usuario/uairoute.git
 cd uairoute
+git checkout demo
 
-# 2. Suba os serviços (desenvolvimento)
+# 2. Gere e exporte uma SECRET_KEY (obrigatória, sem valor padrão)
+export SECRET_KEY=$(python -c "import secrets; print(secrets.token_urlsafe(50))")
+
+# 3. Suba os serviços
 docker-compose up -d --build
 
-# 3. Acesse o sistema
+# 4. Acesse o sistema
 # Frontend: http://localhost:5000
 ```
 
-No primeiro start o backend aplica as migrações e cria o administrador padrão
-automaticamente — acompanhe por `docker-compose logs -f backend`. O frontend só
-sobe depois que o backend passa no healthcheck.
+No primeiro start o backend aplica as migrações, constrói o banco semente e
+copia uma cópia isolada para o primeiro visitante — acompanhe por
+`docker-compose logs -f backend`. O frontend só sobe depois que o backend passa
+no healthcheck.
 
 **Nota de Segurança:** O backend Django não é publicado no host — não é acessível
 em `localhost:8000`. É um serviço interno que só o frontend (Flask) alcança,
@@ -171,68 +181,40 @@ No modo desenvolvimento local (sem Docker), a API também fica acessível:
 - **API Django**: http://localhost:8000
 - **Admin Django**: http://localhost:8000/admin
 
-### 🚀 Stack de Produção
-
-Para publicar em produção, use:
-
-```bash
-docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build
-```
-
-**Requisitos obrigatórios:**
-
-1. **`SECRET_KEY`**: Variável de ambiente com a chave de sessão.
-   Gere uma chave segura com:
-
-   ```bash
-   python -c "import secrets; print(secrets.token_urlsafe(50))"
-   ```
-
-2. **`ADMIN_PASSWORD`**: Variável de ambiente com a senha do administrador padrão.
-   Defina uma senha forte (não use `admin` em produção).
-
-Exemplo de launch:
-
-```bash
-export SECRET_KEY="sua-chave-gerada-acima"
-export ADMIN_PASSWORD="sua-senha-segura"
-docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build
-```
-
-**Requisito de HTTPS:** O Flask define `Secure` no cookie de sessão em produção
-(`DEBUG=False`), mas **a stack por si só não fornece TLS/HTTPS**. Você **precisa**
-de um reverse proxy com HTTPS em frente aos containers. Sem HTTPS, os navegadores
-silenciosamente descartam o cookie e o login ficará em loop infinito.
-
-Opções recomendadas:
-- **Nginx**: Configure como reverse proxy com certificado Let's Encrypt (Certbot)
-- **Caddy**: Reverse proxy com HTTPS automático
-- **Traefik**: Orquestrador com suporte nativo a HTTPS e Let's Encrypt
-- **Hospedagem**: Use HTTPS/TLS nativa do seu provider (AWS ALB, Google Cloud Load Balancer, etc.)
-
-O `docker-compose.prod.yml` sobrescreve `DEBUG=False`, força `SECRET_KEY` e
-`ADMIN_PASSWORD`, e executa ambos os apps sob Gunicorn com múltiplos workers.
-O banco continua no volume nomeado `backend_data`.
-
 ### 🎯 Stack de Demo
 
-A branch `demo` implementa um modo isolado por visitante para demonstração prática do
-sistema. Cada acesso anônimo cria uma sessão completamente isolada com dados de teste,
-sem interferir no estado compartilhado dos usuários autenticados do modo produção.
+Esta branch (`demo`) não separa "desenvolvimento" de "produção" em arquivos
+diferentes: o `docker-compose.yml` já sobe a stack pronta para publicar, com
+Gunicorn, `DEBUG=False` e isolamento por visitante. Não existe mais um
+`docker-compose.prod.yml` ou `docker-compose.demo.yml` nesta branch — foram
+consolidados num único arquivo. (Se você quer a stack de produção "normal",
+sem o isolamento por visitante, use a `main`, que tem seu próprio
+`docker-compose.prod.yml`.)
 
-#### Como subir o modo demo
+Cada acesso anônimo cria uma sessão completamente isolada com dados de teste,
+sem interferir no estado de nenhum outro visitante.
+
+#### Como subir
 
 ```bash
-# Gere uma chave segura para SECRET_KEY (mesma exigência de produção)
+# Gere e exporte uma chave de sessão (obrigatória, sem valor padrão)
 export SECRET_KEY=$(python -c "import secrets; print(secrets.token_urlsafe(50))")
 
-# Suba a stack com o overlay do demo
-docker-compose -f docker-compose.yml -f docker-compose.demo.yml up -d --build
+docker-compose up -d --build
 ```
 
-**Variável de Ambiente Obrigatória:**
+Acesse em **http://localhost:5000**. A `SECRET_KEY` é a única variável
+obrigatória — tudo o mais (rota de banco, diretório de demos, teto de
+arquivos) já vem com um padrão sensato no próprio `docker-compose.yml`.
 
-- **`SECRET_KEY`**: Gerada como acima. Obrigatória (mesma exigência de produção).
+**Requisito de HTTPS em produção real:** o Flask define `Secure` no cookie de
+sessão (`DEBUG=False`), mas a stack por si só não fornece TLS. Publicando
+atrás de um domínio público, você **precisa** de um reverse proxy com HTTPS
+na frente — Nginx, Caddy, Traefik, ou o TLS nativo do seu provedor de
+hospedagem (o Coolify, por exemplo, já resolve isso automaticamente via
+Traefik e Let's Encrypt quando você associa um domínio ao serviço). Sem
+HTTPS, o navegador descarta o cookie silenciosamente e o login fica em loop
+infinito.
 
 #### Como funciona o isolamento
 
@@ -266,8 +248,8 @@ Mas com threads habilitadas, dois requests concorrentes de visitantes diferentes
 mesmo worker poderiam se sobrepor — uma thread trocaria o arquivo da conexão enquanto
 a outra ainda usava, **vazando dados entre sessões**.
 
-O `docker-compose.demo.yml` garante workers `sync`. Nunca sobrescreva com `--threads`
-ou múltiplos workers com threading.
+O `docker-compose.yml` já sobe o Gunicorn com workers `sync`. Nunca sobrescreva
+com `--threads` ou múltiplos workers com threading.
 
 #### Credenciais de Demonstração
 
@@ -281,31 +263,20 @@ acessar dados de outro visitante com essas senhas.
 
 ### 👤 Usuário Padrão
 
-Criado automaticamente na primeira execução:
+Ao subir com `docker-compose up`, o comando do backend já roda
+`build_seed`, que cria o administrador (`admin@teste.com` / `admin`) e o
+funcionário comum (`joao@teste.com` / `123456`) como parte da semente — ver
+[Credenciais de Demonstração](#-stack-de-demo) acima. `ADMIN_PASSWORD` não é
+usada nesta branch (só existe na `main`, para a stack de produção sem
+isolamento por visitante).
 
-| Campo | Desenvolvimento (DEBUG=True) | Produção (DEBUG=False) |
-| ----- | ---------------------------- | ---------------------- |
-| Email | `admin@teste.com`            | `admin@teste.com`      |
-| Senha | `admin` (fallback)           | Definida via `ADMIN_PASSWORD` |
-| Tipo  | Administrador                | Administrador          |
-
-**Em desenvolvimento:** o administrador é criado automaticamente com a senha `admin`
-ao executar `python manage.py runserver`.
-
-**Em produção:** a variável de ambiente `ADMIN_PASSWORD` é **obrigatória**. Defina
-uma senha forte no `.env` ou ao passar variáveis ao Docker. A senha nunca é exibida
-em logs — aparece apenas como "(definida via ADMIN_PASSWORD)".
-
-Se preferir criar o administrador manualmente, ou se algo falhar no bootstrap:
+Executando fora do Docker (`python manage.py runserver`), o bootstrap segue o
+fluxo da `main`: o administrador é criado com a senha `admin` automaticamente,
+ou manualmente com:
 
 ```bash
-# Localmente (desenvolvimento)
 python manage.py create_admin      # apenas o administrador
 python manage.py setup_initial     # migrations + administrador
-
-# Via Docker
-export ADMIN_PASSWORD="sua-senha-segura"
-docker-compose exec backend python manage.py create_admin
 ```
 
 ## 🔧 Configuração Avançada
