@@ -214,6 +214,71 @@ O `docker-compose.prod.yml` sobrescreve `DEBUG=False`, força `SECRET_KEY` e
 `ADMIN_PASSWORD`, e executa ambos os apps sob Gunicorn com múltiplos workers.
 O banco continua no volume nomeado `backend_data`.
 
+### 🎯 Stack de Demo
+
+A branch `demo` implementa um modo isolado por visitante para demonstração prática do
+sistema. Cada acesso anônimo cria uma sessão completamente isolada com dados de teste,
+sem interferir no estado compartilhado dos usuários autenticados do modo produção.
+
+#### Como subir o modo demo
+
+```bash
+# Gere uma chave segura para SECRET_KEY (mesma exigência de produção)
+export SECRET_KEY=$(python -c "import secrets; print(secrets.token_urlsafe(50))")
+
+# Suba a stack com o overlay do demo
+docker-compose -f docker-compose.yml -f docker-compose.demo.yml up -d --build
+```
+
+**Variável de Ambiente Obrigatória:**
+
+- **`SECRET_KEY`**: Gerada como acima. Obrigatória (mesma exigência de produção).
+
+#### Como funciona o isolamento
+
+Cada visitante da demo recebe um identificador único (`demo_id`, um UUID), armazenado
+na sessão Flask. Esse ID é enviado automaticamente como cabeçalho `X-Demo-Session`
+em todas as requisições ao backend Django.
+
+Um middleware Django intercepta as requisições, traduz o `demo_id` em um caminho SQLite
+dedicado (`/app/data/demos/<demo_id>.sqlite3`), e copia um banco de semente nesse
+arquivo na primeira visita. Todas as requisições subsequentes do mesmo `demo_id`
+operam nesse banco isolado.
+
+**Experiência do Visitante:**
+
+- Chega autenticado como administrador
+- Recebe um modal de boas-vindas ao entrar
+- Vê a semente: 8 funcionários, 5 obras, 4 veículos, 3 alojamentos, 6 ordens de serviço
+- Dados criados ou editados ficam isolados no seu SQLite pessoal
+- Dados são limpos automaticamente por idade (configurável) e por cap de contagem máxima
+  de arquivos (evita esgotamento de disco), via serviço `demo-cleanup`
+
+#### ⚠️ Restrição crítica: workers sincronizados
+
+O backend do demo **deve** executar Gunicorn apenas com workers `sync` e **sem** a
+flag `--threads`. Esta é uma restrição crítica de integridade de dados:
+
+O middleware de isolamento muda qual arquivo de banco de dados a conexão do Django
+aponta para, alterando estado compartilhado (variáveis do processo Python). Com
+workers `sync` (um request por worker por vez), essa alteração é atomicamente segura.
+Mas com threads habilitadas, dois requests concorrentes de visitantes diferentes no
+mesmo worker poderiam se sobrepor — uma thread trocaria o arquivo da conexão enquanto
+a outra ainda usava, **vazando dados entre sessões**.
+
+O `docker-compose.demo.yml` garante workers `sync`. Nunca sobrescreva com `--threads`
+ou múltiplos workers com threading.
+
+#### Credenciais de Demonstração
+
+Cada visitante recebe sua própria cópia da semente com essas credenciais pré-criadas:
+
+- **Admin**: `admin@teste.com` / `admin` (acesso total)
+- **Funcionário**: `joao@teste.com` / `123456` (acesso limitado)
+
+Essas credenciais são seguras de publicar: cada visitante tem banco isolado, impossível
+acessar dados de outro visitante com essas senhas.
+
 ### 👤 Usuário Padrão
 
 Criado automaticamente na primeira execução:
